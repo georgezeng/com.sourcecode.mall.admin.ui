@@ -31,8 +31,19 @@ export default [
   },
 
   {
+    path: '/register',
+    name: 'Register',
+    meta: {
+      title: '注册',
+      hideInMenu: true,
+      notCache: true
+    },
+    component: () => import('@/view/register/register.vue')
+  },
+
+  {
     path: '/',
-    name: '_home',
+    // name: '_home',
     component: Main,
     meta: {
       title: '首页',
@@ -59,7 +70,8 @@ export default [
     meta: {
       icon: 'md-menu',
       title: '系统设置',
-      notCache: true
+      notCache: true,
+      access: ['AUTH_SUPER_ADMIN', 'AUTH_USER_LIST_PAGE', 'AUTH_USER_EDIT_PAGE', 'AUTH_ROLE_LIST_PAGE']
     },
     component: Main,
     children: [
