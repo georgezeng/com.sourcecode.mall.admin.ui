@@ -106,7 +106,9 @@ export default {
       })
     },
     // 退出登录
-    handleLogOut ({ state, commit }) {
+    handleLogOut ({ state, commit, rootState }) {
+      let res = rootState.app.tagNavList.filter(item => item.name === config.homeName)
+      commit('setTagNavList', res)
       return new Promise((resolve, reject) => {
         logout(state.token).then(() => {
           commit('setToken', '')
