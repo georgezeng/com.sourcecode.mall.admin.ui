@@ -74,7 +74,7 @@
     methods: {
       load() {
         API.load().then(res => {
-          if (res.id) {
+          if (res && res.id) {
             switch (res.status.name) {
               case 'UnPassed': {
                 this.goUnPassed(res.reason)
@@ -86,6 +86,8 @@
               }
             }
             setTimeout(this.load, 1000)
+          } else {
+            this.goVerify()
           }
         })
       },
@@ -101,6 +103,15 @@
           name: 'MerchantVerificationUnPassed',
           params: {
             reason
+          }
+        })
+      },
+      goVerify() {
+        this.$store.commit('closeTag', this.$router.currentRoute)
+        this.$router.push({
+          name: 'MerchantVerificationVerify',
+          params: {
+            stay: true
           }
         })
       }

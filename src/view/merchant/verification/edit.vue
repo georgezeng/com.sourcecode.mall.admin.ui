@@ -1,8 +1,22 @@
+<style>
+  .pass {
+    background-image: url('../../../assets/images/img_stamp_pass.png');
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    z-index: 100;
+    background-repeat: no-repeat;
+    top: 10px;
+    left: 300px;
+  }
+</style>
+
 <template>
   <div>
     <Card>
       <p slot="title">
         商家认证-编辑 (已认证)
+        <div class="pass"></div>
       </p>
       <div slot="extra">
         <Button @click="save" type="primary" class="margin-right" :loading="loading">保存</Button>
@@ -60,7 +74,7 @@
           address: '',
           description: '',
           status: null
-        }
+        },
       }
     },
     methods: {
@@ -68,7 +82,7 @@
         this.loading = true
         API.load().then(res => {
           this.loading = false
-          if (res.id) {
+          if (res && res.id) {
             if (res.status.name !== 'Passed') {
               this.goVerify()
               return
@@ -78,6 +92,9 @@
             this.form.type = type.name
             this.form.typeText = type.text
             this.form.status = res.status.name
+          } else {
+            this.goVerify()
+            return
           }
         }).catch(e => {
           this.loading = false

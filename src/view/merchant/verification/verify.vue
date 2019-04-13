@@ -101,7 +101,7 @@
           address: '',
           description: '',
           reason: '',
-          status: ''
+          status: 'Checking'
         },
         rules: {
           name: [

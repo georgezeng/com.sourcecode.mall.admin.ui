@@ -61,6 +61,45 @@
       }
     },
     methods: {
+      load() {
+        this.loading = true
+        API.load().then(res => {
+          this.loading = false
+          if (res && res.id) {
+            switch (res.status.name) {
+              case 'UnPassed': {
+                this.reason = res.reason
+              }
+                break;
+              case 'Checking': {
+                this.goSuccess()
+                return
+              }
+              case 'Passed': {
+                this.goEdit()
+                return
+              }
+            }
+          } else {
+            this.goVerify()
+            return
+          }
+        }).catch(e => {
+          this.loading = false
+        })
+      },
+      goSuccess() {
+        this.$store.commit('closeTag', this.$router.currentRoute)
+        this.$router.push({
+          name: 'MerchantVerificationCommitSuccess'
+        })
+      },
+      goEdit() {
+        this.$store.commit('closeTag', this.$router.currentRoute)
+        this.$router.push({
+          name: 'MerchantVerificationEdit'
+        })
+      },
       goVerify() {
         this.$store.commit('closeTag', this.$router.currentRoute)
         this.$router.push({
@@ -76,6 +115,7 @@
         && item.name !== 'MerchantVerificationEdit' && item.name !== 'MerchantVerificationVerify')
       this.$store.commit('setTagNavList', res)
       this.reason = this.$router.currentRoute.params.reason
+      this.load()
     }
   }
 </script>
