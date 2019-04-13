@@ -5,6 +5,17 @@
     left: 110px;
     position: absolute;
   }
+
+  .unpass {
+    background-image: url('../../../assets/images/img_stamp_unpass.png');
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    z-index: 100;
+    background-repeat: no-repeat;
+    top: 100px;
+    left: 300px;
+  }
 </style>
 
 <template>
@@ -15,6 +26,7 @@
       </p>
       <p slot="title" style="font-weight: normal">
         为了让您获得更精准的服务和商业机会，我们建议您立即完善以下信息
+        <div class="unpass" :class="{hidden: this.form.status !== 'UnPassed'}"></div>
       </p>
       <div slot="extra">
         <Button @click="verify" type="primary" class="margin-right" :loading="loading">提交认证</Button>
