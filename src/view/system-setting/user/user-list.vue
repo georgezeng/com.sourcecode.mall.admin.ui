@@ -157,8 +157,10 @@
         this.loading = true
         this.queryInfo.page.num = pageNum ? pageNum : this.queryInfo.page.num
         API.list(this.queryInfo).then(res => {
-          this.list = res.list
-          this.total = res.total
+          if (res.list) {
+            this.list = res.list
+            this.total = res.total
+          }
           this.loading = false
         }).catch(ex => {
           this.loading = false
@@ -203,6 +205,7 @@
         this.toEditView(0)
       },
       toEditView(id) {
+        this.$store.commit('closeTag', this.$router.currentRoute)
         this.$router.push({
           name: 'UserEdit',
           params: {
@@ -227,6 +230,8 @@
       }
     },
     mounted: function () {
+      let res = this.$store.state.app.tagNavList.filter(item => item.name !== 'UserEdit')
+      this.$store.commit('setTagNavList', res)
       this.load()
     }
   }

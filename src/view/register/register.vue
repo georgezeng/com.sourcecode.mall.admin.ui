@@ -53,20 +53,6 @@
   import API from '@/api/register'
   import {mapActions} from 'vuex'
 
-  let baseUrl = null
-  let bucketDomain = null
-  switch (process.env.NODE_ENV) {
-    case 'development': {
-      baseUrl = config.baseUrl.dev
-      bucketDomain = config.publicBucketDomain.dev
-    }
-      break;
-    default: {
-      baseUrl = config.baseUrl.pro
-      bucketDomain = config.publicBucketDomain.pro
-    }
-  }
-
   export default {
     name: 'Register',
     components: {},
@@ -107,7 +93,7 @@
             {
               type: 'string',
               pattern: /^(?=.*[0-9].*)(?=.*[A-Za-z].*).{8,}$/,
-              message: '密码必须数字+字母（区分大小写）并且不少于8位',
+              message: '密码必须数字+字母（包含大小写）并且不少于8位',
               trigger: 'change'
             },
             {max: 20, message: '密码不能多于20位', trigger: 'change'}

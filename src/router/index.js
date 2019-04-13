@@ -3,19 +3,19 @@ import Router from 'vue-router'
 import routes from './routers'
 import store from '@/store'
 import iView from 'iview'
-import {setToken, getToken, canTurnTo, setTitle} from '@/libs/util'
+import { setToken, getToken, canTurnTo, setTitle } from '@/libs/util'
 import config from '@/config'
 
 Vue.use(Router)
-const {homeName} = config
-const LOGIN_PAGE_NAME = 'login'
-const accessPages = ['login', 'Register', 'ForgetPassword']
+const { homeName } = config
+const LOGIN_PAGE_NAME = 'Login'
+const accessPages = [LOGIN_PAGE_NAME, 'Register', 'ForgetPassword']
 const PAGE_404_NAME = 'error_404'
 const PAGE_401_NAME = 'error_401'
 
 const turnTo = (to, access, next) => {
   if (canTurnTo(to.name, access, routes)) next() // 有权限，可访问
-  else next({replace: true, name: PAGE_401_NAME}) // 无权限，重定向到401页面
+  else next({ replace: true, name: PAGE_401_NAME }) // 无权限，重定向到401页面
 }
 
 const router = new Router({

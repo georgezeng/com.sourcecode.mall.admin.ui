@@ -20,8 +20,8 @@ import parentView from '@/components/parent-view'
 
 export default [
   {
-    path: '/login',
-    name: 'login',
+    path: '/Login',
+    name: 'Login',
     meta: {
       title: '登录',
       hideInMenu: true,
@@ -31,7 +31,7 @@ export default [
   },
 
   {
-    path: '/register',
+    path: '/Register',
     name: 'Register',
     meta: {
       title: '注册',
@@ -53,7 +53,7 @@ export default [
     children: [
       {
         path: '',
-        name: 'home',
+        name: 'Home',
         meta: {
           title: '首页',
           notCache: true,
@@ -65,13 +65,74 @@ export default [
   },
 
   {
+    path: '/Merchant',
+    name: 'MerchantManage',
+    meta: {
+      icon: 'md-menu',
+      title: '商家中心',
+      notCache: true,
+      access: ['AUTH_SUPER_ADMIN', 'AUTH_MERCHANT_VERIFICATION_VERIFY_PAGE']
+    },
+    component: Main,
+    children: [
+      {
+        path: 'Verification/Verify',
+        name: 'MerchantVerificationVerify',
+        component: () => import('@/view/merchant/verification/verify.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '商家认证',
+          access: ['AUTH_SUPER_ADMIN', 'AUTH_MERCHANT_VERIFICATION_VERIFY_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Verification/CommitSuccess',
+        name: 'MerchantVerificationCommitSuccess',
+        component: () => import('@/view/merchant/verification/commit-success.vue'),
+        meta: {
+          hideInMenu: true,
+          icon: 'md-funnel',
+          title: '商家认证-提交成功',
+          access: ['AUTH_SUPER_ADMIN', 'AUTH_MERCHANT_VERIFICATION_STEP1_SUCCESS_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Verification/UnPassed',
+        name: 'MerchantVerificationUnPassed',
+        component: () => import('@/view/merchant/verification/unpassed.vue'),
+        meta: {
+          hideInMenu: true,
+          icon: 'md-funnel',
+          title: '商家认证-审核失败',
+          access: ['AUTH_SUPER_ADMIN', 'AUTH_MERCHANT_VERIFICATION_UNPASSED_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Verification/edit',
+        name: 'MerchantVerificationEdit',
+        component: () => import('@/view/merchant/verification/edit.vue'),
+        meta: {
+          hideInMenu: true,
+          icon: 'md-funnel',
+          title: '商家认证-修改',
+          access: ['AUTH_SUPER_ADMIN', 'AUTH_MERCHANT_VERIFICATION_EDIT_PAGE'],
+          notCache: true
+        }
+      }
+    ]
+  },
+
+  {
     path: '/SystemSetting',
     name: 'SystemSetting',
     meta: {
       icon: 'md-menu',
       title: '系统设置',
       notCache: true,
-      access: ['AUTH_SUPER_ADMIN', 'AUTH_USER_LIST_PAGE', 'AUTH_USER_EDIT_PAGE', 'AUTH_ROLE_LIST_PAGE']
+      access: ['AUTH_SUPER_ADMIN', 'AUTH_USER_LIST_PAGE', 'AUTH_AUTHORITY_LIST_PAGE', 'AUTH_ROLE_LIST_PAGE']
     },
     component: Main,
     children: [
