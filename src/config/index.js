@@ -31,7 +31,7 @@ const config = {
 
 switch (process.env.NODE_ENV) {
   case 'development':
-    config.baseUrl = 'http://localhost:9090'
+    config.baseUrl = 'http://localhost:9091'
     config.publicBucketDomain = 'https://malls-admin-public-local.oss-cn-shenzhen.aliyuncs.com/'
     break
 

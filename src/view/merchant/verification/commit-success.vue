@@ -75,9 +75,9 @@
       load() {
         API.load().then(res => {
           if (res.id) {
-            switch (res.status) {
+            switch (res.status.name) {
               case 'UnPassed': {
-                this.goUnPass(res.reason)
+                this.goUnPassed(res.reason)
                 return
               }
               case 'Passed': {
@@ -85,6 +85,7 @@
                 return
               }
             }
+            setTimeout(this.load, 1000)
           }
         })
       },
@@ -94,7 +95,7 @@
           name: 'MerchantVerificationEdit'
         })
       },
-      goUnPass(reason) {
+      goUnPassed(reason) {
         this.$store.commit('closeTag', this.$router.currentRoute)
         this.$router.push({
           name: 'MerchantVerificationUnPassed',
@@ -105,6 +106,9 @@
       }
     },
     mounted() {
+      let res = this.$store.state.app.tagNavList.filter(item => item.name !== 'MerchantVerificationUnPassed'
+        && item.name !== 'MerchantVerificationEdit' && item.name !== 'MerchantVerificationVerify')
+      this.$store.commit('setTagNavList', res)
       this.load()
     }
   }

@@ -94,7 +94,7 @@ export default [
           hideInMenu: true,
           icon: 'md-funnel',
           title: '商家认证-提交成功',
-          access: ['AUTH_SUPER_ADMIN', 'AUTH_MERCHANT_VERIFICATION_STEP1_SUCCESS_PAGE'],
+          access: ['AUTH_SUPER_ADMIN', 'AUTH_MERCHANT_VERIFICATION_COMMIT_SUCCESS_PAGE'],
           notCache: true
         }
       },
@@ -111,7 +111,7 @@ export default [
         }
       },
       {
-        path: 'Verification/edit',
+        path: 'Verification/Edit',
         name: 'MerchantVerificationEdit',
         component: () => import('@/view/merchant/verification/edit.vue'),
         meta: {

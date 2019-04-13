@@ -72,6 +72,9 @@
       }
     },
     mounted: function () {
+      let res = this.$store.state.app.tagNavList.filter(item => item.name !== 'MerchantVerificationCommitSuccess'
+        && item.name !== 'MerchantVerificationEdit' && item.name !== 'MerchantVerificationVerify')
+      this.$store.commit('setTagNavList', res)
       this.reason = this.$router.currentRoute.params.reason
     }
   }

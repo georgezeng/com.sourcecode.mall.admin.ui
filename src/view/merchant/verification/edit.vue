@@ -7,12 +7,12 @@
       <div slot="extra">
         <Button @click="save" type="primary" class="margin-right" :loading="loading">保存</Button>
       </div>
-      <Form ref="form" :model="form" :rules="rules" :label-width="80">
+      <Form ref="form" :model="form" :label-width="80">
         <FormItem label="商家名称" prop="name">
           <Input v-model="form.name" readonly></Input>
         </FormItem>
         <FormItem label="证件类型" prop="type">
-          <Input v-model="form.type" readonly></Input>
+          <Input v-model="form.typeText" readonly></Input>
         </FormItem>
         <FormItem label="证件号码" prop="number">
           <Input v-model="form.number" readonly></Input>
@@ -52,12 +52,14 @@
           id: null,
           name: '',
           type: '',
+          typeText: '',
           number: '',
           photo: '',
           contact: '',
           phone: '',
           address: '',
-          description: ''
+          description: '',
+          status: null
         }
       }
     },
@@ -67,11 +69,15 @@
         API.load().then(res => {
           this.loading = false
           if (res.id) {
-            if (res.status !== 'Passed') {
+            if (res.status.name !== 'Passed') {
               this.goVerify()
               return
             }
+            let type = res.type
             this.form = res
+            this.form.type = type.name
+            this.form.typeText = type.text
+            this.form.status = res.status.name
           }
         }).catch(e => {
           this.loading = false
@@ -99,6 +105,9 @@
       }
     },
     mounted: function () {
+      let res = this.$store.state.app.tagNavList.filter(item => item.name !== 'MerchantVerificationUnPassed'
+        && item.name !== 'MerchantVerificationCommitSuccess' && item.name !== 'MerchantVerificationVerify')
+      this.$store.commit('setTagNavList', res)
       this.load()
     }
   }

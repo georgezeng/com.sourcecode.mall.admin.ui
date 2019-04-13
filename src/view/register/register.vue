@@ -146,7 +146,7 @@
       },
       back() {
         this.$router.push({
-          name: 'login'
+          name: 'Login'
         })
       }
     }

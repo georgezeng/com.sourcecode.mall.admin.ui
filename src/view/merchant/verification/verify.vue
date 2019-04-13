@@ -100,7 +100,8 @@
           phone: '',
           address: '',
           description: '',
-          reason: ''
+          reason: '',
+          status: ''
         },
         rules: {
           name: [
@@ -126,10 +127,10 @@
         API.load().then(res => {
           this.loading = false
           if (res.id) {
-            switch (res.status) {
+            switch (res.status.name) {
               case 'UnPassed': {
                 if (!this.stay) {
-                  this.goUnPass(res.reason)
+                  this.goUnPassed(res.reason)
                   return
                 }
               }
@@ -144,6 +145,8 @@
               }
             }
             this.form = res
+            this.form.type = res.type.name
+            this.form.status = res.status.name
           }
         }).catch(e => {
           this.loading = false
@@ -194,7 +197,7 @@
           name: 'MerchantVerificationEdit'
         })
       },
-      goUnPass(reason) {
+      goUnPassed(reason) {
         this.$store.commit('closeTag', this.$router.currentRoute)
         this.$router.push({
           name: 'MerchantVerificationUnPassed',
@@ -206,7 +209,7 @@
     },
     computed: {
       uploadUrl() {
-        return config.baseUrl + '/merchant/verification/upload/'
+        return config.baseUrl + '/merchant/verification/upload'
       },
       imgPreviewUrl: {
         get() {
