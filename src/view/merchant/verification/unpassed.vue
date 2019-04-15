@@ -9,7 +9,7 @@
   <div>
     <Card>
       <p slot="title">
-        商家认证 - 审核未通过
+        实名认证 - 审核未通过
       </p>
       <div align="center">
         <div>

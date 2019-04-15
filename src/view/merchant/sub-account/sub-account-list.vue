@@ -19,7 +19,7 @@
     </Modal>
 
     <Card>
-      <Input v-model="searchText" search enter-button @on-search="load"
+      <Input v-model="queryInfo.data" search enter-button @on-search="load"
              style="float: left; width: 200px; margin-bottom: 5px;"/>
       <Button @click="bulkDeleteModal=true" :disabled="deleteBtnDisabled" class="float-right" type="error">批量删除</Button>
       <Button @click="goAdd" class="float-right margin-right" type="primary">新增</Button>
@@ -39,16 +39,17 @@
   </div>
 </template>
 <script>
-  import API from '@/api/users'
+  import API from '@/api/merchant-sub-account'
   import {Message} from 'iview'
 
   export default {
-    name: 'UserList',
+    name: 'MerchantSubAccountList',
     components: {},
     data() {
       let self = this
       return {
         queryInfo: {
+          data: '',
           page: {
             num: 1,
             size: 10,
@@ -56,7 +57,6 @@
             order: 'ASC'
           }
         },
-        searchText: '',
         total: 0,
         list: [],
         selection: [],
@@ -67,14 +67,6 @@
           {type: 'selection', width: 60, align: 'center'},
           {title: '用户名', key: 'username', sortable: true, sortType: 'asc'},
           {title: '邮箱', key: 'email', sortable: true},
-          {title: '主副', key: 'accountText'},
-          {
-            title: '状态',
-            sortable: true,
-            render: (h, params) => {
-              return h('span', params.row.enabled ? '使用中' : '禁用中')
-            }
-          },
           {
             title: '操作',
             key: 'action',
@@ -94,28 +86,6 @@
                     }
                   }
                 }, '编辑'),
-
-                h('Poptip', {
-                  props: {
-                    confirm: true,
-                    title: '你确定要' + (params.row.enabled ? '禁用' : '启用') + '吗?'
-                  },
-                  on: {
-                    'on-ok': () => {
-                      this.triggerStatus(params.row)
-                    }
-                  },
-                  style: {
-                    marginRight: '5px'
-                  }
-                }, [
-                  h('Button', {
-                    props: {
-                      type: params.row.enabled ? 'warning' : 'success',
-                      size: 'small'
-                    }
-                  }, params.row.enabled ? '禁用' : '启用')
-                ]),
 
                 h('Poptip', {
                   props: {
@@ -143,7 +113,6 @@
     },
     methods: {
       load() {
-        this.queryInfo.data = this.searchText
         this.queryInfo.page.num = 1
         this.changePage()
       },
@@ -157,8 +126,13 @@
         this.loading = true
         this.queryInfo.page.num = pageNum ? pageNum : this.queryInfo.page.num
         API.list(this.queryInfo).then(res => {
-          this.list = res.list
-          this.total = res.total
+          if (res.list) {
+            this.list = res.list
+            this.total = res.total
+          } else {
+            this.list = []
+            this.total = 0
+          }
           this.loading = false
         }).catch(ex => {
           this.loading = false
@@ -205,30 +179,15 @@
       goEdit(id) {
         this.$store.commit('closeTag', this.$router.currentRoute)
         this.$router.push({
-          name: 'UserEdit',
+          name: 'MerchantSubAccountEdit',
           params: {
             id
           }
         })
-      },
-      triggerStatus(item) {
-        this.loading = true
-        let action = item.enabled ? '禁用' : '启用'
-        let data = {
-          ...item,
-          enabled: !item.enabled
-        }
-        API.save(data).then(res => {
-          this.loading = false
-          Message.success(action + '成功')
-          this.load()
-        }).catch(ex => {
-          this.loading = false
-        })
       }
     },
     mounted: function () {
-      let res = this.$store.state.app.tagNavList.filter(item => item.name !== 'UserEdit')
+      let res = this.$store.state.app.tagNavList.filter(item => item.name !== 'MerchantSubAccountEdit')
       this.$store.commit('setTagNavList', res)
       this.load()
     }

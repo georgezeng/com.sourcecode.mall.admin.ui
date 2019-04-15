@@ -15,7 +15,7 @@
   <div>
     <Card>
       <p slot="title">
-        商家认证-编辑 (已认证)
+        实名认证 - 编辑
         <div class="pass"></div>
       </p>
       <div slot="extra">

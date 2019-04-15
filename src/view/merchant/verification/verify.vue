@@ -22,7 +22,7 @@
   <div>
     <Card>
       <p slot="title">
-        商家认证
+        实名认证 - 提交认证
       </p>
       <p slot="title" style="font-weight: normal">
         为了让您获得更精准的服务和商业机会，我们建议您立即完善以下信息

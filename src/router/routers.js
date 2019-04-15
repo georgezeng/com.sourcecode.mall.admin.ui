@@ -42,6 +42,17 @@ export default [
   },
 
   {
+    path: '/ForgetPassword',
+    name: 'ForgetPassword',
+    meta: {
+      title: '忘记密码',
+      hideInMenu: true,
+      notCache: true
+    },
+    component: () => import('@/view/forget-password/forget-password.vue')
+  },
+
+  {
     path: '/',
     // name: '_home',
     component: Main,
@@ -71,7 +82,7 @@ export default [
       icon: 'md-menu',
       title: '商家中心',
       notCache: true,
-      access: ['AUTH_SUPER_ADMIN', 'AUTH_MERCHANT_VERIFICATION_VERIFY_PAGE']
+      access: ['AUTH_SUPER_ADMIN', 'AUTH_MERCHANT_VERIFICATION_VERIFY_PAGE', 'AUTH_MERCHANT_SUB_ACCOUNT_LIST_PAGE']
     },
     component: Main,
     children: [
@@ -81,7 +92,7 @@ export default [
         component: () => import('@/view/merchant/verification/verify.vue'),
         meta: {
           icon: 'md-funnel',
-          title: '商家认证',
+          title: '实名认证',
           access: ['AUTH_SUPER_ADMIN', 'AUTH_MERCHANT_VERIFICATION_VERIFY_PAGE'],
           notCache: true
         }
@@ -93,7 +104,7 @@ export default [
         meta: {
           hideInMenu: true,
           icon: 'md-funnel',
-          title: '商家认证-提交成功',
+          title: '实名认证-提交成功',
           access: ['AUTH_SUPER_ADMIN', 'AUTH_MERCHANT_VERIFICATION_COMMIT_SUCCESS_PAGE'],
           notCache: true
         }
@@ -105,7 +116,7 @@ export default [
         meta: {
           hideInMenu: true,
           icon: 'md-funnel',
-          title: '商家认证-审核失败',
+          title: '实名认证-审核失败',
           access: ['AUTH_SUPER_ADMIN', 'AUTH_MERCHANT_VERIFICATION_UNPASSED_PAGE'],
           notCache: true
         }
@@ -117,8 +128,31 @@ export default [
         meta: {
           hideInMenu: true,
           icon: 'md-funnel',
-          title: '商家认证-修改',
+          title: '实名认证-修改',
           access: ['AUTH_SUPER_ADMIN', 'AUTH_MERCHANT_VERIFICATION_EDIT_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'SubAccount/List',
+        name: 'MerchantSubAccountList',
+        component: () => import('@/view/merchant/sub-account/sub-account-list.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '账号管理',
+          access: ['AUTH_SUPER_ADMIN', 'AUTH_MERCHANT_SUB_ACCOUNT_LIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'SubAccount/Edit/:id',
+        name: 'MerchantSubAccountEdit',
+        component: () => import('@/view/merchant/sub-account/sub-account-edit.vue'),
+        meta: {
+          hideInMenu: true,
+          icon: 'md-funnel',
+          title: '账号编辑',
+          access: ['AUTH_SUPER_ADMIN', 'AUTH_MERCHANT_SUB_ACCOUNT_EDIT_PAGE'],
           notCache: true
         }
       }

@@ -23,7 +23,7 @@
   <div>
     <Card>
       <p slot="title">
-        商家认证 - 提交成功
+        实名认证 - 提交成功
       </p>
       <div align="center">
         <div>

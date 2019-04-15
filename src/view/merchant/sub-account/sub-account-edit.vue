@@ -2,16 +2,13 @@
   <div>
     <Card>
       <p slot="title">
-        {{ action }}用户
+        {{ action }}子账户
       </p>
       <div slot="extra">
         <Button @click="save" type="primary" class="margin-right" :loading="loading">保存</Button>
         <Button @click="goList" type="success">返回</Button>
       </div>
       <Form ref="form" :model="form" :rules="rules" :label-width="80">
-        <FormItem label="主副" prop="accountText">
-          <Input v-model="form.accountText" readonly></Input>
-        </FormItem>
         <FormItem label="用户名" prop="username">
           <Input v-model="form.username" :readonly="isEdit"></Input>
         </FormItem>
@@ -34,14 +31,9 @@
           <img class="float-left margin-right-10" :src="imgPreviewUrl" width="32" height="32"/>
           <Alert class="float-left" :class="{hidden: !upload.errorText}" type="error">{{upload.errorText}}</Alert>
         </FormItem>
-        <FormItem label="状态">
-          <Select v-model="form.enabled" style="width:200px">
-            <Option v-for="status in statusList" :value="status.value" :key="status.value">{{ status.text }}</Option>
-          </Select>
-        </FormItem>
-        <FormItem label="角色">
-          <MultiSelectors :leftList="roleLeftList" :rightList="roleRightList" :originLeftList="originRoleLeftList"
-                          :originRightList="originRoleRightList" @set-multi-selectors-data="setRoleLists"/>
+        <FormItem label="权限">
+          <MultiSelectors :leftList="authLeftList" :rightList="authRightList" :originLeftList="originAuthLeftList"
+                          :originRightList="originAuthRightList" @set-multi-selectors-data="setAuthLists"/>
         </FormItem>
       </Form>
     </Card>
@@ -49,15 +41,14 @@
 </template>
 
 <script>
-  import API from '@/api/users'
-  import RoleAPI from '@/api/role'
+  import API from '@/api/merchant-sub-account'
   import MultiSelectors from '@/components/multi-selectors/multi-selectors'
   import {Message} from 'iview'
   import config from '@/config/index'
   import avatar from '@/assets/images/avatar.png'
 
   export default {
-    name: 'UserEdit',
+    name: 'MerchantSubAccountEdit',
     components: {
       MultiSelectors
     },
@@ -78,23 +69,18 @@
         },
         form: {
           id: null,
-          accountText: '',
           username: '',
           email: '',
           password: '',
-          enabled: 'true',
+          enabled: true,
           header: null,
-          roles: []
+          authorities: []
         },
-        statusList: [
-          {text: '使用中', value: 'true'},
-          {text: '禁用中', value: 'false'}
-        ],
-        roles: [],
-        roleLeftList: [],
-        roleRightList: [],
-        originRoleLeftList: [],
-        originRoleRightList: [],
+        authorities: [],
+        authLeftList: [],
+        authRightList: [],
+        originAuthLeftList: [],
+        originAuthRightList: [],
         rules: {
           username: [
             {required: true, message: '用户名不能为空', trigger: 'change'},
@@ -129,27 +115,26 @@
           this.loading = true
           API.load(this.form.id).then(data => {
             this.form = data
-            this.form.enabled = data.enabled === true ? 'true' : 'false'
             let arr = []
-            for (let i in data.roles) {
-              let item = data.roles[i]
+            for (let i in data.authorities) {
+              let item = data.authorities[i]
               arr.push({
                 key: item.id,
                 text: item.name,
                 selected: false
               })
             }
-            this.roleRightList = arr
-            this.originRoleRightList = arr.concat()
+            this.authRightList = arr
+            this.originAuthRightList = arr.concat()
             this.loading = false
           }).catch(ex => {
             this.loading = false
           })
         }
       },
-      loadRoles() {
+      loadAuthorities() {
         this.loading = true
-        RoleAPI.list({
+        API.authorities({
           data: null,
           page: {
             num: 1,
@@ -168,8 +153,8 @@
                 selected: false
               })
             }
-            this.roleLeftList = arr
-            this.originRoleLeftList = arr.concat()
+            this.authLeftList = arr
+            this.originAuthLeftList = arr.concat()
           }
           this.loading = false
         }).catch(ex => {
@@ -192,30 +177,30 @@
       },
       goList() {
         this.$router.push({
-          name: 'UserList'
+          name: 'MerchantSubAccountList'
         })
       },
-      setRoleLists(leftList, rightList, reload) {
-        this.roleLeftList = leftList
-        this.roleRightList = rightList
+      setAuthLists(leftList, rightList, reload) {
+        this.authLeftList = leftList
+        this.authRightList = rightList
         if (reload) {
-          this.originRoleLeftList = leftList.concat()
-          this.originRoleRightList = rightList.concat()
+          this.originAuthLeftList = leftList.concat()
+          this.originAuthRightList = rightList.concat()
 
-          this.form.roles = []
+          this.form.authorities = []
           for (let i in rightList) {
             let item = rightList[i]
-            this.form.roles.push({
+            this.form.authorities.push({
               id: item.key,
               name: item.text,
               selected: item.selected
             })
           }
 
-          this.roles = []
+          this.authorities = []
           for (let i in leftList) {
             let item = leftList[i]
-            this.roles.push({
+            this.authorities.push({
               id: item.key,
               name: item.text,
               selected: item.selected
@@ -269,7 +254,7 @@
       this.form.id = isEdit ? this.form.id : null;
       this.rules.password[0].required = !isEdit
       this.load()
-      this.loadRoles()
+      this.loadAuthorities()
     }
   }
 </script>
