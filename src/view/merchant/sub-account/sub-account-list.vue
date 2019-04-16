@@ -65,7 +65,7 @@
         deleteBtnDisabled: true,
         columns: [
           {type: 'selection', width: 60, align: 'center'},
-          {title: '用户名', key: 'username', sortable: true, sortType: 'asc'},
+          {title: '账号', key: 'username', sortable: true, sortType: 'asc'},
           {title: '邮箱', key: 'email', sortable: true},
           {
             title: '操作',

@@ -1,32 +1,24 @@
 <template>
-  <div class="login-bg">
-    <Card class="login-bg-con">
-      <p slot="title">
-        忘记密码
-      </p>
-      <Form ref="form" :model="form" :rules="rules" :label-width="80">
-        <FormItem label="手机号" prop="username">
-          <Input v-model="form.username" placeholder="输入手机号"></Input>
-        </FormItem>
-        <FormItem label="验证码" prop="verifyCode">
-          <Input v-model="form.verifyCode" @on-search="sendCode" search
-                 :enter-button="codeBtnText"
-                 placeholder="输入验证码"></Input>
-        </FormItem>
-        <FormItem label="密码" prop="password">
-          <Input type="password" v-model="form.password"></Input>
-        </FormItem>
-        <FormItem label="确认密码" prop="confirmPassword">
-          <Input type="password" v-model="form.confirmPassword"></Input>
-        </FormItem>
-
-        <FormItem>
-          <Button @click="save" type="primary" class="margin-right" :loading="loading">确认重置</Button>
-          <Button @click="back" type="success">返回</Button>
-        </FormItem>
-      </Form>
-    </Card>
-  </div>
+  <Form ref="form" :model="form" :rules="rules" :label-width="80">
+    <FormItem label="手机号" prop="username">
+      <Input :value="mobileNum" placeholder="输入手机号" :readonly="hideBtns"></Input>
+    </FormItem>
+    <FormItem label="验证码" prop="verifyCode">
+      <Input v-model="form.verifyCode" @on-change="setForm" @on-search="sendCode" search
+             :enter-button="codeBtnText"
+             placeholder="输入验证码"></Input>
+    </FormItem>
+    <FormItem label="密码" prop="password">
+      <Input type="password" @on-change="setForm" v-model="form.password"></Input>
+    </FormItem>
+    <FormItem label="确认密码" prop="confirmPassword">
+      <Input type="password" @on-change="setForm" v-model="form.confirmPassword"></Input>
+    </FormItem>
+    <FormItem :class="{hidden: hideBtns}">
+      <Button @click="save" type="primary" class="margin-right" :loading="loading">确认重置</Button>
+      <Button @click="back" type="success">返回</Button>
+    </FormItem>
+  </Form>
 </template>
 
 <script>
@@ -36,8 +28,12 @@
   import {mapActions} from 'vuex'
 
   export default {
-    name: 'Register',
+    name: 'ForgetPassword',
     components: {},
+    props: [
+      'hideBtns',
+      'mobile'
+    ],
     data() {
       const confirmPwdCheck = (rule, value, callback) => {
         if (this.form.password != value) {
@@ -52,6 +48,7 @@
         codeBtnText: '发送验证码',
         form: {
           id: null,
+          verifyCode: '',
           username: '',
           password: '',
           confirmPassword: '',
@@ -86,8 +83,19 @@
         }
       }
     },
-    computed: {},
+    computed: {
+      mobileNum() {
+        this.form.username = this.mobile
+        return this.mobile
+      }
+    },
     methods: {
+      setForm() {
+        this.$store.commit('setForgetPasswordForm', {
+          forgetPasswordForm: this.$refs.form,
+          forgetPasswordObj: this.form
+        })
+      },
       sendCode() {
         if (!this.form.username) {
           let valid = this.$refs.form.validateField('username')
@@ -105,11 +113,11 @@
         })
       },
       disableVerifyCodeBtn(second) {
-        if(second > 0) {
+        if (second > 0) {
           this.codeLoading = true
           this.codeBtnText = second + '秒后重试'
           let self = this
-          setTimeout(function() {
+          setTimeout(function () {
             self.disableVerifyCodeBtn(second - 1)
           }, 1000)
           return
@@ -136,7 +144,7 @@
           name: 'Login'
         })
       }
-    }
+    },
   }
 </script>
 

@@ -9,11 +9,11 @@
         <Button @click="goList" type="success">返回</Button>
       </div>
       <Form ref="form" :model="form" :rules="rules" :label-width="80">
-        <FormItem label="用户名" prop="username">
-          <Input v-model="form.username" :readonly="isEdit"></Input>
+        <FormItem label="账号" prop="username">
+          <Input v-model="form.username" placeholder="请输入手机号" :readonly="isEdit"></Input>
         </FormItem>
         <FormItem label="邮箱" prop="email">
-          <Input v-model="form.email" placeholder="输入邮箱"></Input>
+          <Input v-model="form.email" placeholder="请输入邮箱"></Input>
         </FormItem>
         <FormItem label="密码" prop="password">
           <Input type="password" v-model="form.password" @on-change="setConfirmPasswordStatus"></Input>

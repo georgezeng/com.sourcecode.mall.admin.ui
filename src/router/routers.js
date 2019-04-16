@@ -49,7 +49,7 @@ export default [
       hideInMenu: true,
       notCache: true
     },
-    component: () => import('@/view/forget-password/forget-password.vue')
+    component: () => import('@/view/forget-password/forget-password-card.vue')
   },
 
   {
@@ -82,10 +82,24 @@ export default [
       icon: 'md-menu',
       title: '商家中心',
       notCache: true,
-      access: ['AUTH_SUPER_ADMIN', 'AUTH_MERCHANT_VERIFICATION_VERIFY_PAGE', 'AUTH_MERCHANT_SUB_ACCOUNT_LIST_PAGE']
+      access: ['AUTH_SUPER_ADMIN',
+        'AUTH_MERCHANT_PROFILE_PAGE',
+        'AUTH_MERCHANT_VERIFICATION_VERIFY_PAGE',
+        'AUTH_MERCHANT_SUB_ACCOUNT_LIST_PAGE']
     },
     component: Main,
     children: [
+      {
+        path: 'Profile',
+        name: 'MerchantProfile',
+        component: () => import('@/view/merchant/profile/profile.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '账号信息',
+          access: ['AUTH_SUPER_ADMIN', 'AUTH_MERCHANT_PROFILE_PAGE'],
+          notCache: true
+        }
+      },
       {
         path: 'Verification/Verify',
         name: 'MerchantVerificationVerify',
@@ -139,7 +153,7 @@ export default [
         component: () => import('@/view/merchant/sub-account/sub-account-list.vue'),
         meta: {
           icon: 'md-funnel',
-          title: '账号管理',
+          title: '子账号管理',
           access: ['AUTH_SUPER_ADMIN', 'AUTH_MERCHANT_SUB_ACCOUNT_LIST_PAGE'],
           notCache: true
         }

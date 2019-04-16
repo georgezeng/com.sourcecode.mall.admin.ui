@@ -25,9 +25,15 @@ export default {
     messageReadedList: [],
     messageTrashList: [],
     messageContentStore: {},
-    errorMsg: ''
+    errorMsg: '',
+    forgetPasswordForm: null,
+    forgetPasswordObj: null
   },
   mutations: {
+    setForgetPasswordForm(state, {forgetPasswordForm, forgetPasswordObj}) {
+      state.forgetPasswordForm = forgetPasswordForm
+      state.forgetPasswordObj = forgetPasswordObj
+    },
     setAvator(state, avatorPath) {
       state.avatorImgPath = config.publicBucketDomain + avatorPath
     },

@@ -12,5 +12,8 @@ export default {
   },
   save: (obj) => {
     return axios.post('/user/save', obj)
+  },
+  updatePassword: (obj) => {
+    return axios.post('/user/modifyPassword', obj)
   }
 }

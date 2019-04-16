@@ -16,7 +16,7 @@
 <template>
   <Form ref="loginForm" :model="form" :rules="rules" @keydown.enter.native="handleSubmit">
     <FormItem prop="userName">
-      <Input v-model="form.userName" placeholder="请输入用户名">
+      <Input v-model="form.userName" placeholder="请输入手机号">
       <span slot="prepend">
           <Icon :size="16" type="ios-person"></Icon>
         </span>
@@ -34,46 +34,38 @@
       <Button @click="handleSubmit" type="primary" long>登录</Button>
     </FormItem>
     <a @click="go('Register')" class="registerBtn">注册</a>
-    <a @click="go('ForgetPassword')" class="float-right">忘记密码?</a>
+    <a @click="go('ForgetPassword')" class="float-right">忘记密码</a>
   </Form>
 </template>
 <script>
 
   export default {
     name: 'LoginForm',
-    props: {
-      userNameRules: {
-        type: Array,
-        default: () => {
-          return [
-            {required: true, message: '账号不能为空', trigger: 'blur'}
-          ]
-        }
-      },
-      passwordRules: {
-        type: Array,
-        default: () => {
-          return [
-            {required: true, message: '密码不能为空', trigger: 'blur'}
-          ]
+    data() {
+      let checkPassword = (rule, value, callback) => {
+        this.$store.commit('showErrMsg', {msgs: ['']})
+        if (value === '') {
+          callback(new Error('密码不能为空'));
+        } else {
+          callback();
         }
       }
-    },
-    data() {
       return {
         form: {
           userName: '',
           password: ''
+        },
+        rules: {
+          userName: [
+            {required: true, message: '账号不能为空', trigger: 'change'}
+          ],
+          password: [
+            {required: true, validator: checkPassword, message: '密码不能为空', trigger: 'change'}
+          ]
         }
       }
     },
     computed: {
-      rules() {
-        return {
-          userName: this.userNameRules,
-          password: this.passwordRules
-        }
-      },
       errorMsg() {
         return this.$store.state.user.errorMsg
       }
