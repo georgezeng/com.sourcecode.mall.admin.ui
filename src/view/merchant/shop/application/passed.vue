@@ -115,10 +115,10 @@
     },
     computed: {
       androidLink() {
-        return "//" + config.baseUrl + this.form.androidUrl
+        return "//" + config.publicBucketDomain + this.form.androidUrl
       },
       iosLink() {
-        return "//" + config.baseUrl + this.form.iosUrl
+        return "//" + config.publicBucketDomain + this.form.iosUrl
       }
     },
     mounted() {
