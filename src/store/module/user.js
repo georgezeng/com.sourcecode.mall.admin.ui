@@ -35,7 +35,7 @@ export default {
       state.forgetPasswordObj = forgetPasswordObj
     },
     setAvator(state, avatorPath) {
-      state.avatorImgPath = config.publicBucketDomain + avatorPath
+      state.avatorImgPath = config.baseUrl + '/user/header/load/current'
     },
     setUserId(state, id) {
       state.userId = id

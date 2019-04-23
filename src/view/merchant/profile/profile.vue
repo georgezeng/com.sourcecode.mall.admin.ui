@@ -10,14 +10,16 @@
       </div>
       <Form ref="form" :model="form" :rules="rules" :label-width="80">
         <FormItem label="头像" prop="header">
-          <Upload class="float-left margin-right-10" :action="uploadUrl" with-credentials :format="upload.format"
-                  :show-upload-list="false" :max-size="3000"
-                  :on-exceeded-size="showExceededError" :on-format-error="showFormatError"
-                  :on-success="showUploadSuccess">
-            <Button icon="ios-cloud-upload-outline">上传头像</Button>
-          </Upload>
-          <img class="float-left margin-right-10" :src="imgPreviewUrl" width="32" height="32"/>
-          <Alert class="float-left" :class="{hidden: !upload.errorText}" type="error">{{upload.errorText}}</Alert>
+          <Upload
+            :uploadUrl="uploadUrl"
+            :previewUri="form.header"
+            btnText="上传头像"
+            :imgPrefix="imgPrefix"
+            :uploadPlaceholder="avatar"
+            width="32"
+            height="32"
+            @setPreviewUrl="setPreviewUrl"
+          />
         </FormItem>
         <FormItem label="手机号" prop="username">
           <Input v-model="form.username" readonly></Input>
@@ -42,20 +44,20 @@
   import config from '@/config/index'
   import avatar from '@/assets/images/avatar.png'
   import {getToken} from '@/libs/util'
+  import Upload from '@/components/upload/img-one-line-upload'
 
   export default {
     name: 'MerchantProfile',
     components: {
-      ModifyPassword
+      ModifyPassword,
+      Upload
     },
     data() {
       return {
         loading: false,
-        upload: {
-          format: ['png'],
-          errorText: ''
-        },
         modifyPasswordModal: false,
+        avatar,
+        imgPrefix: config.baseUrl + '/merchant/header/preview?filePath=',
         form: {
           id: null,
           username: '',
@@ -97,34 +99,14 @@
           }
         })
       },
-      showFormatError() {
-        let formats = ''
-        for(let i in this.upload.format) {
-          formats += this.upload.format[i]
-        }
-        this.upload.errorText = '文件类型只能是' + this.upload.format[0]
-      },
-      showUploadSuccess(response, file, fileList) {
-        this.upload.errorText = ''
-        this.imgPreviewUrl = response.data
-        Message.success('上传成功')
-      },
-      showExceededError() {
-        this.upload.errorText = '文件大小必须在3000KB以内'
+      setPreviewUrl(url, index) {
+        this.form.header = url
       },
     },
     computed: {
       uploadUrl() {
-        return config.baseUrl + '/user/upload/header/params/' + this.form.id
+        return config.baseUrl + '/user/header/upload'
       },
-      imgPreviewUrl: {
-        get() {
-          return this.form.header != null ? config.publicBucketDomain + this.form.header : avatar
-        },
-        set(url) {
-          this.form.header = url
-        }
-      }
     },
     mounted: function () {
       this.load()

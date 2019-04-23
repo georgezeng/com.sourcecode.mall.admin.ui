@@ -118,7 +118,7 @@
     },
     computed: {
       imgPreviewUrl() {
-        return config.publicBucketDomain + this.form.photo
+        return config.baseUrl + '/merchant/verification/photo/load'
       }
     },
     mounted: function () {

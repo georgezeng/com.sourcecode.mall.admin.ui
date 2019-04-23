@@ -1,11 +1,4 @@
 <style>
-  .uploadAlert {
-    float: left;
-    top: 0px;
-    left: 110px;
-    position: absolute;
-  }
-
   .unpass {
     background-image: url('../../../assets/images/img_stamp_unpass.png');
     width: 100px;
@@ -32,7 +25,7 @@
         <Button @click="verify" type="primary" class="margin-right" :loading="loading">提交认证</Button>
       </div>
       <Form ref="form" :model="form" :rules="rules" :label-width="80">
-        <FormItem label="认证失败" :class="{hidden: form.reason === ''}" prop="reason">
+        <FormItem label="认证失败" :class="{hidden: !form.reason}" prop="reason">
           <Alert type="error">{{form.reason}}</Alert>
         </FormItem>
         <FormItem label="商家名称" prop="name">
@@ -47,16 +40,13 @@
           <Input v-model="form.number"></Input>
         </FormItem>
         <FormItem label="证件照" prop="photo">
-          <Upload :action="uploadUrl" with-credentials :format="upload.format"
-                  :show-upload-list="false" :max-size="3000"
-                  :on-exceeded-size="showExceededError" :on-format-error="showFormatError"
-                  :on-success="showUploadSuccess">
-            <Button icon="ios-cloud-upload-outline">上传图片</Button>
-          </Upload>
-          <Alert class="uploadAlert" :class="{hidden: !upload.errorText}" type="error">{{upload.errorText}}</Alert>
-        </FormItem>
-        <FormItem>
-          <img :src="imgPreviewUrl"/>
+          <Upload
+            :uploadUrl="uploadUrl"
+            :previewUri="form.photo"
+            btnText="上传证件"
+            :imgPrefix="imgPrefix"
+            @setPreviewUrl="setPreviewUrl"
+          />
         </FormItem>
         <FormItem label="联系人" prop="contact">
           <Input v-model="form.contact"></Input>
@@ -79,11 +69,13 @@
   import API from '@/api/merchant-verification'
   import {Message} from 'iview'
   import config from '@/config/index'
-  import uploadPlaceholder from '@/assets/images/upload-placeholder.png'
+  import Upload from '@/components/upload/img-single-upload'
 
   export default {
     name: 'MerchantVerificationVerify',
-    components: {},
+    components: {
+      Upload
+    },
     data() {
       return {
         stay: false,
@@ -98,10 +90,7 @@
             text: '身份证'
           }
         ],
-        upload: {
-          format: ['png'],
-          errorText: null
-        },
+        imgPrefix: config.baseUrl + '/merchant/verification/photo/preview?filePath=',
         form: {
           id: null,
           name: '',
@@ -164,24 +153,8 @@
           this.loading = false
         })
       },
-      showFormatError() {
-        let formats = ""
-        for (let i in this.upload.format) {
-          formats += this.upload.format[i]
-          if (i < this.upload.format.length - 1) {
-            formats += ", "
-          }
-        }
-        this.upload.errorText = '文件类型只能是' + formats
-      },
-      showUploadSuccess(response, file, fileList) {
-        this.upload.errorText = ''
-        this.imgPreviewUrl = response.data
-        Message.success('上传成功')
-
-      },
-      showExceededError() {
-        this.upload.errorText = '文件大小必须在3000KB以内'
+      setPreviewUrl(url, index) {
+        this.form.photo = url
       },
       verify() {
         this.$refs.form.validate().then(valid => {
@@ -221,16 +194,8 @@
     },
     computed: {
       uploadUrl() {
-        return config.baseUrl + '/merchant/verification/upload'
+        return config.baseUrl + '/merchant/verification/photo/upload'
       },
-      imgPreviewUrl: {
-        get() {
-          return this.form.photo != null ? config.publicBucketDomain + this.form.photo : uploadPlaceholder
-        },
-        set(url) {
-          this.form.photo = url
-        }
-      }
     },
     mounted: function () {
       let res = this.$store.state.app.tagNavList.filter(item => item.name !== 'MerchantVerificationCommitSuccess'

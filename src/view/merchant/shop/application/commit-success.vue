@@ -1,6 +1,6 @@
 <style>
   .num {
-    background-image: url("../../../assets/images/numbers-circle.png");
+    background-image: url("../../../../assets/images/numbers-circle.png");
     background-position: 85px 123px;
     background-size: 140px 130px;
     display: inline-block;
@@ -23,8 +23,11 @@
   <div>
     <Card>
       <p slot="title">
-        实名认证 - 提交成功
+        店铺申请 - 提交成功
       </p>
+      <div slot="extra">
+        <Button @click="goDetail" type="primary" class="margin-right">店铺详情</Button>
+      </div>
       <div align="center">
         <div>
           <img :src="stepSuccess" />
@@ -52,7 +55,7 @@
 </template>
 
 <script>
-  import API from '@/api/merchant-verification'
+  import API from '@/api/merchant-shop-application'
   import {Message} from 'iview'
   import config from '@/config/index'
   import stepSuccess from '@/assets/images/bg_state_success@2x.png'
@@ -61,7 +64,7 @@
   import stepThree from '@/assets/images/num3-circle.png'
 
   export default {
-    name: 'MerchantVerificationCommitSuccess',
+    name: 'MerchantShopApplicationCommitSuccess',
     components: {},
     data() {
       return {
@@ -77,52 +80,75 @@
         API.load().then(res => {
           if (res && res.id) {
             switch (res.status.name) {
+              case 'UnPay': {
+                this.goUnPay()
+                return
+              }
               case 'UnPassed': {
                 this.goUnPassed(res.reason)
                 return
               }
               case 'Passed': {
-                this.goEdit()
+                this.goPassed()
                 return
               }
             }
             this.clearId = setTimeout(this.load, 1000)
           } else {
-            this.goVerify()
+            this.goApply()
           }
         })
       },
-      goEdit() {
+      goUnPay() {
         window.clearTimeout(this.clearId)
         this.$store.commit('closeTag', this.$router.currentRoute)
         this.$router.push({
-          name: 'MerchantVerificationEdit'
+          name: 'MerchantShopApplicationUnPay'
+        })
+      },
+      goPassed() {
+        window.clearTimeout(this.clearId)
+        this.$store.commit('closeTag', this.$router.currentRoute)
+        this.$router.push({
+          name: 'MerchantShopApplicationPassed'
         })
       },
       goUnPassed(reason) {
         window.clearTimeout(this.clearId)
         this.$store.commit('closeTag', this.$router.currentRoute)
         this.$router.push({
-          name: 'MerchantVerificationUnPassed',
+          name: 'MerchantShopApplicationUnPassed',
           params: {
             reason
           }
         })
       },
-      goVerify() {
+      goDetail() {
         window.clearTimeout(this.clearId)
         this.$store.commit('closeTag', this.$router.currentRoute)
         this.$router.push({
-          name: 'MerchantVerificationVerify',
+          name: 'MerchantShopApplicationDetail',
           params: {
             stay: true
           }
         })
+      },
+      goApply() {
+        window.clearTimeout(this.clearId)
+        this.$store.commit('closeTag', this.$router.currentRoute)
+        this.$router.push({
+          name: 'MerchantShopApplicationApply'
+        })
       }
     },
     mounted() {
-      let res = this.$store.state.app.tagNavList.filter(item => item.name !== 'MerchantVerificationUnPassed'
-        && item.name !== 'MerchantVerificationEdit' && item.name !== 'MerchantVerificationVerify')
+      let res = this.$store.state.app.tagNavList.filter(item =>
+        item.name !== 'MerchantShopApplicationDetail'
+        && item.name !== 'MerchantShopApplicationUnPay'
+        && item.name !== 'MerchantShopApplicationEdit'
+        && item.name !== 'MerchantShopApplicationApply'
+        && item.name !== 'MerchantShopApplicationPassed'
+        && item.name !== 'MerchantShopApplicationUnPassed')
       this.$store.commit('setTagNavList', res)
       this.load()
     }

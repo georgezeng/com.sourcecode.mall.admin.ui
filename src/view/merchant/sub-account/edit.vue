@@ -237,11 +237,11 @@
         return this.form.id != null && this.form.id != 0
       },
       uploadUrl() {
-        return config.baseUrl + '/user/upload/header/params/' + (this.isEdit ? this.form.id : '0')
+        return config.baseUrl + '/user/upload/header'
       },
       imgPreviewUrl: {
         get() {
-          return this.form.header != null ? config.publicBucketDomain + this.form.header : avatar
+          return this.form.header != null ? config.baseUrl + '/user/load/header' : avatar
         },
         set(url) {
           this.form.header = url
