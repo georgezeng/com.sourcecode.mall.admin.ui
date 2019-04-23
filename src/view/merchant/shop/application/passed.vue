@@ -13,8 +13,11 @@
         </div>
         <div style="margin-bottom: 20px;">
           恭喜你，你的店铺审核通过
+          <p :class="{hidden: form.deployed}">
+            APP部署中...
+          </p>
         </div>
-        <Form style="width: 250px; text-align: left;" :label-width="100" :model="form">
+        <Form style="width: 250px; text-align: left;" :label-width="100" :model="form" :class="{hidden: !form.deployed}">
           <FormItem label="店铺主页" prop="domain">
             https://{{form.domain}}.sourcecode.com
           </FormItem>
@@ -44,7 +47,8 @@
         form: {
           domain: '',
           iosUrl: '',
-          androidUrl: ''
+          androidUrl: '',
+          deployed: false
         }
       }
     },
