@@ -113,8 +113,7 @@
     },
     methods: {
       load() {
-        this.queryInfo.page.num = 1
-        this.changePage()
+        this.changePage(1)
       },
       sortChange({key, order}) {
         if (!order) order = 'ASC'
@@ -177,6 +176,7 @@
         this.goEdit(0)
       },
       goEdit(id) {
+        this.$store.commit('setQueryInfo', this.queryInfo)
         this.$store.commit('closeTag', this.$router.currentRoute)
         this.$router.push({
           name: 'MerchantSubAccountEdit',
@@ -190,6 +190,14 @@
       let res = this.$store.state.app.tagNavList.filter(item => item.name !== 'MerchantSubAccountEdit')
       this.$store.commit('setTagNavList', res)
       this.load()
+    },
+    updated: function() {
+      let queryInfo = this.$store.state.app.queryInfo
+      if (queryInfo) {
+        this.$store.commit('setQueryInfo', null)
+        this.queryInfo = queryInfo
+        this.changePage()
+      }
     }
   }
 </script>
