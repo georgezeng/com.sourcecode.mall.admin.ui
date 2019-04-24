@@ -125,13 +125,8 @@
         this.loading = true
         this.queryInfo.page.num = pageNum ? pageNum : this.queryInfo.page.num
         API.list(this.queryInfo).then(res => {
-          if (res.list) {
-            this.list = res.list
-            this.total = res.total
-          } else {
-            this.list = []
-            this.total = 0
-          }
+          this.list = res.list
+          this.total = res.total
           this.loading = false
         }).catch(ex => {
           this.loading = false
@@ -176,7 +171,7 @@
         this.goEdit(0)
       },
       goEdit(id) {
-        this.$store.commit('setQueryInfo', this.queryInfo)
+        this.$store.commit('setQueryInfo', { queryInfo: this.queryInfo, routeName: this.$router.currentRoute.name })
         this.$store.commit('closeTag', this.$router.currentRoute)
         this.$router.push({
           name: 'MerchantSubAccountEdit',
@@ -192,9 +187,10 @@
       this.load()
     },
     updated: function() {
-      let queryInfo = this.$store.state.app.queryInfo
+      let routeName = this.$router.currentRoute.name
+      let queryInfo = this.$store.state.app.queryInfo[routeName]
       if (queryInfo) {
-        this.$store.commit('setQueryInfo', null)
+        this.$store.commit('setQueryInfo', { queryInfo: null, routeName })
         this.queryInfo = queryInfo
         this.changePage()
       }

@@ -37,14 +37,14 @@
   import AuthAPI from '@/api/authority'
   import UserAPI from '@/api/users'
   import MultiSelectors from '@/components/multi-selectors/multi-selectors'
-  import { Message } from 'iview'
+  import {Message} from 'iview'
 
   export default {
     name: 'RoleEdit',
     components: {
       MultiSelectors
     },
-    data () {
+    data() {
       return {
         loading: false,
         form: {
@@ -67,16 +67,23 @@
         originUserRightList: [],
         rules: {
           code: [
-            { required: true, message: '编码不能为空', trigger: 'blur' }
+            {required: true, message: '编码不能为空', trigger: 'blur'},
+            {min: 5, message: '编码不能少于5位', trigger: 'change'},
+            {max: 50, message: '编码不能多于50位', trigger: 'change'}
           ],
           name: [
-            { required: true, message: '角色名不能为空', trigger: 'blur' }
+            {required: true, message: '角色名不能为空', trigger: 'blur'},
+            {min: 2, message: '角色名不能少于2位', trigger: 'change'},
+            {max: 50, message: '角色名不能多于50位', trigger: 'change'}
+          ],
+          description: [
+            {max: 255, message: '描述不能多于255位', trigger: 'change'}
           ]
         }
       }
     },
     methods: {
-      load () {
+      load() {
         if (this.form.id) {
           this.loading = true
           API.load(this.form.id).then(data => {
@@ -109,7 +116,7 @@
           })
         }
       },
-      loadAuthorities () {
+      loadAuthorities() {
         this.loading = true
         AuthAPI.list({
           data: null,
@@ -167,7 +174,7 @@
           this.loading = false
         })
       },
-      save () {
+      save() {
         this.$refs.form.validate().then(valid => {
           if (valid) {
             this.loading = true
@@ -181,12 +188,12 @@
           }
         })
       },
-      goList () {
+      goList() {
         this.$router.push({
           name: 'RoleList'
         })
       },
-      setAuthLists (leftList, rightList, reload) {
+      setAuthLists(leftList, rightList, reload) {
         this.authLeftList = leftList
         this.authRightList = rightList
         if (reload) {
@@ -214,7 +221,7 @@
           }
         }
       },
-      setUserLists (leftList, rightList, reload) {
+      setUserLists(leftList, rightList, reload) {
         this.userLeftList = leftList
         this.userRightList = rightList
         if (reload) {
@@ -244,10 +251,10 @@
       }
     },
     computed: {
-      action () {
+      action() {
         return this.readOnly ? '编辑' : '新增'
       },
-      readOnly () {
+      readOnly() {
         return this.form.id != null && this.form.id != 0
       }
     },

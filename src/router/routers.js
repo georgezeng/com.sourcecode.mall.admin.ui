@@ -86,7 +86,8 @@ export default [
         'AUTH_MERCHANT_PROFILE_PAGE',
         'AUTH_MERCHANT_VERIFICATION_VERIFY_PAGE',
         'AUTH_MERCHANT_SHOP_APPLICATION_APPLY_PAGE',
-        'AUTH_MERCHANT_SUB_ACCOUNT_LIST_PAGE']
+        'AUTH_MERCHANT_SUB_ACCOUNT_LIST_PAGE'
+      ]
     },
     component: Main,
     children: [
@@ -246,13 +247,57 @@ export default [
   },
 
   {
+    path: '/Goods',
+    name: 'GoodsManage',
+    meta: {
+      icon: 'md-menu',
+      title: '商品管理',
+      notCache: true,
+      access: [
+        'AUTH_GOODS_SPECIFICATION_DEFINITION_LIST_PAGE'
+      ]
+    },
+    component: Main,
+    children: [
+      {
+        path: 'Specification/Definition/List',
+        name: 'GoodsSpecificationDefinitionList',
+        component: () => import('@/view/goods/specification-definition/list.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '规格管理',
+          access: ['AUTH_GOODS_SPECIFICATION_DEFINITION_LIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Specification/Definition/Edit/:id',
+        name: 'GoodsSpecificationDefinitionEdit',
+        component: () => import('@/view/goods/specification-definition/edit.vue'),
+        meta: {
+          hideInMenu: true,
+          icon: 'md-funnel',
+          title: '规格编辑',
+          access: ['AUTH_GOODS_SPECIFICATION_DEFINITION_EDIT_PAGE'],
+          notCache: true
+        }
+      }
+    ]
+  },
+
+  {
     path: '/SystemSetting',
     name: 'SystemSetting',
     meta: {
       icon: 'md-menu',
       title: '系统设置',
       notCache: true,
-      access: ['AUTH_SUPER_ADMIN', 'AUTH_USER_LIST_PAGE', 'AUTH_AUTHORITY_LIST_PAGE', 'AUTH_ROLE_LIST_PAGE']
+      access: [
+        'AUTH_SUPER_ADMIN',
+        'AUTH_USER_LIST_PAGE',
+        'AUTH_AUTHORITY_LIST_PAGE',
+        'AUTH_ROLE_LIST_PAGE'
+      ]
     },
     component: Main,
     children: [
