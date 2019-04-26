@@ -105,7 +105,10 @@
         API.loadCategories().then(data => {
           this.categories = data
           if (this.ids.length > 1) {
-            this.form.parentId = parseInt(this.ids[this.ids.length - 2])
+            let pid = parseInt(this.ids[this.ids.length - 2])
+            if (pid != 0) {
+              this.form.parentId = pid
+            }
           }
           this.loading = false
         }).catch(ex => {
