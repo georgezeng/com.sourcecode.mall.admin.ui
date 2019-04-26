@@ -136,6 +136,9 @@
         this.loading = true
         API.loadGroups().then(data => {
           this.groups = data
+          if (this.ids.length > 1) {
+            this.form.parentId = parseInt(this.ids[this.ids.length - 2])
+          }
           this.loading = false
         }).catch(ex => {
           this.loading = false
