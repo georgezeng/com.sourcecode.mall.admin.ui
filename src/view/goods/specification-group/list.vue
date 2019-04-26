@@ -44,14 +44,13 @@
   </div>
 </template>
 <script>
-  import API from '@/api/goods-specification-definition'
+  import API from '@/api/goods-specification-group'
   import {Message} from 'iview'
 
   export default {
-    name: 'GoodsSpecificationDefinitionList',
+    name: 'GoodsSpecificationGroupList',
     components: {},
     data() {
-      let self = this
       return {
         ids: [],
         queryInfo: {
@@ -79,17 +78,6 @@
           {title: '排序', key: 'order', sortable: true, sortType: 'asc'},
           {title: '名称', key: 'name', sortable: true},
           {
-            title: '值',
-            key: 'values',
-            render: (h, params) => {
-              let values = []
-              for (let i in params.row.attrs) {
-                values.push(params.row.attrs[i].name)
-              }
-              return h('span', null, values.join(', '))
-            }
-          },
-          {
             title: '操作',
             key: 'action',
             render: (h, params) => {
@@ -104,10 +92,25 @@
                   },
                   on: {
                     click: () => {
-                      self.goEdit(params.row.id)
+                      this.goEdit(params.row.id)
                     }
                   }
                 }, '编辑'),
+
+                h('Button', {
+                  props: {
+                    type: 'primary',
+                    size: 'small'
+                  },
+                  style: {
+                    marginRight: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      this.goSubList(params.row.id)
+                    }
+                  }
+                }, '规格列表'),
 
                 h('Poptip', {
                   props: {
@@ -139,6 +142,17 @@
       }
     },
     methods: {
+      goSubList(id) {
+        this.ids.push(id)
+        this.$store.commit('setQueryInfo', {queryInfo: this.queryInfo, routeName: this.$router.currentRoute.name})
+        this.$store.commit('closeTag', this.$router.currentRoute)
+        this.$router.push({
+          name: 'GoodsSpecificationDefinitionList',
+          params: {
+            ids: this.ids.join(',')
+          }
+        })
+      },
       load() {
         this.changePage(1)
       },
@@ -202,7 +216,7 @@
         this.$store.commit('setQueryInfo', {queryInfo: this.queryInfo, routeName: this.$router.currentRoute.name})
         this.$store.commit('closeTag', this.$router.currentRoute)
         this.$router.push({
-          name: 'GoodsSpecificationDefinitionEdit',
+          name: 'GoodsSpecificationGroupEdit',
           params: {
             ids: this.ids.join(',')
           }
@@ -213,7 +227,7 @@
         this.$store.commit('setQueryInfo', {queryInfo: null, routeName: this.$router.currentRoute.name})
         this.$store.commit('closeTag', this.$router.currentRoute)
         this.$router.push({
-          name: 'GoodsSpecificationGroupList',
+          name: 'GoodsCategoryList',
           params: {
             ids: this.ids.join(',')
           }
@@ -224,12 +238,13 @@
       let res = this.$store.state.app.tagNavList.filter(item =>
         item.name !== 'GoodsCategoryEdit'
         && item.name !== 'GoodsCategoryList'
+        && item.name !== 'GoodsSpecificationDefinitionList'
         && item.name !== 'GoodsSpecificationDefinitionEdit'
-        && item.name !== 'GoodsSpecificationGroupList'
         && item.name !== 'GoodsSpecificationGroupEdit'
       )
       this.$store.commit('setTagNavList', res)
       this.ids = (this.$router.currentRoute.params.ids + '').split(',')
+      console.log(this.ids[0])
       this.queryInfo.data.parent.id = this.ids[this.ids.length - 1]
       this.load()
     },

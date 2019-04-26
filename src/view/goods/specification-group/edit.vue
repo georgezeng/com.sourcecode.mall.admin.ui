@@ -2,7 +2,7 @@
   <div>
     <Card>
       <p slot="title">
-        {{ action }}商品规格
+        {{ action }}商品类型
       </p>
       <div slot="extra">
         <Button @click="save" type="primary" class="margin-right" :loading="loading">保存</Button>
@@ -12,19 +12,16 @@
         <FormItem label="排序" prop="order">
           <InputNumber :min="1" v-model="form.order"></InputNumber>
         </FormItem>
-        <FormItem label="商品类型" prop="parent">
+        <FormItem label="商品分类" prop="parent">
           <Select v-model="form.parentId" style="width:200px">
-            <Option v-for="group in groups" :value="group.id" :key="group.id">{{ group.name }}</Option>
+            <Option v-for="category in categories" :value="category.id" :key="category.id">{{ category.name }}</Option>
           </Select>
         </FormItem>
         <FormItem label="名称" prop="name">
           <Input v-model="form.name"></Input>
         </FormItem>
-        <FormItem label="值" prop="values">
-          <ValueLine v-for="(value, index) in form.attrs" :index="index" :name="value.name"
-                     @change="changeValueName"
-                     @add="addValue"
-                     @remove="removeValue"/>
+        <FormItem label="规格列表" prop="definitions" :class="{hidden: !this.form.id}">
+          <Button type="primary" @click="goSubList">查看规格</Button>
         </FormItem>
       </Form>
     </Card>
@@ -32,15 +29,12 @@
 </template>
 
 <script>
-  import API from '@/api/goods-specification-definition'
+  import API from '@/api/goods-specification-group'
   import {Message} from 'iview'
-  import ValueLine from './value-line'
 
   export default {
-    name: 'GoodsSpecificationDefinitionEdit',
-    components: {
-      ValueLine
-    },
+    name: 'GoodsSpecificationGroupEdit',
+    components: {},
     data() {
       const orderCheck = (rule, value, callback) => {
         if (!this.form.order) {
@@ -49,20 +43,6 @@
           callback(new Error('排序必须大于0'));
         } else {
           callback()
-        }
-      }
-      const valuesCheck = (rule, value, callback) => {
-        let values = []
-        for (let i in this.form.attrs) {
-          let value = this.form.attrs[i]
-          if (value.name != '') {
-            values.push(value)
-          }
-        }
-        if (values.length == 0) {
-          callback(new Error('至少需要编辑一个值属性'));
-        } else {
-          callback();
         }
       }
       const parentCheck = (rule, value, callback) => {
@@ -75,14 +55,13 @@
       return {
         ids: [],
         loading: false,
-        groups: [],
+        categories: [],
         form: {
           id: null,
           parentId: null,
           parent: null,
           order: null,
           name: '',
-          attrs: [],
         },
         rules: {
           order: [
@@ -95,27 +74,18 @@
             {required: true, message: '名称不能为空', trigger: 'change'},
             {min: 1, message: '名称不能少于1位', trigger: 'change'},
             {max: 50, message: '名称不能多于50位', trigger: 'change'}
-          ],
-          values: [
-            {required: true, validator: valuesCheck, trigger: 'change'},
           ]
         }
       }
     },
     methods: {
-      changeValueName(index, name) {
-        this.form.attrs[index].name = name
-      },
-      removeValue(index) {
-        this.form.attrs.splice(index, 1)
-        if (this.form.attrs.length == 0) {
-          this.addValue()
-        }
-      },
-      addValue(index) {
-        this.form.attrs.splice(index + 1, 0, {
-          id: null,
-          name: ''
+      goSubList() {
+        this.$store.commit('closeTag', this.$router.currentRoute)
+        this.$router.push({
+          name: 'GoodsSpecificationDefinitionList',
+          params: {
+            ids: this.ids
+          }
         })
       },
       load() {
@@ -128,14 +98,15 @@
           }).catch(ex => {
             this.loading = false
           })
-        } else {
-          this.addValue()
         }
       },
-      loadGroups() {
+      loadCategories() {
         this.loading = true
-        API.loadGroups().then(data => {
-          this.groups = data
+        API.loadCategories().then(data => {
+          this.categories = data
+          if (this.ids.length > 1) {
+            this.form.parentId = parseInt(this.ids[this.ids.length - 2])
+          }
           this.loading = false
         }).catch(ex => {
           this.loading = false
@@ -169,7 +140,7 @@
       goList() {
         this.ids.splice(this.ids.length - 1, 1)
         this.$router.push({
-          name: 'GoodsSpecificationDefinitionList',
+          name: 'GoodsSpecificationGroupList',
           params: {
             ids: this.ids.join(',')
           }
@@ -186,11 +157,11 @@
     },
     mounted: function () {
       this.ids = (this.$router.currentRoute.params.ids + '').split(',')
-      this.form.id = this.ids[this.ids.length-1]
+      this.form.id = this.ids[this.ids.length - 1]
       let isEdit = this.form.id != 0
       this.form.id = isEdit ? this.form.id : null;
       this.load()
-      this.loadGroups()
+      this.loadCategories()
     }
   }
 </script>

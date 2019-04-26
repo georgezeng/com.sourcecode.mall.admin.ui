@@ -14,7 +14,7 @@
         <div style="margin-bottom: 20px;">
           恭喜你，你的店铺审核通过
           <p :class="{hidden: form.deployed}">
-            APP部署中...
+            应用部署中...
           </p>
         </div>
         <Form style="width: 250px; text-align: left;" :label-width="100" :model="form" :class="{hidden: !form.deployed}">

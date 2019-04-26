@@ -254,34 +254,106 @@ export default [
       title: '商品管理',
       notCache: true,
       access: [
-        'AUTH_GOODS_SPECIFICATION_DEFINITION_LIST_PAGE'
+        'AUTH_GOODS_CATEGORY_LIST_PAGE',
+        'AUTH_GOODS_SPECIFICATION_GROUP_INDEX_PAGE',
+        'AUTH_GOODS_SPECIFICATION_DEFINITION_INDEX_PAGE'
       ]
     },
     component: Main,
     children: [
       {
-        path: 'Specification/Definition/List',
+        path: 'Category/List/',
+        name: 'GoodsCategoryList',
+        component: () => import('@/view/goods/category/list.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '商品分类',
+          access: ['AUTH_GOODS_CATEGORY_LIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Category/Edit/:id',
+        name: 'GoodsCategoryEdit',
+        component: () => import('@/view/goods/category/edit.vue'),
+        meta: {
+          hideInMenu: true,
+          icon: 'md-funnel',
+          title: '商品分类编辑',
+          access: ['AUTH_GOODS_CATEGORY_EDIT_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Specification/Group/Index',
+        name: 'GoodsSpecificationGroupIndex',
+        component: () => import('@/view/goods/specification-group/index.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '商品类型',
+          access: ['AUTH_GOODS_SPECIFICATION_GROUP_INDEX_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Specification/Group/List/:ids',
+        name: 'GoodsSpecificationGroupList',
+        component: () => import('@/view/goods/specification-group/list.vue'),
+        meta: {
+          hideInMenu: true,
+          icon: 'md-funnel',
+          title: '商品类型',
+          access: ['AUTH_GOODS_SPECIFICATION_GROUP_LIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Specification/Group/Edit/:ids',
+        name: 'GoodsSpecificationGroupEdit',
+        component: () => import('@/view/goods/specification-group/edit.vue'),
+        meta: {
+          hideInMenu: true,
+          icon: 'md-funnel',
+          title: '商品类型编辑',
+          access: ['AUTH_GOODS_SPECIFICATION_GROUP_EDIT_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Specification/Definition/Index',
+        name: 'GoodsSpecificationDefinitionIndex',
+        component: () => import('@/view/goods/specification-definition/index.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '商品规格',
+          access: ['AUTH_GOODS_SPECIFICATION_DEFINITION_INDEX_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Specification/Definition/List/:ids',
         name: 'GoodsSpecificationDefinitionList',
         component: () => import('@/view/goods/specification-definition/list.vue'),
         meta: {
+          hideInMenu: true,
           icon: 'md-funnel',
-          title: '规格管理',
+          title: '商品规格',
           access: ['AUTH_GOODS_SPECIFICATION_DEFINITION_LIST_PAGE'],
           notCache: true
         }
       },
       {
-        path: 'Specification/Definition/Edit/:id',
+        path: 'Specification/Definition/Edit/:ids',
         name: 'GoodsSpecificationDefinitionEdit',
         component: () => import('@/view/goods/specification-definition/edit.vue'),
         meta: {
           hideInMenu: true,
           icon: 'md-funnel',
-          title: '规格编辑',
+          title: '商品规格编辑',
           access: ['AUTH_GOODS_SPECIFICATION_DEFINITION_EDIT_PAGE'],
           notCache: true
         }
-      }
+      },
     ]
   },
 
