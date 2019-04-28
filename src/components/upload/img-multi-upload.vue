@@ -17,7 +17,7 @@
             :on-progress="showUploadProgress"
             :on-error="showUploadError"
             :on-success="showUploadSuccess">
-      <Button icon="ios-cloud-upload-outline">{{btnText}}</Button>
+      <Button :loading="loading" icon="ios-cloud-upload-outline">{{btnText}}</Button>
     </Upload>
     <Button class="removeBtn" type="error" @click="remove" icon="md-trash"
             :style="{display: !removeable ? 'none': 'inherit'}"></Button>

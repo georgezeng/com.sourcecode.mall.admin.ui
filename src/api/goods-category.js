@@ -7,6 +7,9 @@ export default {
   load: (id) => {
     return axios.get('/goods/category/load/params/' + id)
   },
+  loadAllParents: () => {
+    return axios.get('/goods/category/load/allParents')
+  },
   save: (obj) => {
     return axios.post('/goods/category/save', obj)
   },

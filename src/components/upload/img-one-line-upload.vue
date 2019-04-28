@@ -6,7 +6,7 @@
             :on-progress="showUploadProgress"
             :on-error="showUploadError"
             :on-success="showUploadSuccess">
-      <Button icon="ios-cloud-upload-outline">{{btnText}}</Button>
+      <Button :loading="loading" icon="ios-cloud-upload-outline">{{btnText}}</Button>
     </Upload>
     <img class="float-left margin-right-10" :src="previewUrl" :width="previewWidth" :height="previewHeight"/>
     <Alert class="float-left" :class="{hidden: !errorText}" type="error">{{errorText}}</Alert>

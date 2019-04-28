@@ -365,10 +365,10 @@
         return config.baseUrl + '/merchant/shop/application/upload/params/ios/false?extendDir=/smallIcon'
       },
       uploadInstructionUrl() {
-        return config.baseUrl + '/merchant/shop/application/upload/params/instruction/false'
+        return config.baseUrl + '/merchant/shop/application/upload/params/instruction'
       },
       uploadLoginBgUrl() {
-        return config.baseUrl + '/merchant/shop/application/upload/params/loginBg/false'
+        return config.baseUrl + '/merchant/shop/application/upload/params/loginBg'
       },
     },
     mounted() {

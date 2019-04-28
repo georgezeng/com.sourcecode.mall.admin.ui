@@ -15,7 +15,7 @@
             :on-error="showUploadError"
             :on-exceeded-size="showExceededError" :on-format-error="showFormatError"
             :on-success="showUploadSuccess">
-      <Button icon="ios-cloud-upload-outline">{{btnText}}</Button>
+      <Button :loading="loading" icon="ios-cloud-upload-outline">{{btnText}}</Button>
     </Upload>
     <Alert class="uploadAlert" :class="{hidden: !errorText}" type="error">
       {{errorText}}

@@ -28,13 +28,6 @@
              @on-select-all="enableDeleteBtn"
              @on-select="enableDeleteBtn" @on-sort-change="sortChange"
              @on-select-all-cancel="disableDeleteBtn" @on-select-cancel="disableDeleteBtn"/>
-      <Page :total="total"
-            :page-size="queryInfo.page.size"
-            :current="queryInfo.page.num"
-            @on-change="changePage"
-            @on-page-size-change="changePageSize"
-            show-elevator show-sizer class="float-right"/>
-      <div class="clearfix"></div>
     </Card>
   </div>
 </template>
@@ -53,88 +46,185 @@
           },
           page: {
             num: 1,
-            size: 10,
+            size: 99999999,
             property: 'order',
             order: 'ASC'
           }
         },
-        total: 0,
         list: [],
+        originalList: [],
         selection: [],
         loading: false,
         bulkDeleteModal: false,
         deleteBtnDisabled: true,
         columns: [
           {type: 'selection', width: 60, align: 'center'},
-          {title: '排序', key: 'order', sortable: true, sortType: 'asc'},
-          {title: '名称', key: 'name', sortable: true},
           {
-            title: '操作',
-            key: 'action',
+            title: '名称',
+            key: 'name',
             render: (h, params) => {
               return h('div', [
                 h('Button', {
                   props: {
                     type: 'primary',
-                    size: 'small'
+                    size: 'small',
+                    icon: params.row.collapsed ? 'md-add' : 'md-remove'
                   },
                   style: {
+                    visibility: params.row.level == 3 ? 'hidden' : '',
+                    marginLeft: ((params.row.level - 1) * 20) + 'px',
                     marginRight: '5px'
                   },
                   on: {
                     click: () => {
-                      this.goEdit(params.row.id)
+                      this.collapse(params.row)
                     }
                   }
-                }, '编辑'),
+                }),
 
-                h('Button', {
-                  props: {
-                    type: 'primary',
-                    size: 'small'
-                  },
-                  style: {
-                    marginRight: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      this.goSubList(params.row.id)
-                    }
-                  }
-                }, '类型列表'),
+                h('span', null, params.row.name),
 
-                h('Poptip', {
-                  props: {
-                    confirm: true,
-                    title: '你确定要删除吗?'
-                  },
-                  on: {
-                    'on-ok': () => {
-                      this.deleteData([params.row])
-                    }
-                  }
-                }, [
+              ])
+            }
+          },
+          {title: '排序', key: 'order'},
+          {
+            title: '操作',
+            key: 'action',
+            render: (h, params) => {
+              if (params.row.level == 3) {
+                return h('div', [
                   h('Button', {
                     props: {
-                      type: 'error',
+                      type: 'primary',
                       size: 'small'
+                    },
+                    style: {
+                      marginRight: '5px'
+                    },
+                    on: {
+                      click: () => {
+                        this.goEdit(params.row.id)
+                      }
                     }
-                  }, '删除')
+                  }, '编辑'),
+
+                  h('Button', {
+                    props: {
+                      type: 'primary',
+                      size: 'small'
+                    },
+                    style: {
+                      marginRight: '5px'
+                    },
+                    on: {
+                      click: () => {
+                        this.goSubList(params.row.id)
+                      }
+                    }
+                  }, '类型列表'),
+
+                  h('Poptip', {
+                    props: {
+                      confirm: true,
+                      title: '你确定要删除吗?'
+                    },
+                    on: {
+                      'on-ok': () => {
+                        this.deleteData([params.row])
+                      }
+                    }
+                  }, [
+                    h('Button', {
+                      props: {
+                        type: 'error',
+                        size: 'small'
+                      }
+                    }, '删除')
+                  ])
                 ])
-              ])
+              } else {
+                return h('div', [
+                  h('Button', {
+                    props: {
+                      type: 'primary',
+                      size: 'small'
+                    },
+                    style: {
+                      marginRight: '5px'
+                    },
+                    on: {
+                      click: () => {
+                        this.goEdit(params.row.id)
+                      }
+                    }
+                  }, '编辑'),
+
+                  h('Poptip', {
+                    props: {
+                      confirm: true,
+                      title: '你确定要删除吗?'
+                    },
+                    on: {
+                      'on-ok': () => {
+                        this.deleteData([params.row])
+                      }
+                    }
+                  }, [
+                    h('Button', {
+                      props: {
+                        type: 'error',
+                        size: 'small'
+                      }
+                    }, '删除')
+                  ])
+                ])
+              }
             }
           }
         ]
       }
     },
-    computed: {
-      hideBackBtn() {
-        return this.ids.length == 1 && this.ids[0] == 0
-      }
-    },
     methods: {
+      collapse(item) {
+        let list = this.originalList
+        let parent = null
+        for (let i in list) {
+          let current = list[i]
+          if (current.id == item.id) {
+            current.collapsed = !current.collapsed
+            if (current.collapsed) {
+              parent = current
+            }
+            break
+          }
+        }
+        if (parent) {
+          this.list = []
+          for (let i in list) {
+            let current = list[i]
+            if (!isSub(current, parent.attrs)) {
+              this.list.push(current)
+            }
+          }
+        } else {
+          this.list = this.originalList
+        }
+
+        function isSub(current, list) {
+          if (list && list.length > 0) {
+            for (let i in list) {
+              let item = list[i]
+              if (item.id == current.id || isSub(current, item.attrs)) {
+                return true
+              }
+            }
+          }
+          return false
+        }
+      },
       goSubList(id) {
-        this.$store.commit('setQueryInfo', { queryInfo: this.queryInfo, routeName: this.$router.currentRoute.name })
+        this.$store.commit('setQueryInfo', {queryInfo: this.queryInfo, routeName: this.$router.currentRoute.name})
         this.$store.commit('closeTag', this.$router.currentRoute)
         this.$router.push({
           name: 'GoodsSpecificationGroupList',
@@ -156,8 +246,8 @@
         this.loading = true
         this.queryInfo.page.num = pageNum ? pageNum : this.queryInfo.page.num
         API.list(this.queryInfo).then(res => {
-          this.list = res.list
-          this.total = res.total
+          this.list = res
+          this.originalList = res
           this.loading = false
         }).catch(ex => {
           this.loading = false
@@ -202,7 +292,7 @@
         this.goEdit(0)
       },
       goEdit(id) {
-        this.$store.commit('setQueryInfo', { queryInfo: this.queryInfo, routeName: this.$router.currentRoute.name })
+        this.$store.commit('setQueryInfo', {queryInfo: this.queryInfo, routeName: this.$router.currentRoute.name})
         this.$store.commit('closeTag', this.$router.currentRoute)
         this.$router.push({
           name: 'GoodsCategoryEdit',
@@ -223,11 +313,11 @@
       this.$store.commit('setTagNavList', res)
       this.load()
     },
-    updated: function() {
+    updated: function () {
       let routeName = this.$router.currentRoute.name
       let queryInfo = this.$store.state.app.queryInfo[routeName]
       if (queryInfo) {
-        this.$store.commit('setQueryInfo', { queryInfo: null, routeName })
+        this.$store.commit('setQueryInfo', {queryInfo: null, routeName})
         this.queryInfo = queryInfo
         this.changePage()
       }
