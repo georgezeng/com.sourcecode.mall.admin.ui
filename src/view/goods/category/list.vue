@@ -1,62 +1,44 @@
 <template>
-  <div>
-    <Modal v-model="bulkDeleteModal" width="360">
-      <p slot="header" style="color:#f60;text-align:center">
-        <Icon type="ios-information-circle"></Icon>
-        <span>操作提示</span>
-      </p>
-      <div>
-        <p>确定要删除选中的记录吗?</p>
-        <ul style="list-style: none;">
-          <li v-for="item in selection">
-            {{ item.name }}
-          </li>
-        </ul>
-      </div>
-      <div slot="footer">
-        <Button type="error" size="large" long :loading="loading" @click="bulkDelete">删除</Button>
-      </div>
-    </Modal>
-
-    <Card>
-      <Input v-model="queryInfo.data.searchText" search enter-button @on-search="load"
-             style="float: left; width: 200px; margin-bottom: 5px;"/>
-      <Button @click="bulkDeleteModal=true" :disabled="deleteBtnDisabled" class="float-right" type="error">批量删除</Button>
-      <Button @click="goAdd" class="float-right margin-right" type="primary">新增</Button>
-      <div class="clearfix"></div>
-      <Table class="margin-top-bottom" :loading="loading" :data="list" :columns="columns"
-             @on-select-all="enableDeleteBtn"
-             @on-select="enableDeleteBtn" @on-sort-change="sortChange"
-             @on-select-all-cancel="disableDeleteBtn" @on-select-cancel="disableDeleteBtn"/>
-    </Card>
-  </div>
+  <CommonTable
+    :columns="columns"
+    :loading="loading"
+    initSortProperty="name"
+    deleteItemName="name"
+    editPageName="GoodsCategoryEdit"
+    :filteredPageNames="[
+      'GoodsCategoryEdit',
+      'GoodsSpecificationDefinitionList',
+      'GoodsSpecificationDefinitionEdit',
+      'GoodsSpecificationGroupList',
+      'GoodsSpecificationGroupEdit',
+    ]"
+    :listHandler="listHandler"
+    :deleteHandler="deleteHandler"
+    subPageName="GoodsSpecificationGroupList"
+    @setLoading="setLoading"
+    @setGoEdit="setGoEdit"
+    @setDeleteData="setDeleteData"
+    @setGoSubList="setGoSubList"
+    @setPageResult="setPageResult"
+    @setPageList="setPageList"
+  >
+  </CommonTable>
 </template>
 <script>
   import API from '@/api/goods-category'
   import {Message} from 'iview'
+  import CommonTable from '@/components/tables/common-table'
 
   export default {
     name: 'GoodsCategoryList',
-    components: {},
+    components: {
+      CommonTable
+    },
     data() {
       return {
-        queryInfo: {
-          data: {
-            searchText: ''
-          },
-          page: {
-            num: 1,
-            size: 99999999,
-            property: 'order',
-            order: 'ASC'
-          }
-        },
         list: [],
         originalList: [],
-        selection: [],
         loading: false,
-        bulkDeleteModal: false,
-        deleteBtnDisabled: true,
         columns: [
           {type: 'selection', width: 60, align: 'center'},
           {
@@ -186,6 +168,9 @@
       }
     },
     methods: {
+      setPageResult(list) {
+        this.originalList = list
+      },
       collapse(item) {
         let list = this.originalList
         let parent = null
@@ -200,16 +185,18 @@
           }
         }
         if (parent) {
-          this.list = []
-          for (let i in list) {
-            let current = list[i]
+          let oldList = list
+          list = []
+          for (let i in oldList) {
+            let current = oldList[i]
             if (!isSub(current, parent.attrs)) {
-              this.list.push(current)
+              list.push(current)
             }
           }
         } else {
-          this.list = this.originalList
+          list = this.originalList
         }
+        this.setPageList(list)
 
         function isSub(current, list) {
           if (list && list.length > 0) {
@@ -223,104 +210,23 @@
           return false
         }
       },
-      goSubList(id) {
-        this.$store.commit('setQueryInfo', {queryInfo: this.queryInfo, routeName: this.$router.currentRoute.name})
-        this.$store.commit('closeTag', this.$router.currentRoute)
-        this.$router.push({
-          name: 'GoodsSpecificationGroupList',
-          params: {
-            ids: id
-          }
-        })
+      listHandler: API.list,
+      deleteHandler: API.delete,
+      setLoading(loading) {
+        this.loading = loading
       },
-      load() {
-        this.changePage(1)
+      setDeleteData(callback) {
+        this.deleteData = callback
       },
-      sortChange({key, order}) {
-        if (!order) order = 'ASC'
-        this.queryInfo.page.property = key
-        this.queryInfo.page.order = order.toUpperCase()
-        this.load()
+      setGoEdit(callback) {
+        this.goEdit = callback
       },
-      changePage(pageNum) {
-        this.loading = true
-        this.queryInfo.page.num = pageNum ? pageNum : this.queryInfo.page.num
-        API.list(this.queryInfo).then(res => {
-          this.list = res
-          this.originalList = res
-          this.loading = false
-        }).catch(ex => {
-          this.loading = false
-        })
+      setGoSubList(callback) {
+        this.goSubList = callback
       },
-      changePageSize(pageSize) {
-        this.queryInfo.page.size = pageSize ? pageSize : this.queryInfo.page.size
-        this.changePage(1)
+      setPageList(callback) {
+        this.setPageList = callback
       },
-      bulkDelete() {
-        this.deleteData(this.selection)
-      },
-      deleteData(selection) {
-        this.loading = true
-        let ids = []
-        selection.forEach(item => {
-          ids.push(item.id)
-        })
-        API.delete(ids).then(res => {
-          this.bulkDeleteModal = false
-          Message.success('删除成功')
-          this.load()
-        }).catch(ex => {
-          this.bulkDeleteModal = false
-          this.loading = false
-        })
-      },
-      enableDeleteBtn(selection) {
-        this.deleteBtnDisabled = false
-        this.recollectIds(selection)
-      },
-      disableDeleteBtn(selection) {
-        this.deleteBtnDisabled = selection.length == 0
-        this.recollectIds(selection)
-      },
-      recollectIds(selection) {
-        if (selection) {
-          this.selection = selection
-        }
-      },
-      goAdd() {
-        this.goEdit(0)
-      },
-      goEdit(id) {
-        this.$store.commit('setQueryInfo', {queryInfo: this.queryInfo, routeName: this.$router.currentRoute.name})
-        this.$store.commit('closeTag', this.$router.currentRoute)
-        this.$router.push({
-          name: 'GoodsCategoryEdit',
-          params: {
-            id
-          }
-        })
-      }
     },
-    mounted: function () {
-      let res = this.$store.state.app.tagNavList.filter(item =>
-        item.name !== 'GoodsCategoryEdit'
-        && item.name !== 'GoodsSpecificationDefinitionList'
-        && item.name !== 'GoodsSpecificationDefinitionEdit'
-        && item.name !== 'GoodsSpecificationGroupList'
-        && item.name !== 'GoodsSpecificationGroupEdit'
-      )
-      this.$store.commit('setTagNavList', res)
-      this.load()
-    },
-    updated: function () {
-      let routeName = this.$router.currentRoute.name
-      let queryInfo = this.$store.state.app.queryInfo[routeName]
-      if (queryInfo) {
-        this.$store.commit('setQueryInfo', {queryInfo: null, routeName})
-        this.queryInfo = queryInfo
-        this.changePage()
-      }
-    }
   }
 </script>

@@ -2,7 +2,7 @@
   <div>
     <Card>
       <p slot="title">
-        {{ action }}商品分类
+        {{ action }}商品品牌
       </p>
       <div slot="extra">
         <Button @click="save" type="primary" class="margin-right" :loading="loading">保存</Button>
@@ -15,7 +15,7 @@
         <FormItem label="名称" prop="name">
           <Input v-model="form.name"></Input>
         </FormItem>
-        <FormItem label="规格列表" prop="logo">
+        <FormItem label="logo" prop="logo">
           <Upload
             :uploadUrl="uploadUrl"
             :previewUri="form.logo"
@@ -58,6 +58,7 @@
           id: null,
           order: null,
           name: '',
+          logo: null
         },
         rules: {
           order: [

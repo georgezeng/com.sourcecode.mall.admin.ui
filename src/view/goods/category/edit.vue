@@ -15,10 +15,10 @@
         <FormItem label="名称" prop="name">
           <Input v-model="form.name"></Input>
         </FormItem>
-        <FormItem label="上级分类" prop="parentId" :class="{hidden: this.form.id}">
-          <ParentList :parents="parents" @change="setParent" />
+        <FormItem label="上级分类" prop="parentId" v-if="!this.form.id">
+          <ParentList :parents="parents" :noneValue="true" @change="setParent"/>
         </FormItem>
-        <FormItem label="规格列表" prop="groups" :class="{hidden: !(this.form.id && this.form.level == 3)}">
+        <FormItem label="规格列表" prop="groups" v-if="this.form.id && this.form.level == 3">
           <Button type="primary" @click="goSubList">查看类型</Button>
         </FormItem>
       </Form>
@@ -28,7 +28,7 @@
 
 <script>
   import API from '@/api/goods-category'
-  import ParentList from './parents'
+  import ParentList from '../components/parents-category'
   import {Message} from 'iview'
 
   export default {
@@ -89,7 +89,7 @@
         this.loading = true
         API.loadAllParents().then(data => {
           this.parents = []
-          for(let i in data) {
+          for (let i in data) {
             let item = data[i]
             item.value = item.id + ',' + item.level
             this.parents.push(item)

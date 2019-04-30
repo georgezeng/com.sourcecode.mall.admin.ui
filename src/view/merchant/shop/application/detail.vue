@@ -19,15 +19,15 @@
           <Checkbox v-model="form.androidType" disabled>Android版</Checkbox>
           <Checkbox v-model="form.iosType" disabled>IOS版</Checkbox>
         </FormItem>
-        <FormItem :class="{hidden: !(form.androidType || form.iosType)}" prop="types" label="店铺图标">
+        <FormItem v-if="form.androidType || form.iosType" prop="types" label="店铺图标">
           <img :src="androidSmallIconUrl" width="180" height="180" class="float-left"
-               style="margin-right: 20px;" :class="{hidden: !form.androidType}"/>
+               style="margin-right: 20px;" v-if="form.androidType"/>
           <img :src="androidBigIconUrl" width="180" height="180" class="float-left" style="margin-right: 20px;"
-               :class="{hidden: !form.androidType}"/>
+               v-if="form.androidType"/>
           <img :src="iosSmallIconUrl" width="180" height="180" class="float-left" style="margin-right: 20px;"
-               :class="{hidden: !form.iosType}"/>
+               v-if="form.iosType"/>
           <img :src="iosBigIconUrl" width="180" height="180" class="float-left" style="margin-right: 20px;"
-               :class="{hidden: !form.iosType}"/>
+               v-if="form.iosType"/>
           <div class="clearfix"></div>
         </FormItem>
         <FormItem label="App引导页" prop="instructions">

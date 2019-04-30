@@ -16,5 +16,8 @@ export default {
   },
   authorities: (queryInfo) => {
     return axios.post('/merchant/subAccount/authorities', queryInfo)
+  },
+  updateStatus: (ids, status) => {
+    return axios.post('/merchant/subAccount/updateStatus/params/' + status, {ids})
   }
 }

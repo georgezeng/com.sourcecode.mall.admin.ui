@@ -258,10 +258,34 @@ export default [
         'AUTH_GOODS_SPECIFICATION_GROUP_INDEX_PAGE',
         'AUTH_GOODS_SPECIFICATION_DEFINITION_INDEX_PAGE',
         'AUTH_GOODS_BRAND_LIST_PAGE',
+        'AUTH_GOODS_ITEM_LIST_PAGE'
       ]
     },
     component: Main,
     children: [
+      {
+        path: 'Item/List/',
+        name: 'GoodsItemList',
+        component: () => import('@/view/goods/item/list.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '商品列表',
+          access: ['AUTH_GOODS_ITEM_LIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Item/Edit/:id',
+        name: 'GoodsItemEdit',
+        component: () => import('@/view/goods/item/edit.vue'),
+        meta: {
+          hideInMenu: true,
+          icon: 'md-funnel',
+          title: '商品编辑',
+          access: ['AUTH_GOODS_ITEM_EDIT_PAGE'],
+          notCache: true
+        }
+      },
       {
         path: 'Brand/List/',
         name: 'GoodsBrandList',

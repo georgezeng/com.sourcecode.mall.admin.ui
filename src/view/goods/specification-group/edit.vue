@@ -20,7 +20,7 @@
         <FormItem label="名称" prop="name">
           <Input v-model="form.name"></Input>
         </FormItem>
-        <FormItem label="规格列表" prop="definitions" :class="{hidden: !this.form.id}">
+        <FormItem label="规格列表" prop="definitions" v-if="this.form.id">
           <Button type="primary" @click="goSubList">查看规格</Button>
         </FormItem>
       </Form>

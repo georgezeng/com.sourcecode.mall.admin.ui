@@ -1,11 +1,18 @@
 <template>
   <CommonTable
+    enableStatusText="上架"
+    disableStatusText="下架"
+    :statusList="statusList"
+    statusItemName="name"
+    :updateStatusHandler="updateStatusHandler"
+    @setTriggerStatus="setTriggerStatus"
+    :useStatus="true"
     :columns="columns"
     :loading="loading"
     initSortProperty="name"
     deleteItemName="name"
-    editPageName="GoodsBrandEdit"
-    :filteredPageNames="['GoodsBrandEdit']"
+    editPageName="GoodsItemEdit"
+    :filteredPageNames="['GoodsItemEdit']"
     :listHandler="listHandler"
     :deleteHandler="deleteHandler"
     @setLoading="setLoading"
@@ -15,36 +22,57 @@
   </CommonTable>
 </template>
 <script>
-  import API from '@/api/goods-brand'
+  import API from '@/api/goods-item'
   import config from '@/config/index'
   import {Message} from 'iview'
   import CommonTable from '@/components/tables/common-table'
 
   export default {
-    name: 'GoodsBrandList',
+    name: 'GoodsItemList',
     components: {
       CommonTable
     },
     data() {
       return {
+        statusList: [
+          {
+            value: 'true',
+            label: '上架中'
+          },
+          {
+            value: 'false',
+            label: '已下架'
+          },
+          {
+            value: 'all',
+            label: '全部'
+          }
+        ],
         loading: false,
         columns: [
           {type: 'selection', width: 60, align: 'center'},
-          {title: '排序', key: 'order', sortable: true, sortType: 'asc'},
-          {title: '名称', key: 'name', sortable: true},
+          {title: '名称', key: 'name', sortable: true, sortType: 'asc'},
+          {title: '货号', key: 'code', sortable: true},
+          {title: '市场价格', key: 'marketPrice', sortable: true},
           {
-            title: 'logo',
-            key: 'logo',
+            title: '缩略图',
+            key: 'thumbnail',
             render: (h, params) => {
               return h('img', {
                 attrs: {
-                  src: config.baseUrl + '/goods/brand/logo/load?filePath=' + params.row.logo,
+                  src: config.publicBucketDomain + params.row.thumbnail,
                 },
                 style: {
                   width: '40px',
                   height: '40px'
                 }
               })
+            }
+          },
+          {
+            title: '状态',
+            render: (h, params) => {
+              return h('span', params.row.enabled ? '上架中' : '已下架')
             }
           },
           {
@@ -66,6 +94,28 @@
                     }
                   }
                 }, '编辑'),
+
+                h('Poptip', {
+                  props: {
+                    confirm: true,
+                    title: '你确定要' + (params.row.enabled ? '下架' : '上架') + '吗?'
+                  },
+                  on: {
+                    'on-ok': () => {
+                      this.triggerStatus(params.row)
+                    }
+                  },
+                  style: {
+                    marginRight: '5px'
+                  }
+                }, [
+                  h('Button', {
+                    props: {
+                      type: params.row.enabled ? 'warning' : 'success',
+                      size: 'small'
+                    }
+                  }, params.row.enabled ? '下架' : '上架')
+                ]),
 
                 h('Poptip', {
                   props: {
@@ -94,15 +144,19 @@
     methods: {
       listHandler: API.list,
       deleteHandler: API.delete,
+      updateStatusHandler: API.updateStatus,
       setLoading(loading) {
         this.loading = loading
       },
       setDeleteData(callback) {
         this.deleteData = callback
       },
+      setTriggerStatus(callback) {
+        this.triggerStatus = callback
+      },
       setGoEdit(callback) {
         this.goEdit = callback
-      },
+      }
     },
   }
 </script>

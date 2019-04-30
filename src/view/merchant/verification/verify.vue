@@ -19,13 +19,13 @@
       </p>
       <p slot="title" style="font-weight: normal">
         为了让您获得更精准的服务和商业机会，我们建议您立即完善以下信息
-        <div class="unpass" :class="{hidden: this.form.status !== 'UnPassed'}"></div>
+        <div class="unpass" v-if="this.form.status === 'UnPassed'"></div>
       </p>
       <div slot="extra">
         <Button @click="verify" type="primary" class="margin-right" :loading="loading">提交认证</Button>
       </div>
       <Form ref="form" :model="form" :rules="rules" :label-width="80">
-        <FormItem label="认证失败" :class="{hidden: !form.reason}" prop="reason">
+        <FormItem label="认证失败" v-if="form.reason" prop="reason">
           <Alert type="error">{{form.reason}}</Alert>
         </FormItem>
         <FormItem label="商家名称" prop="name">

@@ -8,7 +8,10 @@ export default {
     return axios.get('/goods/category/load/params/' + id)
   },
   loadAllParents: () => {
-    return axios.get('/goods/category/load/allParents')
+    return axios.get('/goods/category/list/allParents')
+  },
+  loadAllCategories: () => {
+    return axios.get('/goods/category/list/all')
   },
   save: (obj) => {
     return axios.post('/goods/category/save', obj)

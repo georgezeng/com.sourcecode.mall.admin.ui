@@ -14,7 +14,7 @@
     <FormItem label="确认密码" prop="confirmPassword">
       <Input type="password" @on-change="setForm" v-model="form.confirmPassword"></Input>
     </FormItem>
-    <FormItem :class="{hidden: hideBtns}">
+    <FormItem v-if="!hideBtns">
       <Button @click="save" type="primary" class="margin-right" :loading="loading">确认重置</Button>
       <Button @click="back" type="success">返回</Button>
     </FormItem>

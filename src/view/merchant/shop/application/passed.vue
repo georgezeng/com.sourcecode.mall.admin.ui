@@ -9,22 +9,22 @@
       </div>
       <div align="center">
         <div style="margin-top: 20px; margin-bottom: 10px;">
-          <img :src="stepFinished" />
+          <img :src="stepFinished"/>
         </div>
         <div style="margin-bottom: 20px;">
           恭喜你，你的店铺审核通过
-          <p :class="{hidden: form.deployed}">
+          <p v-if="!form.deployed">
             应用部署中...
           </p>
         </div>
-        <Form style="width: 250px; text-align: left;" :label-width="100" :model="form" :class="{hidden: !form.deployed}">
+        <Form style="width: 250px; text-align: left;" :label-width="100" :model="form" v-if="form.deployed">
           <FormItem label="店铺主页" prop="domain">
             https://{{form.domain}}.sourcecode.com
           </FormItem>
-          <FormItem label="Android版" prop="androidLink" :class="{hidden: !form.androidUrl}">
+          <FormItem label="Android版" prop="androidLink" v-if="form.androidUrl">
             <Button icon="logo-android" type="primary" :to="androidLink" target="_blank">安卓下载</Button>
           </FormItem>
-          <FormItem label="IOS版" prop="iosLink" :class="{hidden: !form.iosUrl}">
+          <FormItem label="IOS版" prop="iosLink" v-if="form.iosUrl">
             <Button icon="logo-apple" type="primary" :to="iosLink" target="_blank">苹果下载</Button>
           </FormItem>
         </Form>

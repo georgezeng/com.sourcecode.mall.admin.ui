@@ -16,13 +16,13 @@
     <Card>
       <p slot="title">
         店铺申请
-      <div class="unpass" :class="{hidden: this.form.status !== 'UnPassed'}"></div>
+      <div class="unpass" v-if="this.form.status === 'UnPassed'"></div>
       </p>
       <div slot="extra">
         <Button @click="save" type="primary" class="margin-right" :loading="loading">提交申请</Button>
       </div>
       <Form ref="form" :model="form" :rules="rules" :label-width="100">
-        <FormItem label="审核失败" :class="{hidden: !form.reason}" prop="reason">
+        <FormItem label="审核失败" v-if="form.reason" prop="reason">
           <Alert type="error">{{form.reason}}</Alert>
         </FormItem>
         <FormItem label="店铺名称" prop="name">
@@ -45,8 +45,8 @@
           <Checkbox v-model="form.androidType">Android版</Checkbox>
           <Checkbox v-model="form.iosType">IOS版</Checkbox>
         </FormItem>
-        <FormItem :class="{hidden: !(form.androidType || form.iosType)}" prop="types" label="店铺图标">
-          <MultiUpload :class="{hidden: !form.androidType}"
+        <FormItem v-if="form.androidType || form.iosType" prop="types" label="店铺图标">
+          <MultiUpload v-if="form.androidType"
                        :uploadUrl="uploadAndroidSmallIconUrl"
                        :previewUri="form.androidSmallIcon"
                        btnText="上传Android (192*192) 图标"
@@ -55,7 +55,7 @@
                        height="180"
                        @setPreviewUrl="setAndroidSmallIconPreviewUrl"
           />
-          <MultiUpload :class="{hidden: !form.androidType}"
+          <MultiUpload v-if="form.androidType"
                        :uploadUrl="uploadAndroidBigIconUrl"
                        :previewUri="form.androidBigIcon"
                        btnText="上传Android (512*512) 图标"
@@ -64,7 +64,7 @@
                        height="180"
                        @setPreviewUrl="setAndroidBigIconPreviewUrl"
           />
-          <MultiUpload :class="{hidden: !form.iosType}"
+          <MultiUpload v-if="form.iosType"
                        :uploadUrl="uploadIosSmallIconUrl"
                        :previewUri="form.iosSmallIcon"
                        btnText="上传IOS (192*192) 图标"
@@ -73,7 +73,7 @@
                        height="180"
                        @setPreviewUrl="setIosSmallIconPreviewUrl"
           />
-          <MultiUpload :class="{hidden: !form.iosType}"
+          <MultiUpload v-if="form.iosType"
                        :uploadUrl="uploadIosBigIconUrl"
                        :previewUri="form.iosBigIcon"
                        btnText="上传IOS (512*512) 图标"
