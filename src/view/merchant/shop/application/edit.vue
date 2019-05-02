@@ -31,7 +31,7 @@
         </FormItem>
         <FormItem label="logo" prop="logo">
           <Upload
-            :uploadUrl="uploadLogoUrl"
+            :uploadUrl="uploadUrl"
             :previewUri="form.logo"
             btnText="上传Logo"
             :imgPrefix="imgPrefix"
@@ -45,7 +45,7 @@
         </FormItem>
         <FormItem v-if="form.androidType || form.iosType" prop="types" label="App图标">
           <MultiUpload v-if="form.androidType"
-                       :uploadUrl="uploadAndroidSmallIconUrl"
+                       :uploadUrl="uploadUrl"
                        :previewUri="form.androidSmallIcon"
                        btnText="上传Android (192*192) 图标"
                        :imgPrefix="imgPrefix"
@@ -54,7 +54,7 @@
                        @setPreviewUrl="setAndroidSmallIconPreviewUrl"
           />
           <MultiUpload v-if="form.androidType"
-                       :uploadUrl="uploadAndroidBigIconUrl"
+                       :uploadUrl="uploadUrl"
                        :previewUri="form.androidBigIcon"
                        btnText="上传Android (512*512) 图标"
                        :imgPrefix="imgPrefix"
@@ -63,7 +63,7 @@
                        @setPreviewUrl="setAndroidBigIconPreviewUrl"
           />
           <MultiUpload v-if="form.iosType"
-                       :uploadUrl="uploadIosSmallIconUrl"
+                       :uploadUrl="uploadUrl"
                        :previewUri="form.iosSmallIcon"
                        btnText="上传IOS (192*192) 图标"
                        :imgPrefix="imgPrefix"
@@ -72,7 +72,7 @@
                        @setPreviewUrl="setIosSmallIconPreviewUrl"
           />
           <MultiUpload v-if="form.iosType"
-                       :uploadUrl="uploadIosBigIconUrl"
+                       :uploadUrl="uploadUrl"
                        :previewUri="form.iosBigIcon"
                        btnText="上传IOS (512*512) 图标"
                        :imgPrefix="imgPrefix"
@@ -85,7 +85,7 @@
         <FormItem v-if="form.androidType || form.iosType" label="App引导页" prop="instructions">
           <MultiUpload v-for="item in instructions"
                        :index="item.index"
-                       :uploadUrl="uploadInstructionUrl"
+                       :uploadUrl="uploadUrl"
                        :previewUri="form.instructions[item.index]"
                        :btnText="('上传App引导图' + (parseInt(item.index) + 1))"
                        :imgPrefix="imgPrefix"
@@ -100,7 +100,7 @@
         </FormItem>
         <FormItem label="登录背景图" prop="loginBgImg">
           <Upload
-            :uploadUrl="uploadLoginBgUrl"
+            :uploadUrl="uploadUrl"
             :previewUri="form.loginBgImg"
             btnText="上传登录背景图"
             :imgPrefix="imgPrefix"
@@ -156,7 +156,7 @@
         callback();
       }
       return {
-        imgPrefix: config.baseUrl + '/merchant/shop/application/img/preview?filePath=',
+        imgPrefix: config.baseUrl + '/merchant/shop/application/file/load?filePath=',
         loading: false,
         stay: false,
         instructions: [],
@@ -363,26 +363,8 @@
       }
     },
     computed: {
-      uploadLoginBgUrl() {
-        return config.baseUrl + '/merchant/shop/application/upload/params/loginBg/true'
-      },
-      uploadLogoUrl() {
-        return config.baseUrl + '/merchant/shop/application/upload/params/logo/true'
-      },
-      uploadAndroidBigIconUrl() {
-        return config.baseUrl + '/merchant/shop/application/upload/params/android/true?extendDir=bigIcon'
-      },
-      uploadAndroidSmallIconUrl() {
-        return config.baseUrl + '/merchant/shop/application/upload/params/android/true?extendDir=smallIcon'
-      },
-      uploadIosBigIconUrl() {
-        return config.baseUrl + '/merchant/shop/application/upload/params/ios/true?extendDir=bigIcon'
-      },
-      uploadIosSmallIconUrl() {
-        return config.baseUrl + '/merchant/shop/application/upload/params/ios/true?extendDir=smallIcon'
-      },
-      uploadInstructionUrl() {
-        return config.baseUrl + '/merchant/shop/application/upload/params/instruction/true'
+      uploadUrl() {
+        return config.baseUrl + '/merchant/shop/application/file/upload'
       }
     },
     mounted() {
