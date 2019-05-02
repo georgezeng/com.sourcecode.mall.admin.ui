@@ -9,7 +9,7 @@ export default {
     return axios.post('/merchant/subAccount/delete', { ids })
   },
   load: (id) => {
-    return axios.get('/merchant/subAccount/one/params/' + id)
+    return axios.get('/merchant/subAccount/load/params/' + id)
   },
   save: (obj) => {
     return axios.post('/merchant/subAccount/save', obj)
