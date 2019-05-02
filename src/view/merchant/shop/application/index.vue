@@ -82,7 +82,7 @@
       goPassed() {
         this.$store.commit('closeTag', this.$router.currentRoute)
         this.$router.push({
-          name: 'MerchantShopApplicationEdit'
+          name: 'MerchantShopApplicationPassed'
         })
       },
       goApply() {
