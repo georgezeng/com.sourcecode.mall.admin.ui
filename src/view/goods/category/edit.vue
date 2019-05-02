@@ -30,6 +30,7 @@
   import API from '@/api/goods-category'
   import ParentList from '../components/parents-category'
   import {Message} from 'iview'
+  import ApplicationAPI from '@/api/merchant-shop-application'
 
   export default {
     name: 'GoodsCategoryEdit',
@@ -63,7 +64,6 @@
           ],
           name: [
             {required: true, message: '名称不能为空', trigger: 'change'},
-            {min: 1, message: '名称不能少于1位', trigger: 'change'},
             {max: 50, message: '名称不能多于50位', trigger: 'change'}
           ],
           parentId: [
@@ -73,6 +73,31 @@
       }
     },
     methods: {
+      loadApplication() {
+        this.loading = true
+        ApplicationAPI.load().then(res => {
+          if (res && res.id) {
+            switch (res.status.name) {
+              case 'Passed': {
+                this.load()
+                this.loadAllParents()
+                return
+              }
+            }
+          }
+          this.goNoPermit()
+        })
+      },
+      goNoPermit() {
+        this.$store.commit('closeTag', this.$router.currentRoute)
+        this.$router.push({
+          name: 'GoodsNoPermit',
+          params: {
+            type: '分类',
+            from: 'GoodsCategoryEdit'
+          }
+        })
+      },
       setParent(option) {
         this.form.parentId = option
       },
@@ -151,8 +176,7 @@
       this.form.id = this.$router.currentRoute.params.id
       let isEdit = this.form.id != 0
       this.form.id = isEdit ? this.form.id : null;
-      this.loadAllParents()
-      this.load()
+      this.loadApplication()
     }
   }
 </script>

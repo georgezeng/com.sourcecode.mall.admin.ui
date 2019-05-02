@@ -35,7 +35,7 @@ export default {
       state.forgetPasswordObj = forgetPasswordObj
     },
     setAvator(state, avatorPath) {
-      state.avatorImgPath = config.baseUrl + '/user/header/load/current'
+      state.avatorImgPath = config.baseUrl + '/user/current/avatar?t=' + new Date().getTime()
     },
     setUserId(state, id) {
       state.userId = id
@@ -127,7 +127,7 @@ export default {
       return new Promise((resolve, reject) => {
         try {
           getUserInfo(state.token).then(data => {
-            commit('setAvator', data.header)
+            commit('setAvator', data.avatar)
             commit('setUserName', data.username)
             commit('setUserId', data.id)
             commit('setAccess', data.authorities)

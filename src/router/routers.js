@@ -83,9 +83,9 @@ export default [
       title: '商家中心',
       notCache: true,
       access: [
-        'AUTH_MERCHANT_PROFILE_PAGE',
-        'AUTH_MERCHANT_VERIFICATION_VERIFY_PAGE',
-        'AUTH_MERCHANT_SHOP_APPLICATION_APPLY_PAGE',
+        'AUTH_MERCHANT_USER_PROFILE_PAGE',
+        'AUTH_MERCHANT_VERIFICATION_INDEX_PAGE',
+        'AUTH_MERCHANT_SHOP_APPLICATION_INDEX_PAGE',
         'AUTH_MERCHANT_SUB_ACCOUNT_LIST_PAGE'
       ]
     },
@@ -93,20 +93,32 @@ export default [
     children: [
       {
         path: 'Profile',
-        name: 'MerchantProfile',
+        name: 'MerchantUserProfile',
         component: () => import('@/view/merchant/profile/profile.vue'),
         meta: {
           icon: 'md-funnel',
           title: '账号信息',
-          access: ['AUTH_MERCHANT_PROFILE_PAGE'],
+          access: ['AUTH_MERCHANT_USER_PROFILE_PAGE'],
           notCache: true
         }
       },
       {
-        path: 'ShopApplication/Apply',
+        path: 'Shop/Application/Index',
+        name: 'MerchantShopApplicationIndex',
+        component: () => import('@/view/merchant/shop/application/index.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '店铺申请',
+          access: ['AUTH_MERCHANT_SHOP_APPLICATION_INDEX_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Shop/Application/Apply',
         name: 'MerchantShopApplicationApply',
         component: () => import('@/view/merchant/shop/application/apply.vue'),
         meta: {
+          hideInMenu: true,
           icon: 'md-funnel',
           title: '店铺申请',
           access: ['AUTH_MERCHANT_SHOP_APPLICATION_APPLY_PAGE'],
@@ -114,7 +126,7 @@ export default [
         }
       },
       {
-        path: 'ShopApplication/CommitSuccess',
+        path: 'Shop/Application/CommitSuccess',
         name: 'MerchantShopApplicationCommitSuccess',
         component: () => import('@/view/merchant/shop/application/commit-success.vue'),
         meta: {
@@ -126,7 +138,7 @@ export default [
         }
       },
       {
-        path: 'ShopApplication/Passed',
+        path: 'Shop/Application/Passed',
         name: 'MerchantShopApplicationPassed',
         component: () => import('@/view/merchant/shop/application/passed.vue'),
         meta: {
@@ -138,7 +150,7 @@ export default [
         }
       },
       {
-        path: 'ShopApplication/UnPassed',
+        path: 'Shop/Application/UnPassed',
         name: 'MerchantShopApplicationUnPassed',
         component: () => import('@/view/merchant/shop/application/unpassed.vue'),
         meta: {
@@ -150,7 +162,19 @@ export default [
         }
       },
       {
-        path: 'ShopApplication/Detail',
+        path: 'Shop/Application/NoPermit',
+        name: 'MerchantShopApplicationNoPermit',
+        component: () => import('@/view/merchant/shop/application/nopermit.vue'),
+        meta: {
+          hideInMenu: true,
+          icon: 'md-funnel',
+          title: '店铺申请',
+          access: ['AUTH_MERCHANT_SHOP_APPLICATION_NOPERMIT_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Shop/Application/Detail',
         name: 'MerchantShopApplicationDetail',
         component: () => import('@/view/merchant/shop/application/detail.vue'),
         meta: {
@@ -162,7 +186,7 @@ export default [
         }
       },
       {
-        path: 'ShopApplication/Edit',
+        path: 'Shop/Application/Edit',
         name: 'MerchantShopApplicationEdit',
         component: () => import('@/view/merchant/shop/application/edit.vue'),
         meta: {
@@ -174,10 +198,22 @@ export default [
         }
       },
       {
+        path: 'Verification/Index',
+        name: 'MerchantVerificationIndex',
+        component: () => import('@/view/merchant/verification/index.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '实名认证',
+          access: ['AUTH_MERCHANT_VERIFICATION_INDEX_PAGE'],
+          notCache: true
+        }
+      },
+      {
         path: 'Verification/Verify',
         name: 'MerchantVerificationVerify',
         component: () => import('@/view/merchant/verification/verify.vue'),
         meta: {
+          hideInMenu: true,
           icon: 'md-funnel',
           title: '实名认证',
           access: ['AUTH_MERCHANT_VERIFICATION_VERIFY_PAGE'],
@@ -263,6 +299,18 @@ export default [
     },
     component: Main,
     children: [
+      {
+        path: 'NoPermit/:from/:type',
+        name: 'GoodsNoPermit',
+        component: () => import('@/view/goods/components/nopermit.vue'),
+        meta: {
+          hideInMenu: true,
+          icon: 'md-funnel',
+          title: '商品管理',
+          access: ['AUTH_GOODS_NOPERMIT_PAGE'],
+          notCache: true
+        }
+      },
       {
         path: 'Item/List/',
         name: 'GoodsItemList',

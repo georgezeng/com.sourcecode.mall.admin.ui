@@ -35,6 +35,7 @@
   import API from '@/api/goods-specification-definition'
   import {Message} from 'iview'
   import ValueLine from './value-line'
+  import ApplicationAPI from '@/api/merchant-shop-application'
 
   export default {
     name: 'GoodsSpecificationDefinitionEdit',
@@ -93,7 +94,6 @@
           ],
           name: [
             {required: true, message: '名称不能为空', trigger: 'change'},
-            {min: 1, message: '名称不能少于1位', trigger: 'change'},
             {max: 50, message: '名称不能多于50位', trigger: 'change'}
           ],
           values: [
@@ -103,6 +103,31 @@
       }
     },
     methods: {
+      loadApplication() {
+        this.loading = true
+        ApplicationAPI.load().then(res => {
+          if (res && res.id) {
+            switch (res.status.name) {
+              case 'Passed': {
+                this.load()
+                this.loadGroups()
+                return
+              }
+            }
+          }
+          this.goNoPermit()
+        })
+      },
+      goNoPermit() {
+        this.$store.commit('closeTag', this.$router.currentRoute)
+        this.$router.push({
+          name: 'GoodsNoPermit',
+          params: {
+            type: '规格',
+            from: 'GoodsCategoryEdit'
+          }
+        })
+      },
       changeValueName(index, name) {
         this.form.attrs[index].name = name
       },
@@ -195,8 +220,7 @@
       this.form.id = this.ids[this.ids.length-1]
       let isEdit = this.form.id != 0
       this.form.id = isEdit ? this.form.id : null;
-      this.load()
-      this.loadGroups()
+      this.loadApplication()
     }
   }
 </script>

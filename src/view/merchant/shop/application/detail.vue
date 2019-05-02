@@ -19,7 +19,7 @@
           <Checkbox v-model="form.androidType" disabled>Android版</Checkbox>
           <Checkbox v-model="form.iosType" disabled>IOS版</Checkbox>
         </FormItem>
-        <FormItem v-if="form.androidType || form.iosType" prop="types" label="店铺图标">
+        <FormItem v-if="form.androidType || form.iosType" prop="types" label="App图标">
           <img :src="androidSmallIconUrl" width="180" height="180" class="float-left"
                style="margin-right: 20px;" v-if="form.androidType"/>
           <img :src="androidBigIconUrl" width="180" height="180" class="float-left" style="margin-right: 20px;"
@@ -30,7 +30,7 @@
                v-if="form.iosType"/>
           <div class="clearfix"></div>
         </FormItem>
-        <FormItem label="App引导页" prop="instructions">
+        <FormItem v-if="form.androidType || form.iosType" label="App引导页" prop="instructions">
           <Img v-for="item in form.instructions" :url="item" :imgPrefix="imgPrefix"/>
           <div class="clearfix"></div>
         </FormItem>
@@ -53,14 +53,14 @@
   import Img from './img'
 
   export default {
-    name: 'MerchantShopApplicationApply',
+    name: 'MerchantShopApplicationDetail',
     components: {
       Img
     },
     data() {
       return {
         stay: false,
-        imgPrefix: config.baseUrl + '/merchant/shop/application/img/load?filePath=',
+        imgPrefix: config.baseUrl + '/merchant/shop/application/file/load?filePath=',
         loading: false,
         form: {
           id: null,
@@ -109,10 +109,20 @@
             }
             this.form = res
           } else {
+            if(res && res.noPermit) {
+              this.goNoPermit()
+              return
+            }
             this.goApply()
           }
         }).catch(e => {
           this.loading = false
+        })
+      },
+      goNoPermit() {
+        this.$store.commit('closeTag', this.$router.currentRoute)
+        this.$router.push({
+          name: 'MerchantShopApplicationNoPermit'
         })
       },
       goApply() {
@@ -149,7 +159,6 @@
           }
         })
       },
-
     },
     computed: {
       loginBgUrl() {
@@ -178,7 +187,9 @@
         && item.name !== 'MerchantShopApplicationEdit'
         && item.name !== 'MerchantShopApplicationApply'
         && item.name !== 'MerchantShopApplicationPassed'
-        && item.name !== 'MerchantShopApplicationUnPassed')
+        && item.name !== 'MerchantShopApplicationUnPassed'
+        && item.name !== 'MerchantShopApplicationNoPermit'
+      )
       this.$store.commit('setTagNavList', res)
       this.stay = this.$router.currentRoute.params.stay ? true : false
       this.load()

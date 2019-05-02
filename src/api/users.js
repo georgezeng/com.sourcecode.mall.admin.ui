@@ -8,13 +8,16 @@ export default {
     return axios.post('/user/delete', {ids})
   },
   load: (id) => {
-    return axios.get('/user/one/params/' + id)
+    return axios.get('/user/load/params/' + id)
   },
   save: (obj) => {
     return axios.post('/user/save', obj)
   },
+  saveCurrent: (obj) => {
+    return axios.post('/user/current/save', obj)
+  },
   updatePassword: (obj) => {
-    return axios.post('/user/modifyPassword', obj)
+    return axios.post('/user/current/modifyPassword', obj)
   },
   updateStatus: (ids, status) => {
     return axios.post('/user/updateStatus/params/' + status, {ids})

@@ -9,10 +9,10 @@
         <Button @click="save" type="primary" class="margin-right" :loading="loading">保存</Button>
       </div>
       <Form ref="form" :model="form" :rules="rules" :label-width="80">
-        <FormItem label="头像" prop="header">
+        <FormItem label="头像" prop="avatar">
           <Upload
             :uploadUrl="uploadUrl"
-            :previewUri="form.header"
+            :previewUri="form.avatar"
             btnText="上传头像"
             :imgPrefix="imgPrefix"
             :uploadPlaceholder="avatar"
@@ -47,7 +47,7 @@
   import Upload from '@/components/upload/img-one-line-upload'
 
   export default {
-    name: 'MerchantProfile',
+    name: 'MerchantUserProfile',
     components: {
       ModifyPassword,
       Upload
@@ -57,12 +57,12 @@
         loading: false,
         modifyPasswordModal: false,
         avatar,
-        imgPrefix: config.baseUrl + '/merchant/header/preview?filePath=',
+        imgPrefix: config.baseUrl + '/user/current/file/load?filePath=',
         form: {
           id: null,
           username: '',
           email: '',
-          header: null,
+          avatar: null,
         },
         rules: {
           email: [
@@ -90,9 +90,10 @@
         this.$refs.form.validate().then(valid => {
           if (valid) {
             this.loading = true
-            API.save(this.form).then(res => {
+            API.saveCurrent(this.form).then(res => {
               this.loading = false
               Message.success('保存成功')
+              this.$store.commit('setAvator', this.form.avatar)
             }).catch(ex => {
               this.loading = false
             })
@@ -100,12 +101,12 @@
         })
       },
       setPreviewUrl(url, index) {
-        this.form.header = url
+        this.form.avatar = url
       },
     },
     computed: {
       uploadUrl() {
-        return config.baseUrl + '/user/header/upload'
+        return config.baseUrl + '/user/current/file/upload'
       },
     },
     mounted: function () {

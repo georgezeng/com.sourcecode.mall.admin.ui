@@ -77,6 +77,7 @@
   import config from '@/config/index'
   import Editor from '_c/editor'
   import ParentList from '../components/parents-category'
+  import ApplicationAPI from '@/api/merchant-shop-application'
 
 
   export default {
@@ -179,6 +180,32 @@
       }
     },
     methods: {
+      loadApplication() {
+        this.loading = true
+        ApplicationAPI.load().then(res => {
+          if (res && res.id) {
+            switch (res.status.name) {
+              case 'Passed': {
+                this.load()
+                this.loadAllCategories()
+                this.loadAllBrands()
+                return
+              }
+            }
+          }
+          this.goNoPermit()
+        })
+      },
+      goNoPermit() {
+        this.$store.commit('closeTag', this.$router.currentRoute)
+        this.$router.push({
+          name: 'GoodsNoPermit',
+          params: {
+            type: '信息',
+            from: 'GoodsItemEdit'
+          }
+        })
+      },
       setParent(option) {
         this.form.categoryId = option
       },
@@ -300,9 +327,7 @@
       this.form.id = isEdit ? this.form.id : null;
       this.addPhoto(0)
       this.$refs.editor.setHtml('')
-      this.load()
-      this.loadAllCategories()
-      this.loadAllBrands()
+      this.loadApplication()
     }
   }
 </script>

@@ -16,7 +16,7 @@
     <Card>
       <p slot="title">
         实名认证 - 编辑
-        <div class="pass"></div>
+      <div class="pass"></div>
       </p>
       <div slot="extra">
         <Button @click="save" type="primary" class="margin-right" :loading="loading">保存</Button>
@@ -32,7 +32,7 @@
           <Input v-model="form.number" readonly></Input>
         </FormItem>
         <FormItem label="证件照" prop="photo">
-          <img :src="imgPreviewUrl" readonly/>
+          <img :src="imgPreviewUrl"/>
         </FormItem>
         <FormItem label="联系人" prop="contact">
           <Input v-model="form.contact"></Input>
@@ -55,6 +55,7 @@
   import API from '@/api/merchant-verification'
   import {Message} from 'iview'
   import config from '@/config/index'
+  import imPlaceholder from '@/assets/images/upload-placeholder.png'
 
   export default {
     name: 'RoleList',
@@ -118,12 +119,15 @@
     },
     computed: {
       imgPreviewUrl() {
-        return config.baseUrl + '/merchant/verification/photo/load'
+        return this.form.photo ? config.baseUrl + '/merchant/verification/file/load?filePath=' + this.form.photo : imPlaceholder
       }
     },
     mounted: function () {
-      let res = this.$store.state.app.tagNavList.filter(item => item.name !== 'MerchantVerificationUnPassed'
-        && item.name !== 'MerchantVerificationCommitSuccess' && item.name !== 'MerchantVerificationVerify')
+      let res = this.$store.state.app.tagNavList.filter(item =>
+        item.name !== 'MerchantVerificationUnPassed'
+        && item.name !== 'MerchantVerificationCommitSuccess'
+        && item.name !== 'MerchantVerificationVerify'
+      )
       this.$store.commit('setTagNavList', res)
       this.load()
     }

@@ -148,7 +148,9 @@
         && item.name !== 'MerchantShopApplicationEdit'
         && item.name !== 'MerchantShopApplicationApply'
         && item.name !== 'MerchantShopApplicationPassed'
-        && item.name !== 'MerchantShopApplicationUnPassed')
+        && item.name !== 'MerchantShopApplicationUnPassed'
+        && item.name !== 'MerchantShopApplicationNoPermit'
+      )
       this.$store.commit('setTagNavList', res)
       this.load()
     }

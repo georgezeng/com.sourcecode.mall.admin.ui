@@ -50,6 +50,7 @@ import { getNewTagList, routeEqual } from '@/libs/util'
 import routers from '@/router/routers'
 import minLogo from '@/assets/images/logo-min.jpg'
 import maxLogo from '@/assets/images/logo.jpg'
+import config from '@/config/index'
 import './main.less'
 export default {
   name: 'Main',
@@ -75,6 +76,9 @@ export default {
     ...mapGetters([
       'errorCount'
     ]),
+    // maxlogo() {
+    //   return this.$store.state.app.logo ? config.baseUrl + '/system/bigLogo/load' : this.maxLogo
+    // },
     tagNavList () {
       return this.$store.state.app.tagNavList
     },

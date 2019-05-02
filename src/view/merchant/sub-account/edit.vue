@@ -21,10 +21,10 @@
         <FormItem label="确认密码" prop="confirmPassword">
           <Input type="password" v-model="form.confirmPassword"></Input>
         </FormItem>
-        <FormItem label="头像" prop="header">
+        <FormItem label="头像" prop="avatar">
           <Upload
             :uploadUrl="uploadUrl"
-            :previewUri="form.header"
+            :previewUri="form.avatar"
             btnText="上传头像"
             :imgPrefix="imgPrefix"
             :uploadPlaceholder="avatar"
@@ -74,7 +74,7 @@
           email: '',
           password: '',
           enabled: true,
-          header: null,
+          avatar: null,
           authorities: []
         },
         authorities: [],
@@ -85,8 +85,7 @@
         rules: {
           username: [
             {required: true, message: '用户名不能为空', trigger: 'change'},
-            {min: 3, message: '用户名不能少于3位', trigger: 'change'},
-            {max: 15, message: '用户名不能多于15位', trigger: 'change'}
+            {max: 50, message: '用户名长度不能大于50', trigger: 'change'}
           ],
           email: [
             {required: true, message: '邮箱不能为空', trigger: 'change'},

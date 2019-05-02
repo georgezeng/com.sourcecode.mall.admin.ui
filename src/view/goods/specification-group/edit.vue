@@ -31,6 +31,7 @@
 <script>
   import API from '@/api/goods-specification-group'
   import {Message} from 'iview'
+  import ApplicationAPI from '@/api/merchant-shop-application'
 
   export default {
     name: 'GoodsSpecificationGroupEdit',
@@ -72,13 +73,37 @@
           ],
           name: [
             {required: true, message: '名称不能为空', trigger: 'change'},
-            {min: 1, message: '名称不能少于1位', trigger: 'change'},
             {max: 50, message: '名称不能多于50位', trigger: 'change'}
           ]
         }
       }
     },
     methods: {
+      loadApplication() {
+        this.loading = true
+        ApplicationAPI.load().then(res => {
+          if (res && res.id) {
+            switch (res.status.name) {
+              case 'Passed': {
+                this.load()
+                this.loadCategories()
+                return
+              }
+            }
+          }
+          this.goNoPermit()
+        })
+      },
+      goNoPermit() {
+        this.$store.commit('closeTag', this.$router.currentRoute)
+        this.$router.push({
+          name: 'GoodsNoPermit',
+          params: {
+            type: '类型',
+            from: 'GoodsCategoryEdit'
+          }
+        })
+      },
       goSubList() {
         this.$store.commit('closeTag', this.$router.currentRoute)
         this.$router.push({
@@ -163,8 +188,7 @@
       this.form.id = this.ids[this.ids.length - 1]
       let isEdit = this.form.id != 0
       this.form.id = isEdit ? this.form.id : null;
-      this.load()
-      this.loadCategories()
+      this.loadApplication()
     }
   }
 </script>

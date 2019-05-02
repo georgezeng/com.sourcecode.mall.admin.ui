@@ -90,7 +90,7 @@
             text: '身份证'
           }
         ],
-        imgPrefix: config.baseUrl + '/merchant/verification/photo/preview?filePath=',
+        imgPrefix: config.baseUrl + '/merchant/verification/file/load?filePath=',
         form: {
           id: null,
           name: '',
@@ -194,12 +194,15 @@
     },
     computed: {
       uploadUrl() {
-        return config.baseUrl + '/merchant/verification/photo/upload'
+        return config.baseUrl + '/merchant/verification/file/upload'
       },
     },
     mounted: function () {
-      let res = this.$store.state.app.tagNavList.filter(item => item.name !== 'MerchantVerificationCommitSuccess'
-        && item.name !== 'MerchantVerificationEdit' && item.name !== 'MerchantVerificationUnPassed')
+      let res = this.$store.state.app.tagNavList.filter(item =>
+        item.name !== 'MerchantVerificationCommitSuccess'
+        && item.name !== 'MerchantVerificationEdit'
+        && item.name !== 'MerchantVerificationUnPassed'
+      )
       this.$store.commit('setTagNavList', res)
       this.stay = this.$router.currentRoute.params.stay ? true : false
       this.load()

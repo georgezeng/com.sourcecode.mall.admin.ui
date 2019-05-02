@@ -78,7 +78,7 @@
             {required: true, message: '密码不能为空', trigger: 'change'},
             {
               type: 'string',
-              pattern: /^(?=.*[0-9].*)(?=.*[A-Za-z].*).{8,}$/,
+              pattern: /^(?=.*[0-9].*)(?=.*[A-Z].*)(?=.*[a-z].*).{8,}$/,
               message: '密码必须数字+字母（包含大小写）并且不少于8位',
               trigger: 'change'
             },

@@ -16,7 +16,7 @@
     <Card>
       <p slot="title">
         店铺申请
-        <div class="pass"></div>
+      <div class="pass"></div>
       </p>
       <div slot="extra">
         <Button @click="save" type="primary" class="margin-right" :loading="loading">保存</Button>
@@ -43,7 +43,7 @@
           <Checkbox v-model="form.androidType" disabled>Android版</Checkbox>
           <Checkbox v-model="form.iosType" disabled>IOS版</Checkbox>
         </FormItem>
-        <FormItem v-if="form.androidType || form.iosType" prop="types" label="店铺图标">
+        <FormItem v-if="form.androidType || form.iosType" prop="types" label="App图标">
           <MultiUpload v-if="form.androidType"
                        :uploadUrl="uploadAndroidSmallIconUrl"
                        :previewUri="form.androidSmallIcon"
@@ -82,12 +82,12 @@
           />
           <div class="clearfix"></div>
         </FormItem>
-        <FormItem label="App引导页" prop="instructions">
+        <FormItem v-if="form.androidType || form.iosType" label="App引导页" prop="instructions">
           <MultiUpload v-for="item in instructions"
                        :index="item.index"
-                       :uploadUrl="item.uploadUrl()"
+                       :uploadUrl="uploadInstructionUrl"
                        :previewUri="form.instructions[item.index]"
-                       :btnText="('上传App引导图' + (item.index + 1))"
+                       :btnText="('上传App引导图' + (parseInt(item.index) + 1))"
                        :imgPrefix="imgPrefix"
                        width="180"
                        height="180"
@@ -130,11 +130,13 @@
     },
     data() {
       const instructionCheck = (rule, value, callback) => {
-        if (this.form.instructions.length == 0) {
-          callback(new Error('至少需要一张App引导页'));
-        } else {
-          callback();
+        if (this.form.androidType || this.form.iosType) {
+          if (this.form.instructions.length == 0) {
+            callback(new Error('至少需要一张App引导页'));
+            return
+          }
         }
+        callback();
       }
       const typesCheck = (rule, value, callback) => {
         if (this.form.androidType || this.form.iosType) {
@@ -179,11 +181,11 @@
         rules: {
           name: [
             {required: true, message: '店铺名称不能为空', trigger: 'change'},
-            {max: 50, min: 2, message: '店铺名称长度必须在2-50之间', trigger: 'change'}
+            {max: 50, message: '店铺名称长度不能大于50', trigger: 'change'}
           ],
           domain: [
             {required: true, message: '店铺域名不能为空', trigger: 'change'},
-            {max: 50, min: 2, message: '店铺域名必须在2-50之间', trigger: 'change'},
+            {max: 50, message: '店铺域名不能大于50', trigger: 'change'},
             {type: 'string', pattern: /^[a-zA-Z0-9]+$/, message: '域名必须是字母或数字', trigger: 'change'}
           ],
           logo: [
@@ -236,6 +238,13 @@
             for (let i in this.form.instructions) {
               this.addInstruction(i)
             }
+            this.addInstruction(this.form.instructions.length)
+          } else {
+            if(res && res.noPermit) {
+              this.goNoPermit()
+              return
+            }
+            this.goApply()
           }
         }).catch(e => {
           this.loading = false
@@ -253,6 +262,12 @@
               this.loading = false
             })
           }
+        })
+      },
+      goNoPermit() {
+        this.$store.commit('closeTag', this.$router.currentRoute)
+        this.$router.push({
+          name: 'MerchantShopApplicationNoPermit'
         })
       },
       goUnPay() {
@@ -282,6 +297,12 @@
           }
         })
       },
+      goApply() {
+        this.$store.commit('closeTag', this.$router.currentRoute)
+        this.$router.push({
+          name: 'MerchantShopApplicationApply'
+        })
+      },
       setLogoPreviewUrl(url, index) {
         this.form.logo = url
       },
@@ -302,7 +323,7 @@
       },
       setInstructionPreviewUrl(url, index) {
         this.form.instructions[index] = url
-        this.addInstruction(index + 1)
+        this.addInstruction(parseInt(index) + 1)
       },
       addInstruction(index) {
         if (this.instructions[index]) {
@@ -324,17 +345,15 @@
         this.instructions.push({
           index,
         })
-        this.instructions[index].uploadUrl = () => {
-          return config.baseUrl + '/merchant/shop/application/upload/params/instruction/true?extendDir=' + index
-        }
       },
       removeInstruction(index) {
         if (this.instructions.length > 1) {
           this.form.instructions.splice(index, 1)
           this.instructions.splice(index, 1)
-          this.instructions[index].index = index
-          this.instructions[index].uploadUrl = () => {
-            return config.baseUrl + '/merchant/shop/application/upload/params/instruction/true?extendDir=' + index
+          let i = index
+          while (i < this.instructions.length) {
+            this.instructions[i].index = i
+            i++
           }
         } else {
           this.form.instructions[0] = null
@@ -351,23 +370,20 @@
         return config.baseUrl + '/merchant/shop/application/upload/params/logo/true'
       },
       uploadAndroidBigIconUrl() {
-        return config.baseUrl + '/merchant/shop/application/upload/params/android/true?extendDir=/bigIcon'
+        return config.baseUrl + '/merchant/shop/application/upload/params/android/true?extendDir=bigIcon'
       },
       uploadAndroidSmallIconUrl() {
-        return config.baseUrl + '/merchant/shop/application/upload/params/android/true?extendDir=/smallIcon'
+        return config.baseUrl + '/merchant/shop/application/upload/params/android/true?extendDir=smallIcon'
       },
       uploadIosBigIconUrl() {
-        return config.baseUrl + '/merchant/shop/application/upload/params/ios/true?extendDir=/bigIcon'
+        return config.baseUrl + '/merchant/shop/application/upload/params/ios/true?extendDir=bigIcon'
       },
       uploadIosSmallIconUrl() {
-        return config.baseUrl + '/merchant/shop/application/upload/params/ios/true?extendDir=/smallIcon'
+        return config.baseUrl + '/merchant/shop/application/upload/params/ios/true?extendDir=smallIcon'
       },
       uploadInstructionUrl() {
         return config.baseUrl + '/merchant/shop/application/upload/params/instruction/true'
-      },
-      uploadLoginBgUrl() {
-        return config.baseUrl + '/merchant/shop/application/upload/params/loginBg/true'
-      },
+      }
     },
     mounted() {
       let res = this.$store.state.app.tagNavList.filter(item =>
@@ -376,7 +392,9 @@
         && item.name !== 'MerchantShopApplicationApply'
         && item.name !== 'MerchantShopApplicationDetail'
         && item.name !== 'MerchantShopApplicationPassed'
-        && item.name !== 'MerchantShopApplicationUnPassed')
+        && item.name !== 'MerchantShopApplicationUnPassed'
+        && item.name !== 'MerchantShopApplicationNoPermit'
+      )
       this.$store.commit('setTagNavList', res)
       this.stay = this.$router.currentRoute.params.stay ? true : false
       this.addInstruction(0)

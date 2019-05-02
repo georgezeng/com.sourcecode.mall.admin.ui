@@ -34,6 +34,7 @@
   import {Message} from 'iview'
   import Upload from '@/components/upload/img-single-upload'
   import config from '@/config/index'
+  import ApplicationAPI from '@/api/merchant-shop-application'
 
 
   export default {
@@ -75,6 +76,30 @@
       }
     },
     methods: {
+      loadApplication() {
+        this.loading = true
+        ApplicationAPI.load().then(res => {
+          if (res && res.id) {
+            switch (res.status.name) {
+              case 'Passed': {
+                this.load()
+                return
+              }
+            }
+          }
+          this.goNoPermit()
+        })
+      },
+      goNoPermit() {
+        this.$store.commit('closeTag', this.$router.currentRoute)
+        this.$router.push({
+          name: 'GoodsNoPermit',
+          params: {
+            type: '品牌',
+            from: 'GoodsBrandEdit'
+          }
+        })
+      },
       load() {
         if (this.form.id) {
           this.loading = true
@@ -124,7 +149,7 @@
       this.form.id = this.$router.currentRoute.params.id
       let isEdit = this.form.id != 0
       this.form.id = isEdit ? this.form.id : null;
-      this.load()
+      this.loadApplication()
     }
   }
 </script>

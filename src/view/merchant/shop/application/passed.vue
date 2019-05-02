@@ -43,6 +43,7 @@
     components: {},
     data() {
       return {
+        clearId: null,
         stepFinished,
         form: {
           domain: '',
@@ -70,25 +71,42 @@
                 return
               }
             }
+            if (!res.deployed) {
+              this.clearId = setTimeout(this.load, 1000)
+              return
+            }
             this.form = res
           } else {
+            if(res && res.noPermit) {
+              this.goNoPermit()
+              return
+            }
             this.goApply()
           }
         })
       },
+      goNoPermit() {
+        this.$store.commit('closeTag', this.$router.currentRoute)
+        this.$router.push({
+          name: 'MerchantShopApplicationNoPermit'
+        })
+      },
       goUnPay() {
+        window.clearTimeout(this.clearId)
         this.$store.commit('closeTag', this.$router.currentRoute)
         this.$router.push({
           name: 'MerchantShopApplicationUnPay'
         })
       },
       goSuccess() {
+        window.clearTimeout(this.clearId)
         this.$store.commit('closeTag', this.$router.currentRoute)
         this.$router.push({
           name: 'MerchantShopApplicationCommitSuccess'
         })
       },
       goUnPassed(reason) {
+        window.clearTimeout(this.clearId)
         this.$store.commit('closeTag', this.$router.currentRoute)
         this.$router.push({
           name: 'MerchantShopApplicationUnPassed',
@@ -98,6 +116,7 @@
         })
       },
       goEdit() {
+        window.clearTimeout(this.clearId)
         this.$store.commit('closeTag', this.$router.currentRoute)
         this.$router.push({
           name: 'MerchantShopApplicationEdit',
@@ -107,6 +126,7 @@
         })
       },
       goApply() {
+        window.clearTimeout(this.clearId)
         this.$store.commit('closeTag', this.$router.currentRoute)
         this.$router.push({
           name: 'MerchantShopApplicationApply'
@@ -115,10 +135,10 @@
     },
     computed: {
       androidLink() {
-        return "//" + config.publicBucketDomain + this.form.androidUrl
+        return config.publicBucketDomain + this.form.androidUrl
       },
       iosLink() {
-        return "//" + config.publicBucketDomain + this.form.iosUrl
+        return config.publicBucketDomain + this.form.iosUrl
       }
     },
     mounted() {
@@ -128,7 +148,9 @@
         && item.name !== 'MerchantShopApplicationEdit'
         && item.name !== 'MerchantShopApplicationApply'
         && item.name !== 'MerchantShopApplicationCommitSuccess'
-        && item.name !== 'MerchantShopApplicationUnPassed')
+        && item.name !== 'MerchantShopApplicationUnPassed'
+        && item.name !== 'MerchantShopApplicationNoPermit'
+      )
       this.$store.commit('setTagNavList', res)
       this.load()
     }
