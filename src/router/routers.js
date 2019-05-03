@@ -92,9 +92,9 @@ export default [
     component: Main,
     children: [
       {
-        path: 'Profile',
+        path: 'User/Profile',
         name: 'MerchantUserProfile',
-        component: () => import('@/view/merchant/profile/profile.vue'),
+        component: () => import('@/view/merchant/user/profile.vue'),
         meta: {
           icon: 'md-funnel',
           title: '账号信息',

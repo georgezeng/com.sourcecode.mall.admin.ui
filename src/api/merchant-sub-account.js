@@ -14,8 +14,8 @@ export default {
   save: (obj) => {
     return axios.post('/merchant/subAccount/save', obj)
   },
-  authorities: (queryInfo) => {
-    return axios.post('/merchant/subAccount/authorities', queryInfo)
+  authorities: () => {
+    return axios.get('/merchant/subAccount/authorities')
   },
   updateStatus: (ids, status) => {
     return axios.post('/merchant/subAccount/updateStatus/params/' + status, {ids})

@@ -53,7 +53,7 @@
         }
       }
       return {
-        imgPrefix: config.baseUrl + '/goods/brand/logo/load?filePath=',
+        imgPrefix: config.baseUrl + '/goods/brand/file/load?filePath=',
         loading: false,
         form: {
           id: null,
@@ -79,6 +79,7 @@
       loadApplication() {
         this.loading = true
         ApplicationAPI.load().then(res => {
+          this.loading = false
           if (res && res.id) {
             switch (res.status.name) {
               case 'Passed': {
@@ -142,7 +143,7 @@
         return this.form.id != null && this.form.id != 0
       },
       uploadUrl() {
-        return config.baseUrl + '/goods/brand/logo/upload'
+        return config.baseUrl + '/goods/brand/file/upload/params/' + (this.form.id ? this.form.id : 0)
       },
     },
     mounted: function () {

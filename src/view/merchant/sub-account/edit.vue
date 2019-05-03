@@ -50,6 +50,8 @@
   import avatar from '@/assets/images/avatar.png'
   import Upload from '@/components/upload/img-one-line-upload'
 
+  const FAKE_PASSWORD = 'FakePwd123'
+
   export default {
     name: 'MerchantSubAccountEdit',
     components: {
@@ -115,6 +117,8 @@
           this.loading = true
           API.load(this.form.id).then(data => {
             this.form = data
+            this.form.password = FAKE_PASSWORD
+            this.form.confirmPassword = FAKE_PASSWORD
             let arr = []
             for (let i in data.authorities) {
               let item = data.authorities[i]
@@ -134,19 +138,11 @@
       },
       loadAuthorities() {
         this.loading = true
-        API.authorities({
-          data: null,
-          page: {
-            num: 1,
-            size: 99999999,
-            property: 'name',
-            order: 'ASC'
-          }
-        }).then(result => {
-          if (result.total > 0) {
+        API.authorities().then(result => {
+          if (result) {
             let arr = []
-            for (let i in result.list) {
-              let item = result.list[i]
+            for (let i in result) {
+              let item = result[i]
               arr.push({
                 key: item.id,
                 text: item.name,
@@ -165,7 +161,12 @@
         this.$refs.form.validate().then(valid => {
           if (valid) {
             this.loading = true
-            API.save(this.form).then(res => {
+            let data = {...this.form}
+            if(data.password === FAKE_PASSWORD) {
+              data.password = null
+              data.confirmPassword = null
+            }
+            API.save(data).then(res => {
               this.loading = false
               Message.success('保存成功')
               this.goList()
@@ -208,6 +209,9 @@
           }
         }
       },
+      setPreviewUrl(url) {
+        this.form.avatar = url
+      },
       setConfirmPasswordStatus() {
         let required = this.form.password !== ''
         this.rules.confirmPassword[0].required = required
@@ -222,10 +226,10 @@
         return this.form.id != null && this.form.id != 0
       },
       uploadUrl() {
-        return config.baseUrl + '/user/upload/header'
+        return config.baseUrl + '/merchant/subAccount/file/upload/params/' + (this.form.id ? this.form.id : 0)
       },
       imgPrefix() {
-        return config.baseUrl + '/user/load/header/params/' + this.form.id + '?filePath='
+        return config.baseUrl + '/merchant/subAccount/file/load/params/' + (this.form.id ? this.form.id : 0) + '?filePath='
       }
     },
     mounted: function () {

@@ -38,7 +38,7 @@
             render: (h, params) => {
               return h('img', {
                 attrs: {
-                  src: config.baseUrl + '/goods/brand/logo/load?filePath=' + params.row.logo,
+                  src: config.baseUrl + '/goods/brand/file/load?filePath=' + params.row.logo,
                 },
                 style: {
                   width: '40px',

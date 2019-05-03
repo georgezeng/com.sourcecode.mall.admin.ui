@@ -21,7 +21,7 @@
           <Input v-model="form.code"></Input>
         </FormItem>
         <FormItem label="商品分类" prop="categoryId">
-          <ParentList :parents="categories" :noneValue="false" @change="setParent" />
+          <ParentList :parents="categories" :noneValue="false" @change="setParent"/>
         </FormItem>
         <FormItem label="商品品牌" prop="brandId">
           <Select v-model="form.brandId">
@@ -118,7 +118,7 @@
         }
       }
       return {
-        imgPrefix: config.baseUrl + '/goods/item/img/load?filePath=',
+        imgPrefix: config.baseUrl + '/goods/item/file/load?filePath=',
         statusList: [
           {
             value: 'true',
@@ -183,6 +183,7 @@
       loadApplication() {
         this.loading = true
         ApplicationAPI.load().then(res => {
+          this.loading = false
           if (res && res.id) {
             switch (res.status.name) {
               case 'Passed': {
@@ -213,7 +214,7 @@
         this.loading = true
         CategoryAPI.loadAllCategories().then(data => {
           this.categories = []
-          for(let i in data) {
+          for (let i in data) {
             let item = data[i]
             item.value = item.id
             this.categories.push(item)
@@ -223,7 +224,7 @@
           this.loading = false
         })
       },
-      setContent (html, text) {
+      setContent(html, text) {
         this.form.content = html
       },
       loadAllBrands() {
@@ -309,7 +310,7 @@
     },
     computed: {
       uploadUrl() {
-        return config.baseUrl + '/goods/item/img/upload/params/' + this.uploadId
+        return config.baseUrl + '/goods/item/file/upload/params/' + this.uploadId
       },
       uploadId() {
         return this.form.id ? this.form.id : 0
@@ -320,6 +321,9 @@
       isEdit() {
         return this.form.id != null && this.form.id != 0
       },
+      imgPreviewUrl() {
+        return config.baseUrl + '/goods/item/file/load/params/' + this.uploadId + '?filePath='
+      }
     },
     mounted: function () {
       this.form.id = this.$router.currentRoute.params.id
