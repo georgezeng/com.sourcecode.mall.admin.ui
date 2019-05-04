@@ -21,7 +21,8 @@
           <Input v-model="form.code"></Input>
         </FormItem>
         <FormItem label="商品分类" prop="categoryId">
-          <ParentList :parents="categories" :noneValue="false" @change="setParent"/>
+          <CategoryList :value="form.categoryId" :parents="categories"
+                        @change="setCategory"/>
         </FormItem>
         <FormItem label="商品品牌" prop="brandId">
           <Select v-model="form.brandId">
@@ -76,7 +77,7 @@
   import MultiUpload from '@/components/upload/img-multi-upload'
   import config from '@/config/index'
   import Editor from '_c/editor'
-  import ParentList from '../components/parents-category'
+  import CategoryList from '../components/parents-category'
   import ApplicationAPI from '@/api/merchant-shop-application'
 
 
@@ -86,7 +87,7 @@
       Upload,
       MultiUpload,
       Editor,
-      ParentList
+      CategoryList
     },
     data() {
       const photoCheck = (rule, value, callback) => {
@@ -207,12 +208,18 @@
           }
         })
       },
-      setParent(option) {
+      setCategory(option) {
         this.form.categoryId = option
       },
       loadAllCategories() {
         this.loading = true
-        CategoryAPI.loadAllCategories().then(data => {
+        CategoryAPI.list({
+          data: {},
+          page: {
+            num: 1,
+            size: 999999999
+          }
+        }).then(data => {
           this.categories = []
           for (let i in data) {
             let item = data[i]
@@ -242,6 +249,7 @@
           API.load(this.form.id).then(data => {
             this.form = data
             this.form.enabled = data.enabled ? 'true' : 'false'
+            this.$refs.editor.setHtml(data.content)
             this.loading = false
           }).catch(ex => {
             this.loading = false

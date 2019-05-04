@@ -9,16 +9,15 @@
         <Button @click="goList" type="success">返回</Button>
       </div>
       <Form ref="form" :model="form" :rules="rules" :label-width="80">
-        <FormItem label="排序" prop="order">
-          <InputNumber :min="1" v-model="form.order"></InputNumber>
-        </FormItem>
-        <FormItem label="商品分类" prop="parent">
-          <Select v-model="form.parentId" style="width:200px">
-            <Option v-for="category in categories" :value="category.id" :key="category.id">{{ category.name }}</Option>
-          </Select>
+        <FormItem label="商品分类" prop="parentId">
+          <CategoryList :value="form.parentId" :disabled="isEdit" :disableParent="true" :parents="categories"
+                        @change="setCategory"/>
         </FormItem>
         <FormItem label="名称" prop="name">
           <Input v-model="form.name"></Input>
+        </FormItem>
+        <FormItem label="排序" prop="order">
+          <InputNumber :min="1" v-model="form.order"></InputNumber>
         </FormItem>
         <FormItem label="规格列表" prop="definitions" v-if="this.form.id">
           <Button type="primary" @click="goSubList">查看规格</Button>
@@ -30,12 +29,16 @@
 
 <script>
   import API from '@/api/goods-specification-group'
+  import CategoryAPI from '@/api/goods-category'
   import {Message} from 'iview'
   import ApplicationAPI from '@/api/merchant-shop-application'
+  import CategoryList from '../components/parents-category'
 
   export default {
     name: 'GoodsSpecificationGroupEdit',
-    components: {},
+    components: {
+      CategoryList
+    },
     data() {
       const orderCheck = (rule, value, callback) => {
         if (!this.form.order) {
@@ -68,7 +71,7 @@
           order: [
             {required: true, validator: orderCheck, trigger: 'change'},
           ],
-          parent: [
+          parentId: [
             {required: true, validator: parentCheck, trigger: 'change'},
           ],
           name: [
@@ -119,17 +122,30 @@
           this.loading = true
           API.load(this.form.id).then(data => {
             this.form = data
-            this.form.parentId = data.parent.id
             this.loading = false
           }).catch(ex => {
             this.loading = false
           })
         }
       },
+      setCategory(option) {
+        this.form.parentId = parseInt(option)
+      },
       loadCategories() {
         this.loading = true
-        API.loadCategories().then(data => {
-          this.categories = data
+        CategoryAPI.list({
+          data: {},
+          page: {
+            num: 1,
+            size: 999999999
+          }
+        }).then(data => {
+          this.categories = []
+          for (let i in data) {
+            let item = data[i]
+            item.value = item.id
+            this.categories.push(item)
+          }
           if (this.ids.length > 1) {
             let pid = parseInt(this.ids[this.ids.length - 2])
             if (pid != 0) {

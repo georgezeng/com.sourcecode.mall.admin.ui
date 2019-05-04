@@ -1,7 +1,7 @@
 <template>
   <div align="center">
     <Card>
-      <img style="margin-top: 100px; margin-bottom: 100px;" :src="Loading" />
+      <Spin size="large"></Spin>
     </Card>
   </div>
 </template>
@@ -10,7 +10,6 @@
   import API from '@/api/merchant-shop-application'
   import {Message} from 'iview'
   import config from '@/config/index'
-  import Loading from '@/assets/images/loading.gif'
 
   export default {
     name: 'MerchantShopApplicationIndex',

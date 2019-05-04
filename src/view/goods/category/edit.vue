@@ -9,14 +9,27 @@
         <Button @click="goList" type="success">返回</Button>
       </div>
       <Form ref="form" :model="form" :rules="rules" :label-width="80">
-        <FormItem label="排序" prop="order">
-          <InputNumber :min="1" v-model="form.order"></InputNumber>
+        <FormItem label="上级分类" prop="parentId">
+          <ParentList :parents="parents" :disabled="isEdit" :value="form.parentId" :noneValue="true" @change="setParent"/>
         </FormItem>
         <FormItem label="名称" prop="name">
           <Input v-model="form.name"></Input>
         </FormItem>
-        <FormItem label="上级分类" prop="parentId" v-if="!this.form.id">
-          <ParentList :parents="parents" :noneValue="true" @change="setParent"/>
+        <FormItem label="图标" prop="icon">
+          <Upload
+            :uploadUrl="uploadUrl"
+            :previewUri="form.icon"
+            btnText="上传图标"
+            :imgPrefix="imgPrefix"
+            :uploadPlaceholder="uploadPlaceholder"
+            width="32"
+            height="32"
+            @setPreviewUrl="setPreviewUrl"
+          />
+          <div class="clearfix"></div>
+        </FormItem>
+        <FormItem label="排序" prop="order">
+          <InputNumber :min="1" v-model="form.order"></InputNumber>
         </FormItem>
         <FormItem label="规格列表" prop="groups" v-if="this.form.id && this.form.level == 3">
           <Button type="primary" @click="goSubList">查看类型</Button>
@@ -29,13 +42,17 @@
 <script>
   import API from '@/api/goods-category'
   import ParentList from '../components/parents-category'
+  import Upload from '@/components/upload/img-one-line-upload'
   import {Message} from 'iview'
   import ApplicationAPI from '@/api/merchant-shop-application'
+  import uploadPlaceholder from '@/assets/images/upload-placeholder.png'
+  import config from '@/config/index'
 
   export default {
     name: 'GoodsCategoryEdit',
     components: {
-      ParentList
+      ParentList,
+      Upload
     },
     data() {
       const orderCheck = (rule, value, callback) => {
@@ -48,6 +65,8 @@
         }
       }
       return {
+        uploadPlaceholder,
+        imgPrefix: config.baseUrl + '/goods/category/file/load?filePath=',
         loading: false,
         parents: [],
         form: {
@@ -57,6 +76,7 @@
           order: null,
           parent: null,
           name: '',
+          icon: null
         },
         rules: {
           order: [
@@ -68,6 +88,9 @@
           ],
           parentId: [
             {required: true, message: '上级分类不能为空', trigger: 'change'},
+          ],
+          icon: [
+            {required: true, message: '图标不能为空', trigger: 'change'},
           ]
         }
       }
@@ -163,6 +186,9 @@
           name: 'GoodsCategoryList',
         })
       },
+      setPreviewUrl(url) {
+        this.form.icon = url
+      }
     },
     computed: {
       action() {
@@ -171,6 +197,9 @@
       isEdit() {
         return this.form.id != null && this.form.id != 0
       },
+      uploadUrl() {
+        return config.baseUrl + '/goods/category/file/upload/params/' + (this.form.id ? this.form.id : 0)
+      }
     },
     mounted: function () {
       let id = this.$router.currentRoute.params.id

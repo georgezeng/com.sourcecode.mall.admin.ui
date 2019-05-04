@@ -9,16 +9,20 @@
         <Button @click="goList" type="success">返回</Button>
       </div>
       <Form ref="form" :model="form" :rules="rules" :label-width="80">
-        <FormItem label="排序" prop="order">
-          <InputNumber :min="1" v-model="form.order"></InputNumber>
+        <FormItem label="商品分类">
+          <CategoryList :value="categoryId" :disabled="isEdit" :disableParent="true" :parents="categories"
+                        @change="setCategory"/>
         </FormItem>
-        <FormItem label="商品类型" prop="parent">
-          <Select v-model="form.parentId" style="width:200px">
+        <FormItem label="商品类型" prop="parentId">
+          <Select :disabled="isEdit" v-model="form.parentId">
             <Option v-for="group in groups" :value="group.id" :key="group.id">{{ group.name }}</Option>
           </Select>
         </FormItem>
         <FormItem label="名称" prop="name">
           <Input v-model="form.name"></Input>
+        </FormItem>
+        <FormItem label="排序" prop="order">
+          <InputNumber :min="1" v-model="form.order"></InputNumber>
         </FormItem>
         <FormItem label="值" prop="values">
           <ValueLine v-for="(value, index) in form.attrs" :index="index" :name="value.name"
@@ -33,14 +37,17 @@
 
 <script>
   import API from '@/api/goods-specification-definition'
+  import CategoryList from '../components/parents-category'
   import {Message} from 'iview'
   import ValueLine from './value-line'
   import ApplicationAPI from '@/api/merchant-shop-application'
+  import CategoryAPI from '@/api/goods-category'
 
   export default {
     name: 'GoodsSpecificationDefinitionEdit',
     components: {
-      ValueLine
+      ValueLine,
+      CategoryList
     },
     data() {
       const orderCheck = (rule, value, callback) => {
@@ -76,7 +83,9 @@
       return {
         ids: [],
         loading: false,
+        categories: [],
         groups: [],
+        categoryId: null,
         form: {
           id: null,
           parentId: null,
@@ -89,7 +98,7 @@
           order: [
             {required: true, validator: orderCheck, trigger: 'change'},
           ],
-          parent: [
+          parentId: [
             {required: true, validator: parentCheck, trigger: 'change'},
           ],
           name: [
@@ -103,6 +112,24 @@
       }
     },
     methods: {
+      loadCategoryId(id) {
+        this.loading = true
+        API.loadCategoryId(id).then(data => {
+          if (data) {
+            this.setCategory(data)
+          }
+          this.loading = false
+        }).catch(ex => {
+          this.loading = false
+        })
+      },
+      setCategory(option) {
+        let id = parseInt(option)
+        if (!isNaN(id)) {
+          this.categoryId = id
+          this.loadGroups(id)
+        }
+      },
       loadApplication() {
         this.loading = true
         ApplicationAPI.load().then(res => {
@@ -111,12 +138,39 @@
             switch (res.status.name) {
               case 'Passed': {
                 this.load()
-                this.loadGroups()
+                this.loadCategories()
                 return
               }
             }
           }
           this.goNoPermit()
+        })
+      },
+      loadCategories() {
+        this.loading = true
+        CategoryAPI.list({
+          data: {},
+          page: {
+            num: 1,
+            size: 999999999
+          }
+        }).then(data => {
+          this.categories = []
+          for (let i in data) {
+            let item = data[i]
+            item.value = item.id
+            this.categories.push(item)
+          }
+          if (this.ids.length > 1) {
+            let pid = parseInt(this.ids[this.ids.length - 2])
+            if (pid != 0) {
+              this.form.parentId = pid
+              this.loadCategoryId(pid)
+            }
+          }
+          this.loading = false
+        }).catch(ex => {
+          this.loading = false
         })
       },
       goNoPermit() {
@@ -158,16 +212,10 @@
           this.addValue()
         }
       },
-      loadGroups() {
+      loadGroups(id) {
         this.loading = true
-        API.loadGroups().then(data => {
+        API.loadGroups(id).then(data => {
           this.groups = data
-          if (this.ids.length > 1) {
-            let pid = parseInt(this.ids[this.ids.length - 2])
-            if (pid != 0) {
-              this.form.parentId = pid
-            }
-          }
           this.loading = false
         }).catch(ex => {
           this.loading = false
@@ -218,7 +266,7 @@
     },
     mounted: function () {
       this.ids = (this.$router.currentRoute.params.ids + '').split(',')
-      this.form.id = this.ids[this.ids.length-1]
+      this.form.id = this.ids[this.ids.length - 1]
       let isEdit = this.form.id != 0
       this.form.id = isEdit ? this.form.id : null;
       this.loadApplication()

@@ -1,8 +1,14 @@
 <template>
-  <Select @on-change="change">
+  <Select :disabled="disabled" :value="value" @on-change="change">
     <Option value="0,0" v-if="noneValue">无上级</Option>
-    <Option v-for="parent in parents" :value="parent.value" :key="parent.id"><span
-      :style="{marginLeft: (parent.level-1)*10+'px'}">{{parent.name}}</span></Option>
+    <Option :disabled="disableParent && parent.level != 3"
+            :style="{marginLeft: (parent.level-1)*10+'px'}"
+            v-for="parent in parents"
+            :value="parent.value"
+            :key="parent.id"
+    >
+      {{parent.name}}
+    </Option>
   </Select>
 </template>
 
@@ -10,6 +16,9 @@
   export default {
     name: 'GoodsCategoryParents',
     props: [
+      'value',
+      'disabled',
+      'disableParent',
       'noneValue',
       'parents',
     ],

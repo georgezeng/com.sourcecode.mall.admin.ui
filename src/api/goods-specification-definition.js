@@ -7,8 +7,11 @@ export default {
   load: (id) => {
     return axios.get('/goods/specification/definition/load/params/' + id)
   },
-  loadGroups: () => {
-    return axios.get('/goods/specification/definition/groups')
+  loadGroups: (id) => {
+    return axios.get('/goods/specification/definition/groups/params/' + id)
+  },
+  loadCategoryId: (id) => {
+    return axios.get('/goods/specification/definition/categoryId/params/' + id)
   },
   save: (obj) => {
     return axios.post('/goods/specification/definition/save', obj)

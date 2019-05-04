@@ -15,12 +15,12 @@
     :listHandler="listHandler"
     :deleteHandler="deleteHandler"
     subPageName="GoodsSpecificationGroupList"
+    :hidePage="true"
+    :initPageSize="999999999"
     @setLoading="setLoading"
     @setGoEdit="setGoEdit"
     @setDeleteData="setDeleteData"
     @setGoSubList="setGoSubList"
-    @setPageResult="setPageResult"
-    @setPageList="setPageList"
   >
   </CommonTable>
 </template>

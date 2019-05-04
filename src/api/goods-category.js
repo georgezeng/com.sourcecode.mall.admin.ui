@@ -10,9 +10,6 @@ export default {
   loadAllParents: () => {
     return axios.get('/goods/category/list/allParents')
   },
-  loadAllCategories: () => {
-    return axios.get('/goods/category/list/all')
-  },
   save: (obj) => {
     return axios.post('/goods/category/save', obj)
   },
