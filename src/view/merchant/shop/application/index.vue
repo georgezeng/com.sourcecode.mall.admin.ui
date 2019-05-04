@@ -16,7 +16,6 @@
     components: {},
     data() {
       return {
-        Loading,
       }
     },
     methods: {
