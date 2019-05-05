@@ -35,9 +35,6 @@
         <FormItem label="商品卖点" prop="sellingPoints">
           <Input v-model="form.sellingPoints" type="textarea" :autosize="{minRows: 2, maxRows: 5}"></Input>
         </FormItem>
-        <FormItem label="商品描述" prop="content">
-          <editor ref="editor" :value="form.content" @on-change="setContent"/>
-        </FormItem>
         <FormItem label="缩略图" prop="thumbnail">
           <Upload
             :uploadUrl="uploadUrl"
@@ -62,6 +59,9 @@
                        @setPreviewUrl="setPhotoPreviewUrl"
           />
           <div class="clearfix"></div>
+        </FormItem>
+        <FormItem label="商品描述" prop="content">
+          <editor ref="editor" :value="form.content" @on-change="setContent"/>
         </FormItem>
       </Form>
     </Card>
