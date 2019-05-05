@@ -44,12 +44,12 @@
             @setPreviewUrl="setThumbPreviewUrl"
           />
         </FormItem>
-        <FormItem label="照片" prop="photos">
+        <FormItem label="相册" prop="photos">
           <MultiUpload v-for="item in photos"
                        :index="item.index"
                        :uploadUrl="uploadUrl"
                        :previewUri="form.photos[item.index]"
-                       :btnText="('上传照片' + (item.index + 1))"
+                       :btnText="('上传图片' + (item.index + 1))"
                        :imgPrefix="imgPrefix"
                        width="180"
                        height="180"
@@ -250,6 +250,10 @@
             this.form = data
             this.form.enabled = data.enabled ? 'true' : 'false'
             this.$refs.editor.setHtml(data.content)
+            for (let i in this.form.photos) {
+              this.addPhoto(i)
+            }
+            this.addPhoto(this.form.photos.length)
             this.loading = false
           }).catch(ex => {
             this.loading = false

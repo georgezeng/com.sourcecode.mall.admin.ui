@@ -1,6 +1,17 @@
+<style>
+  .toolbar {
+    border: 1px solid #ccc;
+  }
+  .text {
+    border: 1px solid #ccc;
+    height: 2000px;
+  }
+</style>
+
 <template>
   <div class="editor-wrapper">
-    <div :id="editorId"></div>
+    <div :id="editorId + '-toolbar'" class="toolbar"></div>
+    <div :id="editorId + '-text'" class="text"></div>
   </div>
 </template>
 
@@ -51,11 +62,11 @@ export default {
     }
   },
   mounted () {
-    this.editor = new Editor(`#${this.editorId}`)
+    this.editor = new Editor(`#${this.editorId}-toolbar`, `#${this.editorId}-text`)
     this.editor.customConfig.uploadImgShowBase64 = true
     this.editor.customConfig.onchange = (html) => {
       let text = this.editor.txt.text()
-      if (this.cache) localStorage.editorCache = html
+      // if (this.cache) localStorage.editorCache = html
       this.$emit('input', this.valueType === 'html' ? html : text)
       this.$emit('on-change', html, text)
     }
@@ -63,7 +74,7 @@ export default {
     // create这个方法一定要在所有配置项之后调用
     this.editor.create()
     // 如果本地有存储加载本地存储内容
-    let html = this.value || localStorage.editorCache
+    let html = this.value //|| localStorage.editorCache
     if (html) this.editor.txt.html(html)
   }
 }

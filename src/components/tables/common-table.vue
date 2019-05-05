@@ -123,7 +123,7 @@
               id: 0
             },
             searchText: '',
-            statusText: 'true'
+            statusText: 'all'
           },
           page: {
             num: 1,
