@@ -215,6 +215,7 @@
         })
         this.deleteHandler(ids).then(res => {
           this.setLoading(false)
+          this.bulkDeleteModal = false
           Message.success('删除成功')
           this.load()
         }).catch(ex => {
@@ -247,6 +248,7 @@
         })
         this.updateStatusHandler(ids, false).then(res => {
           this.setLoading(false)
+          this.bulkStatusModal = false
           Message.success(this.disableStatusText + '成功')
           this.load()
         }).catch(ex => {
@@ -259,8 +261,9 @@
         this.selection.forEach(item => {
           ids.push(item.id)
         })
-        this.updateStatusHandler(ids, false).then(res => {
+        this.updateStatusHandler(ids, true).then(res => {
           this.setLoading(false)
+          this.bulkStatusModal = false
           Message.success(this.enableStatusText + '成功')
           this.load()
         }).catch(ex => {
