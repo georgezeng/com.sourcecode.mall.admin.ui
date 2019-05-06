@@ -13,8 +13,8 @@
           <CategoryList :value="categoryId" :disabled="isEdit" :disableParent="true" :parents="categories"
                         @change="setCategory"/>
         </FormItem>
-        <FormItem label="商品类型" prop="parentId">
-          <Select :disabled="isEdit" v-model="form.parentId">
+        <FormItem label="商品类型" prop="parentIds">
+          <Select :disabled="isEdit" multiple v-model="form.parentIds">
             <Option v-for="group in groups" :value="group.id" :key="group.id">{{ group.name }}</Option>
           </Select>
         </FormItem>
@@ -74,7 +74,7 @@
         }
       }
       const parentCheck = (rule, value, callback) => {
-        if (!this.form.parentId) {
+        if (!this.form.parentIds || this.form.parentIds.length == 0) {
           callback(new Error('商品分类不能为空'));
         } else {
           callback()
@@ -88,8 +88,7 @@
         categoryId: null,
         form: {
           id: null,
-          parentId: null,
-          parent: null,
+          parentIds: null,
           order: null,
           name: '',
           attrs: [],
@@ -112,17 +111,6 @@
       }
     },
     methods: {
-      loadCategoryId(id) {
-        this.loading = true
-        API.loadCategoryId(id).then(data => {
-          if (data) {
-            this.setCategory(data)
-          }
-          this.loading = false
-        }).catch(ex => {
-          this.loading = false
-        })
-      },
       setCategory(option) {
         let id = parseInt(option)
         if (!isNaN(id)) {
@@ -163,9 +151,8 @@
           }
           if (this.ids.length > 1) {
             let pid = parseInt(this.ids[this.ids.length - 2])
-            if (pid != 0) {
-              this.form.parentId = pid
-              this.loadCategoryId(pid)
+            if (pid != null && pid != 0) {
+              this.setCategory(pid)
             }
           }
           this.loading = false
@@ -203,7 +190,9 @@
           this.loading = true
           API.load(this.form.id).then(data => {
             this.form = data
-            this.form.parentId = data.parent.id
+            if(data.parent && data.parent.id) {
+              this.setCategory(data.parent.id)
+            }
             this.loading = false
           }).catch(ex => {
             this.loading = false
@@ -233,9 +222,6 @@
               }
             }
             this.form.values = values
-            this.form.parent = {
-              id: this.form.parentId
-            }
             API.save(this.form).then(res => {
               this.loading = false
               Message.success('保存成功')

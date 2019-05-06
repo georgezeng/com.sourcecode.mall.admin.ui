@@ -10,9 +10,6 @@ export default {
   loadGroups: (id) => {
     return axios.get('/goods/specification/definition/groups/params/' + id)
   },
-  loadCategoryId: (id) => {
-    return axios.get('/goods/specification/definition/categoryId/params/' + id)
-  },
   save: (obj) => {
     return axios.post('/goods/specification/definition/save', obj)
   },
