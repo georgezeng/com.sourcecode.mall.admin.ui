@@ -122,6 +122,7 @@
           this.loading = true
           API.load(this.form.id).then(data => {
             this.form = data
+            this.setCategory(data.parent.id)
             this.loading = false
           }).catch(ex => {
             this.loading = false
