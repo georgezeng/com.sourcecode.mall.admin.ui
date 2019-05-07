@@ -41,6 +41,7 @@
         parentId: 0,
         editPageName: 'GoodsSpecificationDefinitionEdit',
         deleteText: '删除',
+        deleteLineText: '删除',
         addBtnText: '新增',
         loading: false,
         columns: [
@@ -67,7 +68,7 @@
                   h('Poptip', {
                     props: {
                       confirm: true,
-                      title: '你确定要删除吗?'
+                      title: '你确定要' + this.deleteLineText + '吗?'
                     },
                     on: {
                       'on-ok': () => {
@@ -103,7 +104,7 @@
                   h('Poptip', {
                     props: {
                       confirm: true,
-                      title: '你确定要' + this.deleteText + '吗?'
+                      title: '你确定要' + this.deleteLineText + '吗?'
                     },
                     on: {
                       'on-ok': () => {
@@ -134,6 +135,7 @@
           this.addBtnText = '关联'
           this.editPageName = 'GoodsSpecificationDefinitionRelated'
           this.deleteText = '取消'
+          this.deleteLineText = '取消关联'
         }
       },
       setLoading(loading) {
