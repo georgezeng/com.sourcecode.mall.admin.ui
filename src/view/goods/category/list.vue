@@ -2,7 +2,6 @@
   <CommonTable
     :columns="columns"
     :loading="loading"
-    initSortProperty="name"
     deleteItemName="name"
     editPageName="GoodsCategoryEdit"
     :filteredPageNames="[
@@ -17,6 +16,7 @@
     subPageName="GoodsSpecificationGroupList"
     :hidePage="true"
     :initPageSize="999999999"
+    initSortProperty="order"
     @setLoading="setLoading"
     @setGoEdit="setGoEdit"
     @setDeleteData="setDeleteData"
