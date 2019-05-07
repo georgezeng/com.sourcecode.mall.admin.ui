@@ -129,9 +129,9 @@
         this.codeBtnText = '发送验证码'
       },
       save() {
-        this.loading = true
         this.$refs.form.validate().then(valid => {
           if (valid) {
+            this.loading = true
             API.save(this.form).then(res => {
               Message.success("注册成功")
               this.handleLogin({
