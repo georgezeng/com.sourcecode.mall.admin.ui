@@ -10,7 +10,7 @@
       </div>
       <Form ref="form" :model="form" :rules="rules" :label-width="80">
         <FormItem label="商品分类" prop="parentId">
-          <CategoryList :value="form.parentId" :disabled="isEdit" :disableParent="true" :parents="categories"
+          <CategoryList :value="form.parentId" :disableParent="true" :parents="categories"
                         @change="setCategory"/>
         </FormItem>
         <FormItem label="名称" prop="name">
