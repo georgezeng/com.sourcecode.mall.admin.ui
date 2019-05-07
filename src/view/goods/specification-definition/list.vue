@@ -4,7 +4,7 @@
     :loading="loading"
     initSortProperty="name"
     deleteItemName="name"
-    editPageName="GoodsSpecificationDefinitionEdit"
+    :editPageName="editPageName"
     :filteredPageNames="[
       'GoodsCategoryEdit',
       'GoodsCategoryList',
@@ -12,13 +12,16 @@
       'GoodsSpecificationGroupList',
       'GoodsSpecificationGroupEdit',
     ]"
+    :deleteText="deleteText"
     :listHandler="listHandler"
     :deleteHandler="deleteHandler"
     :useParent="true"
+    :addBtnText="addBtnText"
     parentPageName="GoodsSpecificationGroupList"
     @setLoading="setLoading"
     @setGoEdit="setGoEdit"
     @setDeleteData="setDeleteData"
+    @initForParentId="initForParentId"
   >
   </CommonTable>
 
@@ -35,6 +38,10 @@
     },
     data() {
       return {
+        parentId: 0,
+        editPageName: 'GoodsSpecificationDefinitionEdit',
+        deleteText: '删除',
+        addBtnText: '新增',
         loading: false,
         columns: [
           {type: 'selection', width: 60, align: 'center'},
@@ -55,41 +62,64 @@
             title: '操作',
             key: 'action',
             render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {
-                    type: 'primary',
-                    size: 'small'
-                  },
-                  style: {
-                    marginRight: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      this.goEdit(params.row.id)
+              if(this.parentId > 0) {
+                return h('div', [
+                  h('Poptip', {
+                    props: {
+                      confirm: true,
+                      title: '你确定要删除吗?'
+                    },
+                    on: {
+                      'on-ok': () => {
+                        this.deleteData([params.row])
+                      }
                     }
-                  }
-                }, '编辑'),
-
-                h('Poptip', {
-                  props: {
-                    confirm: true,
-                    title: '你确定要删除吗?'
-                  },
-                  on: {
-                    'on-ok': () => {
-                      this.deleteData([params.row])
-                    }
-                  }
-                }, [
+                  }, [
+                    h('Button', {
+                      props: {
+                        type: 'error',
+                        size: 'small'
+                      }
+                    }, '取消')
+                  ])
+                ])
+              } else {
+                return h('div', [
                   h('Button', {
                     props: {
-                      type: 'error',
+                      type: 'primary',
                       size: 'small'
+                    },
+                    style: {
+                      marginRight: '5px'
+                    },
+                    on: {
+                      click: () => {
+                        this.goEdit(params.row.id)
+                      }
                     }
-                  }, '删除')
+                  }, '编辑'),
+
+                  h('Poptip', {
+                    props: {
+                      confirm: true,
+                      title: '你确定要删除吗?'
+                    },
+                    on: {
+                      'on-ok': () => {
+                        this.deleteData([params.row])
+                      }
+                    }
+                  }, [
+                    h('Button', {
+                      props: {
+                        type: 'error',
+                        size: 'small'
+                      }
+                    }, '删除')
+                  ])
                 ])
-              ])
+              }
             }
           }
         ]
@@ -98,6 +128,14 @@
     methods: {
       listHandler: API.list,
       deleteHandler: API.delete,
+      initForParentId(id) {
+        if (id > 0) {
+          this.parentId = parseInt(id)
+          this.addBtnText = '关联'
+          this.editPageName = 'GoodsSpecificationDefinitionRelated'
+          this.deleteText = '取消'
+        }
+      },
       setLoading(loading) {
         this.loading = loading
       },

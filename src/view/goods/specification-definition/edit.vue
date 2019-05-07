@@ -9,13 +9,15 @@
         <Button @click="goList" type="success">返回</Button>
       </div>
       <Form ref="form" :model="form" :rules="rules" :label-width="80">
-        <FormItem label="商品分类">
+        <FormItem label="商品分类" prop="category">
           <CategoryList :value="categoryId" :disabled="isEdit" :disableParent="true" :parents="categories"
                         @change="setCategory"/>
         </FormItem>
-        <FormItem label="商品类型" prop="parentIds">
-          <Select :disabled="isEdit" multiple v-model="form.parentIds">
-            <Option v-for="group in groups" :value="group.id" :key="group.id">{{ group.name }}</Option>
+        <FormItem label="商品类型" prop="group">
+          <Select multiple :value="form.parentIds" @on-change="changeGroup">
+            <Option v-for="group in groups" :disabled="disableGroup(group.id)" :value="group.id" :key="group.id">
+              {{ group.name }}
+            </Option>
           </Select>
         </FormItem>
         <FormItem label="名称" prop="name">
@@ -73,9 +75,9 @@
           callback();
         }
       }
-      const parentCheck = (rule, value, callback) => {
-        if (!this.form.parentIds || this.form.parentIds.length == 0) {
-          callback(new Error('商品分类不能为空'));
+      const groupCheck = (rule, value, callback) => {
+        if (this.form.parentIds.length == 0) {
+          callback(new Error('商品类型不能为空'));
         } else {
           callback()
         }
@@ -88,7 +90,7 @@
         categoryId: null,
         form: {
           id: null,
-          parentIds: null,
+          parentIds: [],
           order: null,
           name: '',
           attrs: [],
@@ -97,8 +99,8 @@
           order: [
             {required: true, validator: orderCheck, trigger: 'change'},
           ],
-          parentId: [
-            {required: true, validator: parentCheck, trigger: 'change'},
+          group: [
+            {required: true, validator: groupCheck, trigger: 'change'},
           ],
           name: [
             {required: true, message: '名称不能为空', trigger: 'change'},
@@ -111,6 +113,37 @@
       }
     },
     methods: {
+      changeGroup(ids) {
+        if (this.isEdit) {
+          let parentIds = this.form.parentIds.concat()
+          for (let i in ids) {
+            let id = ids[i]
+            let found = false
+            for (let j in parentIds) {
+              if (id == parentIds[j]) {
+                found = true
+                break
+              }
+            }
+            if (!found) {
+              parentIds.push(id)
+            }
+          }
+          this.form.parentIds = parentIds
+        } else {
+          this.form.parentIds = ids
+        }
+      },
+      disableGroup(id) {
+        if (this.isEdit) {
+          for (let i in this.form.parentIds) {
+            if (this.form.parentIds[i] == id) {
+              return true
+            }
+          }
+        }
+        return false
+      },
       setCategory(option) {
         let id = parseInt(option)
         if (!isNaN(id)) {
@@ -190,7 +223,7 @@
           this.loading = true
           API.load(this.form.id).then(data => {
             this.form = data
-            if(data.parent && data.parent.id) {
+            if (data.parent && data.parent.id) {
               this.setCategory(data.parent.id)
             }
             this.loading = false

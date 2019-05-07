@@ -439,6 +439,18 @@ export default [
         }
       },
       {
+        path: 'Specification/Definition/Related/:ids',
+        name: 'GoodsSpecificationDefinitionRelated',
+        component: () => import('@/view/goods/specification-definition/related.vue'),
+        meta: {
+          hideInMenu: true,
+          icon: 'md-funnel',
+          title: '商品规格关联',
+          access: ['AUTH_GOODS_SPECIFICATION_DEFINITION_RELATED_PAGE'],
+          notCache: true
+        }
+      },
+      {
         path: 'Specification/Definition/Edit/:ids',
         name: 'GoodsSpecificationDefinitionEdit',
         component: () => import('@/view/goods/specification-definition/edit.vue'),

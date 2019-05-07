@@ -30,6 +30,7 @@
   import API from '@/api/goods-category'
   import {Message} from 'iview'
   import CommonTable from '@/components/tables/common-table'
+  import config from '@/config/index'
 
   export default {
     name: 'GoodsCategoryList',
@@ -72,6 +73,21 @@
             }
           },
           {title: '排序', key: 'order'},
+          {
+            title: '图标',
+            key: 'icon',
+            render: (h, params) => {
+              return h('img', {
+                attrs: {
+                  src: config.baseUrl + '/goods/category/file/load?filePath=' + params.row.icon,
+                },
+                style: {
+                  width: '40px',
+                  height: '40px'
+                }
+              })
+            }
+          },
           {
             title: '操作',
             key: 'action',
