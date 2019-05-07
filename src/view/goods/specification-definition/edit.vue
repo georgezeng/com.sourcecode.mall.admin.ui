@@ -14,8 +14,8 @@
                         @change="setCategory"/>
         </FormItem>
         <FormItem label="商品类型" prop="group">
-          <Select multiple :value="form.parentIds" @on-change="changeGroup">
-            <Option v-for="group in groups" :disabled="disableGroup(group.id)" :value="group.id" :key="group.id">
+          <Select multiple v-model="form.parentIds">
+            <Option v-for="group in groups" :value="group.id" :key="group.id">
               {{ group.name }}
             </Option>
           </Select>
