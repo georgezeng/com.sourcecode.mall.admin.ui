@@ -191,38 +191,41 @@
       },
       collapse(item) {
         let list = this.originalList
-        let parent = null
         for (let i in list) {
           let current = list[i]
           if (current.id == item.id) {
             current.collapsed = !current.collapsed
             if (current.collapsed) {
-              parent = current
+              this.list.push(current)
+            } else {
+              let arr = []
+              for (let j in this.list) {
+                let parent = this.list[j]
+                if (current.id != parent.id) {
+                  arr.push(parent)
+                }
+              }
+              this.list = arr
             }
             break
           }
         }
-        if (parent) {
-          let oldList = list
-          list = []
-          for (let i in oldList) {
-            let current = oldList[i]
-            if (!isSub(current, parent.attrs)) {
-              list.push(current)
-            }
+        let oldList = list
+        list = []
+        for (let i in oldList) {
+          let current = oldList[i]
+          if (!isSub(current, this.list)) {
+            list.push(current)
           }
-        } else {
-          list = this.originalList
         }
         this.setPageList(list)
 
-        function isSub(current, list) {
-          if (list && list.length > 0) {
-            for (let i in list) {
-              let item = list[i]
-              if (item.id == current.id || isSub(current, item.attrs)) {
-                return true
-              }
+        function isSub(current, parents) {
+          for(let i in parents) {
+            if(current.parent && parents[i].id == current.parent.id) {
+              return true
+            } else if(current.parent && current.parent.parent && current.parent.parent.id == parents[i].id) {
+              return true
             }
           }
           return false
