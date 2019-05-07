@@ -62,7 +62,7 @@
             title: '操作',
             key: 'action',
             render: (h, params) => {
-              if(this.parentId > 0) {
+              if (this.parentId > 0) {
                 return h('div', [
                   h('Poptip', {
                     props: {
@@ -103,7 +103,7 @@
                   h('Poptip', {
                     props: {
                       confirm: true,
-                      title: '你确定要删除吗?'
+                      title: '你确定要' + this.deleteText + '吗?'
                     },
                     on: {
                       'on-ok': () => {
