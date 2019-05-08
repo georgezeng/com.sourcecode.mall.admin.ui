@@ -16,7 +16,7 @@ export default {
   relate: (ids, status, id) => {
     return axios.post('/goods/specification/definition/relate/params/' + id + '/' + status, { ids })
   },
-  delete: (ids, parentId) => {
-    return axios.post('/goods/specification/definition/delete/params/' + parentId, { ids })
+  delete: (ids) => {
+    return axios.post('/goods/specification/definition/delete', { ids })
   }
 }

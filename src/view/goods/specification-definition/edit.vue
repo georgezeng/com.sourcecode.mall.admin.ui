@@ -9,6 +9,7 @@
         <Button @click="goList" type="success">返回</Button>
       </div>
       <Form ref="form" :model="form" :rules="rules" :label-width="80">
+        <!--
         <FormItem label="商品分类" prop="category">
           <CategoryList :value="categoryId" :disabled="isEdit" :disableParent="true" :parents="categories"
                         @change="setCategory"/>
@@ -20,6 +21,7 @@
             </Option>
           </Select>
         </FormItem>
+        -->
         <FormItem label="名称" prop="name">
           <Input v-model="form.name"></Input>
         </FormItem>
@@ -91,6 +93,9 @@
         form: {
           id: null,
           parentIds: [],
+          parent: {
+            id: 0
+          },
           order: null,
           name: '',
           attrs: [],
@@ -99,9 +104,9 @@
           order: [
             {required: true, validator: orderCheck, trigger: 'change'},
           ],
-          group: [
-            {required: true, validator: groupCheck, trigger: 'change'},
-          ],
+          // group: [
+          //   {required: true, validator: groupCheck, trigger: 'change'},
+          // ],
           name: [
             {required: true, message: '名称不能为空', trigger: 'change'},
             {max: 50, message: '名称不能多于50位', trigger: 'change'}
@@ -159,7 +164,7 @@
             switch (res.status.name) {
               case 'Passed': {
                 this.load()
-                this.loadCategories()
+                // this.loadCategories()
                 return
               }
             }
@@ -286,6 +291,7 @@
     mounted: function () {
       this.ids = (this.$router.currentRoute.params.ids + '').split(',')
       this.form.id = this.ids[this.ids.length - 1]
+      this.form.parent.id = this.ids[this.ids.length - 2]
       let isEdit = this.form.id != 0
       this.form.id = isEdit ? this.form.id : null;
       this.loadApplication()
