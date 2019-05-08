@@ -6,7 +6,7 @@
     statusItemName="name"
     :updateStatusHandler="updateStatusHandler"
     @setTriggerStatus="setTriggerStatus"
-    :useStatus="true"
+    :useStatus="isFromParent"
     :columns="columns"
     :loading="loading"
     initSortProperty="order"
@@ -23,7 +23,7 @@
     :listHandler="listHandler"
     :deleteHandler="deleteHandler"
     :useParent="true"
-    :disableDelete="true"
+    :disableDelete="isFromParent"
     parentPageName="GoodsSpecificationGroupList"
     @setLoading="setLoading"
     @setGoEdit="setGoEdit"
@@ -80,66 +80,110 @@
             title: '操作',
             key: 'action',
             render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {
-                    type: 'primary',
-                    size: 'small'
-                  },
-                  style: {
-                    marginRight: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      this.goEdit(params.row.id)
-                    }
-                  }
-                }, '编辑'),
-
-                h('Poptip', {
-                  props: {
-                    confirm: true,
-                    title: '你确定要' + (params.row.enabled ? '取消关联' : '关联') + '吗?'
-                  },
-                  on: {
-                    'on-ok': () => {
-                      this.triggerStatus(params.row, this.parentId)
-                    }
-                  },
-                  style: {
-                    marginRight: '5px'
-                  }
-                }, [
+              if (this.isFromParent) {
+                return h('div', [
                   h('Button', {
                     props: {
-                      type: params.row.enabled ? 'warning' : 'success',
+                      type: 'primary',
                       size: 'small'
+                    },
+                    style: {
+                      marginRight: '5px'
+                    },
+                    on: {
+                      click: () => {
+                        this.goEdit(params.row.id)
+                      }
                     }
-                  }, params.row.enabled ? '取消' : '关联')
-                ]),
+                  }, '编辑'),
 
-                h('Poptip', {
-                  props: {
-                    confirm: true,
-                    title: '你确定要删除吗?'
-                  },
-                  on: {
-                    'on-ok': () => {
-                      this.deleteData([params.row])
-                    }
-                  }
-                }, [
-                  h('Button', {
+                  h('Poptip', {
                     props: {
-                      type: 'error',
-                      size: 'small'
+                      confirm: true,
+                      title: '你确定要' + (params.row.enabled ? '取消关联' : '关联') + '吗?'
+                    },
+                    on: {
+                      'on-ok': () => {
+                        this.triggerStatus(params.row, this.parentId)
+                      }
+                    },
+                    style: {
+                      marginRight: '5px'
                     }
-                  }, '删除')
+                  }, [
+                    h('Button', {
+                      props: {
+                        type: params.row.enabled ? 'warning' : 'success',
+                        size: 'small'
+                      }
+                    }, params.row.enabled ? '取消' : '关联')
+                  ]),
+
+                  h('Poptip', {
+                    props: {
+                      confirm: true,
+                      title: '你确定要删除吗?'
+                    },
+                    on: {
+                      'on-ok': () => {
+                        this.deleteData([params.row])
+                      }
+                    }
+                  }, [
+                    h('Button', {
+                      props: {
+                        type: 'error',
+                        size: 'small'
+                      }
+                    }, '删除')
+                  ])
                 ])
-              ])
+              } else {
+                return h('div', [
+                  h('Button', {
+                    props: {
+                      type: 'primary',
+                      size: 'small'
+                    },
+                    style: {
+                      marginRight: '5px'
+                    },
+                    on: {
+                      click: () => {
+                        this.goEdit(params.row.id)
+                      }
+                    }
+                  }, '编辑'),
+
+                  h('Poptip', {
+                    props: {
+                      confirm: true,
+                      title: '你确定要删除吗?'
+                    },
+                    on: {
+                      'on-ok': () => {
+                        this.deleteData([params.row])
+                      }
+                    }
+                  }, [
+                    h('Button', {
+                      props: {
+                        type: 'error',
+                        size: 'small'
+                      }
+                    }, '删除')
+                  ])
+                ])
+              }
+
             }
           }
         ]
+      }
+    },
+    computed: {
+      isFromParent() {
+        return this.parentId > 0
       }
     },
     methods: {
