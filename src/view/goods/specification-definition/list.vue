@@ -3,7 +3,7 @@
     enableStatusText="关联"
     disableStatusText="取消"
     :statusList="statusList"
-    statusItemName="username"
+    statusItemName="name"
     :updateStatusHandler="updateStatusHandler"
     @setTriggerStatus="setTriggerStatus"
     :useStatus="true"
