@@ -9,7 +9,8 @@
     :useStatus="true"
     :columns="columns"
     :loading="loading"
-    initSortProperty="name"
+    initSortProperty="order"
+    initStatusText="true"
     deleteItemName="name"
     editPageName="GoodsSpecificationDefinitionEdit"
     :filteredPageNames="[
@@ -62,8 +63,8 @@
         loading: false,
         columns: [
           {type: 'selection', width: 60, align: 'center'},
-          {title: '排序', key: 'order', sortable: true},
-          {title: '名称', key: 'name', sortable: true, sortType: 'asc'},
+          {title: '排序', key: 'order', sortable: true, sortType: 'asc'},
+          {title: '名称', key: 'name', sortable: true},
           {
             title: '值',
             key: 'values',
