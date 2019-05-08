@@ -1,7 +1,7 @@
 <template>
   <CommonTable
-    enableStatusText="取消"
-    disableStatusText="关联"
+    enableStatusText="关联"
+    disableStatusText="取消"
     :statusList="statusList"
     statusItemName="username"
     :updateStatusHandler="updateStatusHandler"
