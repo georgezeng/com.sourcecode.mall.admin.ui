@@ -15,6 +15,7 @@
     :filteredPageNames="['GoodsItemEdit']"
     :listHandler="listHandler"
     :deleteHandler="deleteHandler"
+    :disableAddBtn="true"
     @setLoading="setLoading"
     @setGoEdit="setGoEdit"
     @setDeleteData="setDeleteData"

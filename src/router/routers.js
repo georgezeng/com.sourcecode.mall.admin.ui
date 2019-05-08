@@ -293,6 +293,7 @@ export default [
         'AUTH_GOODS_CATEGORY_LIST_PAGE',
         'AUTH_GOODS_SPECIFICATION_GROUP_INDEX_PAGE',
         'AUTH_GOODS_SPECIFICATION_DEFINITION_INDEX_PAGE',
+        'AUTH_GOODS_ITEM_INDEX_PAGE',
         'AUTH_GOODS_BRAND_LIST_PAGE',
         'AUTH_GOODS_ITEM_LIST_PAGE'
       ]
@@ -308,6 +309,17 @@ export default [
           icon: 'md-funnel',
           title: '商品管理',
           access: ['AUTH_GOODS_NOPERMIT_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Item/Index',
+        name: 'GoodsItemIndex',
+        component: () => import('@/view/goods/item/index.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '发布商品',
+          access: ['AUTH_GOODS_ITEM_INDEX_PAGE'],
           notCache: true
         }
       },
