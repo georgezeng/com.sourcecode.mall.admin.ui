@@ -104,7 +104,7 @@
                     },
                     on: {
                       'on-ok': () => {
-                        this.triggerStatus(params.row, this.parentId)
+                        this.triggerStatus(params.row)
                       }
                     },
                     style: {
