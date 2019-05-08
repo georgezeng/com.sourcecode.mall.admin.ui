@@ -2,7 +2,7 @@
   <CommonTable
     :columns="columns"
     :loading="loading"
-    initSortProperty="name"
+    initSortProperty="order"
     deleteItemName="name"
     editPageName="GoodsBrandEdit"
     :filteredPageNames="['GoodsBrandEdit']"

@@ -292,7 +292,6 @@ export default [
       access: [
         'AUTH_GOODS_CATEGORY_LIST_PAGE',
         'AUTH_GOODS_SPECIFICATION_GROUP_INDEX_PAGE',
-        'AUTH_GOODS_SPECIFICATION_DEFINITION_INDEX_PAGE',
         'AUTH_GOODS_BRAND_LIST_PAGE',
         'AUTH_GOODS_ITEM_LIST_PAGE'
       ]
@@ -416,17 +415,6 @@ export default [
         }
       },
       {
-        path: 'Specification/Definition/Index',
-        name: 'GoodsSpecificationDefinitionIndex',
-        component: () => import('@/view/goods/specification-definition/index.vue'),
-        meta: {
-          icon: 'md-funnel',
-          title: '商品规格',
-          access: ['AUTH_GOODS_SPECIFICATION_DEFINITION_INDEX_PAGE'],
-          notCache: true
-        }
-      },
-      {
         path: 'Specification/Definition/List/:ids',
         name: 'GoodsSpecificationDefinitionList',
         component: () => import('@/view/goods/specification-definition/list.vue'),
@@ -435,18 +423,6 @@ export default [
           icon: 'md-funnel',
           title: '商品规格',
           access: ['AUTH_GOODS_SPECIFICATION_DEFINITION_LIST_PAGE'],
-          notCache: true
-        }
-      },
-      {
-        path: 'Specification/Definition/Related/:ids',
-        name: 'GoodsSpecificationDefinitionRelated',
-        component: () => import('@/view/goods/specification-definition/related.vue'),
-        meta: {
-          hideInMenu: true,
-          icon: 'md-funnel',
-          title: '商品规格关联',
-          access: ['AUTH_GOODS_SPECIFICATION_DEFINITION_RELATED_PAGE'],
           notCache: true
         }
       },

@@ -1,10 +1,17 @@
 <template>
   <CommonTable
+    enableStatusText="取消"
+    disableStatusText="关联"
+    :statusList="statusList"
+    statusItemName="username"
+    :updateStatusHandler="updateStatusHandler"
+    @setTriggerStatus="setTriggerStatus"
+    :useStatus="true"
     :columns="columns"
     :loading="loading"
     initSortProperty="name"
     deleteItemName="name"
-    :editPageName="editPageName"
+    editPageName="GoodsSpecificationDefinitionEdit"
     :filteredPageNames="[
       'GoodsCategoryEdit',
       'GoodsCategoryList',
@@ -12,11 +19,10 @@
       'GoodsSpecificationGroupList',
       'GoodsSpecificationGroupEdit',
     ]"
-    :deleteText="deleteText"
     :listHandler="listHandler"
     :deleteHandler="deleteHandler"
     :useParent="true"
-    :addBtnText="addBtnText"
+    :disableDelete="true"
     parentPageName="GoodsSpecificationGroupList"
     @setLoading="setLoading"
     @setGoEdit="setGoEdit"
@@ -39,15 +45,25 @@
     data() {
       return {
         parentId: 0,
-        editPageName: 'GoodsSpecificationDefinitionEdit',
-        deleteText: '删除',
-        deleteLineText: '删除',
-        addBtnText: '新增',
+        statusList: [
+          {
+            value: 'true',
+            label: '已关联'
+          },
+          {
+            value: 'false',
+            label: '未关联'
+          },
+          {
+            value: 'all',
+            label: '全部'
+          }
+        ],
         loading: false,
         columns: [
           {type: 'selection', width: 60, align: 'center'},
-          {title: '排序', key: 'order', sortable: true, sortType: 'asc'},
-          {title: '名称', key: 'name', sortable: true},
+          {title: '排序', key: 'order', sortable: true},
+          {title: '名称', key: 'name', sortable: true, sortType: 'asc'},
           {
             title: '值',
             key: 'values',
@@ -63,64 +79,63 @@
             title: '操作',
             key: 'action',
             render: (h, params) => {
-              if (this.parentId > 0) {
-                return h('div', [
-                  h('Poptip', {
-                    props: {
-                      confirm: true,
-                      title: '你确定要' + this.deleteLineText + '吗?'
-                    },
-                    on: {
-                      'on-ok': () => {
-                        this.deleteData([params.row])
-                      }
+              return h('div', [
+                h('Button', {
+                  props: {
+                    type: 'primary',
+                    size: 'small'
+                  },
+                  style: {
+                    marginRight: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      this.goEdit(params.row.id)
                     }
-                  }, [
-                    h('Button', {
-                      props: {
-                        type: 'error',
-                        size: 'small'
-                      }
-                    }, '取消')
-                  ])
-                ])
-              } else {
-                return h('div', [
+                  }
+                }, '编辑'),
+
+                h('Poptip', {
+                  props: {
+                    confirm: true,
+                    title: '你确定要' + (params.row.enabled ? '取消关联' : '关联') + '吗?'
+                  },
+                  on: {
+                    'on-ok': () => {
+                      this.triggerStatus(params.row, this.parentId)
+                    }
+                  },
+                  style: {
+                    marginRight: '5px'
+                  }
+                }, [
                   h('Button', {
                     props: {
-                      type: 'primary',
+                      type: params.row.enabled ? 'warning' : 'success',
                       size: 'small'
-                    },
-                    style: {
-                      marginRight: '5px'
-                    },
-                    on: {
-                      click: () => {
-                        this.goEdit(params.row.id)
-                      }
                     }
-                  }, '编辑'),
+                  }, params.row.enabled ? '取消' : '关联')
+                ]),
 
-                  h('Poptip', {
-                    props: {
-                      confirm: true,
-                      title: '你确定要' + this.deleteLineText + '吗?'
-                    },
-                    on: {
-                      'on-ok': () => {
-                        this.deleteData([params.row])
-                      }
+                h('Poptip', {
+                  props: {
+                    confirm: true,
+                    title: '你确定要删除吗?'
+                  },
+                  on: {
+                    'on-ok': () => {
+                      this.deleteData([params.row])
                     }
-                  }, [
-                    h('Button', {
-                      props: {
-                        type: 'error',
-                        size: 'small'
-                      }
-                    }, '删除')
-                  ])
+                  }
+                }, [
+                  h('Button', {
+                    props: {
+                      type: 'error',
+                      size: 'small'
+                    }
+                  }, '删除')
                 ])
-              }
+              ])
             }
           }
         ]
@@ -129,15 +144,7 @@
     methods: {
       listHandler: API.list,
       deleteHandler: API.delete,
-      initForParentId(id) {
-        if (id > 0) {
-          this.parentId = parseInt(id)
-          this.addBtnText = '关联'
-          this.editPageName = 'GoodsSpecificationDefinitionRelated'
-          this.deleteText = '取消'
-          this.deleteLineText = '取消关联'
-        }
-      },
+      updateStatusHandler: API.relate,
       setLoading(loading) {
         this.loading = loading
       },
@@ -147,6 +154,12 @@
       setGoEdit(callback) {
         this.goEdit = callback
       },
+      setTriggerStatus(callback) {
+        this.triggerStatus = callback
+      },
+      initForParentId(id) {
+        this.parentId = id
+      }
     }
   }
 </script>
