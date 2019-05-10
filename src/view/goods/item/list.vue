@@ -54,7 +54,7 @@
           {type: 'selection', width: 60, align: 'center'},
           {title: '名称', key: 'name', sortable: true, sortType: 'asc'},
           {title: '货号', key: 'code', sortable: true},
-          {title: '市场价格', key: 'marketPrice', sortable: true},
+          {title: '价格', key: 'realPrice', sortable: true},
           {
             title: '缩略图',
             key: 'thumbnail',
