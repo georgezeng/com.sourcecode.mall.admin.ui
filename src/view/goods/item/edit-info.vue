@@ -29,7 +29,10 @@
             <Option v-for="brand in brands" :value="brand.id" :key="brand.id">{{ brand.name }}</Option>
           </Select>
         </FormItem>
-        <FormItem label="市场售价" prop="marketPrice">
+        <FormItem label="价格" prop="realPrice">
+          <Input v-model="form.realPrice" @on-change="editCompleteCheck"></Input>
+        </FormItem>
+        <FormItem label="原价" prop="marketPrice">
           <Input v-model="form.marketPrice" @on-change="editCompleteCheck"></Input>
         </FormItem>
         <FormItem label="商品卖点" prop="sellingPoints">
@@ -113,9 +116,16 @@
           callback();
         }
       }
+      const realPriceCheck = (rule, value, callback) => {
+        if (isNaN(this.form.realPrice)) {
+          callback(new Error('价格必须是有效数字'));
+        } else {
+          callback();
+        }
+      }
       const marketPriceCheck = (rule, value, callback) => {
-        if (!this.form.marketPrice || isNaN(this.form.marketPrice)) {
-          callback(new Error('市场售价必须是有效数字'));
+        if (isNaN(this.form.marketPrice)) {
+          callback(new Error('原价必须是有效数字'));
         } else {
           callback();
         }
@@ -143,6 +153,7 @@
           brandId: '',
           enabled: 'false',
           marketPrice: null,
+          realPrice: null,
           sellingPoints: null,
           content: null,
           thumbnail: null,
@@ -168,8 +179,11 @@
           enabled: [
             {required: true, message: '上下架状态不能为空', trigger: 'change'},
           ],
+          realPrice: [
+            {required: true, validator: realPriceCheck, trigger: 'change'},
+          ],
           marketPrice: [
-            {required: true, validator: marketPriceCheck, trigger: 'change'},
+            {required: false, validator: marketPriceCheck, trigger: 'change'},
           ],
           content: [
             {required: true, message: '描述不能为空', trigger: 'change'},

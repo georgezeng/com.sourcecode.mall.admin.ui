@@ -347,7 +347,10 @@
       filterValues() {
         let list = []
         for (let i in this.selectedValues) {
-          list.push(this.selectedValues[i])
+          let item = this.selectedValues[i]
+          if (item && item.length > 0) {
+            list.push(this.selectedValues[i])
+          }
         }
         list = multiDecartesian(list)
         let arr = []
