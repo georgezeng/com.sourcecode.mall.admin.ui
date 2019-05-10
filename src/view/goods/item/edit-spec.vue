@@ -33,6 +33,10 @@
         <Button @click="goList" type="success">返回</Button>
       </div>
       <Form ref="form" :model="form" :rules="rules" :label-width="80">
+        <FormItem label="商品分类" prop="categoryId">
+          <CategoryList :value="form.categoryId" :parents="categories"
+                        @change="setCategory"/>
+        </FormItem>
         <FormItem label="商品类型" prop="groupId">
           <Select v-model="form.groupId" @on-change="loadDefinitions">
             <Option v-for="group in groups" :value="group.id" :key="group.id">{{ group.name }}</Option>
@@ -64,12 +68,16 @@
   import ValueLine from '@/view/goods/specification-definition/value-line'
   import DefinitionAPI from '@/api/goods-specification-definition'
   import {multiDecartesian} from '@/libs/util'
+  import GroupAPI from '@/api/goods-specification-group'
+  import CategoryAPI from '@/api/goods-category'
+  import CategoryList from '../components/parents-category'
 
 
   export default {
     name: 'GoodsItemSpecEdit',
     components: {
       ValueLine,
+      CategoryList
     },
     props: [
       'id'
@@ -113,7 +121,6 @@
         selectedValues: {},
         values: [],
         properties: [],
-        tmpProperties: [],
         data: {
           id: null,
           properties: []
@@ -128,6 +135,7 @@
           attrs: [],
         },
         form: {
+          categoryId: null,
           groupId: null,
           definitions: []
         },
@@ -260,7 +268,7 @@
                 on: {
                   'on-change': (value) => {
                     params.row.price = value
-                    this.tmpProperties[params.index] = params.row
+                    this.properties[params.index] = params.row
                   }
                 }
               }
@@ -282,7 +290,7 @@
                 on: {
                   'on-change': (value) => {
                     params.row.inventory = value
-                    this.tmpProperties[params.index] = params.row
+                    this.properties[params.index] = params.row
                   }
                 }
               }
@@ -360,18 +368,49 @@
           }
           arr.push(selection)
         }
-        this.properties = arr
         return arr
 
       }
     },
     methods: {
+      loadAllCategories() {
+        this.loading = true
+        CategoryAPI.list({
+          data: {},
+          page: {
+            num: 1,
+            size: 999999999
+          }
+        }).then(data => {
+          this.categories = []
+          for (let i in data) {
+            let item = data[i]
+            item.value = item.id
+            this.categories.push(item)
+          }
+          this.loading = false
+        }).catch(ex => {
+          this.loading = false
+        })
+      },
+      setCategory(option) {
+        this.form.categoryId = option
+        this.loadGroups()
+      },
+      loadGroups() {
+        this.loading = true
+        GroupAPI.loadGroups(this.form.categoryId).then(data => {
+          this.$store.commit('setGoodsSpecificationGroups', data)
+          this.loading = false
+        }).catch(ex => {
+          this.loading = false
+        })
+      },
       load() {
         if (this.id) {
           this.loading = true
           API.load(this.id).then(data => {
             if (data.properties) {
-              // this.selections = data.properties
               let selections = data.properties
               this.data.properties = data.properties
               let values = selections[0].values
@@ -381,6 +420,7 @@
               }
             }
             this.loadAllDefinitions()
+            this.loadAllCategories()
             this.loading = false
           }).catch(ex => {
             this.loading = false
@@ -469,10 +509,6 @@
           this.$emit("goInfo")
           return
         }
-        if (this.properties.length == 0) {
-          Message.warning("请先编辑再上传")
-          return
-        }
         if (this.selections.length == 0) {
           Message.warning("请先选中再上传")
           return
@@ -480,8 +516,8 @@
         for (let j in this.selections) {
           let selection = this.selections[j]
           let selectedValues = this.selections[j].values
-          for (let i in this.tmpProperties) {
-            let item = this.tmpProperties[i]
+          for (let i in this.properties) {
+            let item = this.properties[i]
             let values = item.values
             let matched = 0
             for (let k in values) {

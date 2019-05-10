@@ -239,8 +239,9 @@
       },
       setCategory(option) {
         this.form.categoryId = option
+        this.form.brandId = null
         this.loadBrands()
-        this.loadGroups()
+        // this.loadGroups()
         this.editCompleteCheck()
       },
       loadGroups() {
@@ -289,9 +290,11 @@
         if (this.form.id) {
           this.loading = true
           API.load(this.form.id).then(data => {
+            let brandId = data.brandId
             this.form = data
             this.setCategory(data.categoryId)
-            this.form.enabled = data.enabled ? 'true' : 'false'
+            this.form.brandId = brandId
+              this.form.enabled = data.enabled ? 'true' : 'false'
             this.$refs.editor.setHtml(data.content)
             for (let i in this.form.photos) {
               this.addPhoto(i)
