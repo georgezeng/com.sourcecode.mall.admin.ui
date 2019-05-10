@@ -1,9 +1,9 @@
 <template>
   <Tabs v-model="tab">
     <TabPane label="基本信息" name="info">
-      <InfoPanel @editComplete="editComplete" @saveSuccess="saveSuccess"/>
+      <InfoPanel @saveSuccess="saveSuccess"/>
     </TabPane>
-    <TabPane label="规格信息" name="spec" :disabled="isDisabled">
+    <TabPane label="规格信息" name="spec" :disabled="!isEdit">
       <SpecPanel :id="id" @goInfo="goInfo"/>
     </TabPane>
   </Tabs>
@@ -23,7 +23,6 @@
       return {
         tab: 'info',
         id: null,
-        enable: false,
         filteredPageNames: [
           'GoodsItemEdit'
         ]
@@ -33,17 +32,11 @@
       saveSuccess(id) {
         this.id = id
       },
-      editComplete() {
-        this.enable = true
-      },
       goInfo() {
         this.tab = 'info'
       }
     },
     computed: {
-      isDisabled() {
-        return !(this.isEdit || this.enable)
-      },
       isEdit() {
         return this.id != null && this.id > 0
       }

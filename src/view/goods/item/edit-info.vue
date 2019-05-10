@@ -205,11 +205,11 @@
         })
       },
       editCompleteCheck() {
-        this.$refs.form.validate().then(valid => {
-          if (valid) {
-            this.$emit('editComplete')
-          }
-        })
+        // this.$refs.form.validate().then(valid => {
+        //   if (valid) {
+        //     this.$emit('editComplete')
+        //   }
+        // })
       },
       loadApplication() {
         this.loading = true

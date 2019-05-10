@@ -121,6 +121,7 @@
         selectedValues: {},
         values: [],
         properties: [],
+        categories: [],
         data: {
           id: null,
           properties: []
