@@ -202,10 +202,6 @@
                         item.parent = {
                           id: row.id
                         }
-                        item.property = {
-                          price: 0,
-                          inventory: 0
-                        }
                         arr.push(item)
                       } else {
                         let newArr = []
@@ -216,6 +212,12 @@
                           }
                         }
                         arr = newArr
+                      }
+                      let properties = this.data.properties
+                      for (let i in properties) {
+                        let property = properties[i]
+                        property.price = 0
+                        property.inventory = 0
                       }
                       if (arr.length > 0) {
                         values[attr] = arr
@@ -516,7 +518,7 @@
           return
         }
         if (this.selections.length == 0) {
-          Message.warning("请先选中再上传")
+          Message.warning("请先选中再提交")
           return
         }
         for (let j in this.selections) {
