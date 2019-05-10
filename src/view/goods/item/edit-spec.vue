@@ -414,10 +414,12 @@
             if (data.properties) {
               let selections = data.properties
               this.data.properties = data.properties
-              let values = selections[0].values
-              for (let i in values) {
-                let value = values[i]
-                this.form.definitions.push(value.parent.id)
+              if (selections && selections.length > 0) {
+                let values = selections[0].values
+                for (let i in values) {
+                  let value = values[i]
+                  this.form.definitions.push(value.parent.id)
+                }
               }
             }
             this.loadAllDefinitions()
