@@ -9,11 +9,14 @@
         <Button @click="goList" type="success">返回</Button>
       </div>
       <Form ref="form" :model="form" :rules="rules" :label-width="80">
-        <FormItem label="排序" prop="order">
-          <InputNumber :min="1" v-model="form.order"></InputNumber>
+        <FormItem label="商品分类" prop="categoryId">
+          <CategoryList :value="form.categoryId" :disableParent="true" :parents="categories" @change="setCategory" />
         </FormItem>
         <FormItem label="名称" prop="name">
           <Input v-model="form.name"></Input>
+        </FormItem>
+        <FormItem label="排序" prop="order">
+          <InputNumber :min="1" v-model="form.order"></InputNumber>
         </FormItem>
         <FormItem label="logo" prop="logo">
           <Upload
@@ -35,12 +38,15 @@
   import Upload from '@/components/upload/img-single-upload'
   import config from '@/config/index'
   import ApplicationAPI from '@/api/merchant-shop-application'
+  import CategoryList from '../components/parents-category'
+  import CategoryAPI from '@/api/goods-category'
 
 
   export default {
     name: 'GoodsBrandEdit',
     components: {
-      Upload
+      Upload,
+      CategoryList
     },
     data() {
       const orderCheck = (rule, value, callback) => {
@@ -52,10 +58,19 @@
           callback()
         }
       }
+      const categoryCheck = (rule, value, callback) => {
+        if (!this.form.categoryId || this.form.categoryId == 0) {
+          callback(new Error('分类不能为空'));
+        } else {
+          callback()
+        }
+      }
       return {
+        categories: [],
         imgPrefix: config.baseUrl + '/goods/brand/file/load?filePath=',
         loading: false,
         form: {
+          categoryId: null,
           id: null,
           order: null,
           name: '',
@@ -71,11 +86,37 @@
           ],
           logo: [
             {required: true, message: 'logo不能为空', trigger: 'change'},
+          ],
+          categoryId: [
+            {required: true, validator: categoryCheck, trigger: 'change'},
           ]
         }
       }
     },
     methods: {
+      loadAllCategories() {
+        this.loading = true
+        CategoryAPI.list({
+          data: {},
+          page: {
+            num: 1,
+            size: 999999999
+          }
+        }).then(data => {
+          this.categories = []
+          for (let i in data) {
+            let item = data[i]
+            item.value = item.id
+            this.categories.push(item)
+          }
+          this.loading = false
+        }).catch(ex => {
+          this.loading = false
+        })
+      },
+      setCategory(categoryId) {
+        this.form.categoryId = categoryId
+      },
       loadApplication() {
         this.loading = true
         ApplicationAPI.load().then(res => {
@@ -84,6 +125,7 @@
             switch (res.status.name) {
               case 'Passed': {
                 this.load()
+                this.loadAllCategories()
                 return
               }
             }

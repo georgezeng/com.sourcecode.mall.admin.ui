@@ -10,13 +10,16 @@ export default {
   loadGroups: (id) => {
     return axios.get('/goods/specification/definition/groups/params/' + id)
   },
+  loadDefinitions: (id) => {
+    return axios.get('/goods/specification/definition/listInGroup/params/' + id)
+  },
   save: (obj) => {
     return axios.post('/goods/specification/definition/save', obj)
   },
   relate: (ids, status, id) => {
-    return axios.post('/goods/specification/definition/relate/params/' + id + '/' + status, { ids })
+    return axios.post('/goods/specification/definition/relate/params/' + id + '/' + status, {ids})
   },
   delete: (ids) => {
-    return axios.post('/goods/specification/definition/delete', { ids })
+    return axios.post('/goods/specification/definition/delete', {ids})
   }
 }

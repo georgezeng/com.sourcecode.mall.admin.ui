@@ -10,6 +10,9 @@ export default {
   save: (obj) => {
     return axios.post('/goods/item/save', obj)
   },
+  saveProperties: (obj) => {
+    return axios.post('/goods/item/properties/save', obj)
+  },
   updateStatus: (ids, status) => {
     return axios.post('/goods/item/updateStatus/params/' + status, { ids })
   },

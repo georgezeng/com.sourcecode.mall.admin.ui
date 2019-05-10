@@ -214,7 +214,7 @@
       removeValue(index) {
         this.form.attrs.splice(index, 1)
         if (this.form.attrs.length == 0) {
-          this.addValue()
+          this.addValue(-1)
         }
       },
       addValue(index) {
@@ -236,7 +236,7 @@
             this.loading = false
           })
         } else {
-          this.addValue()
+          this.addValue(-1)
         }
       },
       loadGroups(id) {
@@ -252,14 +252,6 @@
         this.$refs.form.validate().then(valid => {
           if (valid) {
             this.loading = true
-            let values = []
-            for (let i in this.form.values) {
-              let value = this.form.values[i]
-              if (value.name != '') {
-                values.push(value)
-              }
-            }
-            this.form.values = values
             API.save(this.form).then(res => {
               this.loading = false
               Message.success('保存成功')

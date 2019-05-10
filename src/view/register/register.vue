@@ -101,10 +101,8 @@
       ]),
       sendCode() {
         if (!this.form.username) {
-          let valid = this.$refs.form.validateField('username')
-          if (!valid) {
-            return
-          }
+          this.$refs.form.validateField('username')
+          return
         }
         if (this.codeLoading) {
           return
