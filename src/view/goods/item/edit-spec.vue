@@ -112,6 +112,8 @@
         selectedDefinitions: [],
         selectedValues: {},
         values: [],
+        properties: [],
+        tmpProperties: [],
         data: {
           id: null,
           properties: []
@@ -206,7 +208,7 @@
                         }
                         arr = newArr
                       }
-                      if(arr.length > 0) {
+                      if (arr.length > 0) {
                         values[attr] = arr
                       } else {
                         values[attr] = null
@@ -250,29 +252,15 @@
               let attributes = {
                 props: {
                   min: 0,
-                  value: params.row.property.price
+                  value: params.row.price
                 },
                 style: {
                   width: '150px'
                 },
                 on: {
                   'on-change': (value) => {
-                    // let list = this.data.properties
-                    // for (let i in list) {
-                    //   let item = list[i]
-                    //   let found = true
-                    //   for (let j in item.values) {
-                    //     if (item.values[j].id != params.row.values[j].id) {
-                    //       found = false
-                    //       break
-                    //     }
-                    //   }
-                    //   if (found) {
-                    //     item.price = value
-                    //     break
-                    //   }
-                    // }
-                    params.row.property.price = value
+                    params.row.price = value
+                    this.tmpProperties[params.index] = params.row
                   }
                 }
               }
@@ -286,29 +274,15 @@
               let attributes = {
                 props: {
                   min: 0,
-                  value: params.row.property.inventory
+                  value: params.row.inventory
                 },
                 style: {
                   width: '150px'
                 },
                 on: {
                   'on-change': (value) => {
-                    // let list = this.data.properties
-                    // for (let i in list) {
-                    //   let item = list[i]
-                    //   let found = true
-                    //   for (let j in item.values) {
-                    //     if (item.values[j].id != params.row.values[j].id) {
-                    //       found = false
-                    //       break
-                    //     }
-                    //   }
-                    //   if (found) {
-                    //     item.inventory = value
-                    //     break
-                    //   }
-                    // }
-                    params.row.property.inventory = value
+                    params.row.inventory = value
+                    this.tmpProperties[params.index] = params.row
                   }
                 }
               }
@@ -368,14 +342,25 @@
         }
         list = multiDecartesian(list)
         let arr = []
+        let selections = this.data.properties
         for (let i in list) {
-          arr.push({
-            values: list[i],
-            property: list[i][0].property
-          })
+          let selection = selections[i]
+          if (!selection) {
+            selection = {
+              values: list[i],
+              price: 0,
+              inventory: 0
+            }
+          } else {
+            selection = {
+              values: list[i],
+              price: selection.price,
+              inventory: selection.inventory
+            }
+          }
+          arr.push(selection)
         }
-        this.data.properties = arr
-        this.selections = []
+        this.properties = arr
         return arr
 
       }
@@ -386,8 +371,10 @@
           this.loading = true
           API.load(this.id).then(data => {
             if (data.properties) {
-              this.selections = data.properties
-              let values = this.selections[0].values
+              // this.selections = data.properties
+              let selections = data.properties
+              this.data.properties = data.properties
+              let values = selections[0].values
               for (let i in values) {
                 let value = values[i]
                 this.form.definitions.push(value.parent.id)
@@ -423,28 +410,43 @@
                 }
               }
             }
+
+            let selections = this.data.properties
             let selectedValues = {}
-            for (let i in definitions) {
-              let definition = definitions[i]
-              for (let j in definition.attrs) {
-                let attr = definition.attrs[j]
-                out: for (let k in this.selections) {
-                  let values = this.selections[k].values
-                  for (let l in values) {
-                    let value = values[l]
-                    let arr = selectedValues['def_' + value.parent.id]
-                    if (!arr) {
-                      arr = []
-                      selectedValues['def_' + value.parent.id] = arr
-                    }
-                    if (value.id == attr.id) {
-                      value.property = {
-                        price: this.selections[k].price,
-                        inventory: this.selections[k].inventory
-                      }
-                      arr.push(value)
+            for (let k in selections) {
+              let values = selections[k].values
+              let matched = 0
+              for (let l in values) {
+                let value = values[l]
+                out: for (let i in definitions) {
+                  let definition = definitions[i]
+                  for (let j in definition.attrs) {
+                    let attr = definition.attrs[j]
+                    if (attr.id == value.id) {
+                      matched++
                       break out
                     }
+                  }
+                }
+              }
+              if (matched == values.length) {
+                for (let i in values) {
+                  let value = values[i]
+                  let arr = selectedValues['def_' + value.parent.id]
+                  if (!arr) {
+                    arr = []
+                    selectedValues['def_' + value.parent.id] = arr
+                  }
+                  let found = false
+                  for (let j in arr) {
+                    let item = arr[j]
+                    if (item.id == value.id) {
+                      found = true
+                      break
+                    }
+                  }
+                  if (!found) {
+                    arr.push(value)
                   }
                 }
               }
@@ -467,7 +469,7 @@
           this.$emit("goInfo")
           return
         }
-        if (this.data.properties.length == 0) {
+        if (this.properties.length == 0) {
           Message.warning("请先编辑再上传")
           return
         }
@@ -475,15 +477,28 @@
           Message.warning("请先选中再上传")
           return
         }
-        this.data.properties = []
-        for (let i in this.selections) {
-          let item = this.selections[i]
-          this.data.properties.push({
-            values: item.values,
-            price: item.property.price,
-            inventory: item.property.inventory
-          })
+        for (let j in this.selections) {
+          let selection = this.selections[j]
+          let selectedValues = this.selections[j].values
+          for (let i in this.tmpProperties) {
+            let item = this.tmpProperties[i]
+            let values = item.values
+            let matched = 0
+            for (let k in values) {
+              let value = values[k]
+              let selectedValue = selectedValues[k]
+              if (value.id == selectedValue.id) {
+                matched++
+              }
+            }
+            if (matched == values.length) {
+              selection.price = item.price
+              selection.inventory = item.inventory
+              break
+            }
+          }
         }
+        this.data.properties = this.selections
         this.loading = true
         API.saveProperties(this.data).then(res => {
           this.loading = false
