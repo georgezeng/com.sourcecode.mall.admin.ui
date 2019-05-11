@@ -121,6 +121,7 @@
         selectedValues: {},
         values: [],
         properties: [],
+        groups: [],
         categories: [],
         data: {
           id: null,
@@ -308,10 +309,6 @@
         this.load()
         return this.id
       },
-      groups() {
-        this.form.groupId = null
-        return this.$store.state.goodsItem.groups
-      },
       filterDefinitions() {
         let ids = this.form.definitions
         let currentSelecteds = this.definitions.filter(item => {
@@ -406,7 +403,7 @@
       loadGroups() {
         this.loading = true
         GroupAPI.loadGroups(this.form.categoryId).then(data => {
-          this.$store.commit('setGoodsSpecificationGroups', data)
+          this.groups = data
           this.loading = false
         }).catch(ex => {
           this.loading = false
