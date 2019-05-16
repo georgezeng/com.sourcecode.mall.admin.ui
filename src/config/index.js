@@ -31,12 +31,12 @@ const config = {
 
 switch (process.env.NODE_ENV) {
   case 'development':
-    config.baseUrl = 'http://localhost:9091'
+    config.baseUrl = 'http://localhost:9001'
     config.publicBucketDomain = 'https://malls-admin-public-local.oss-cn-shenzhen.aliyuncs.com/'
     break
 
   case 'uat':
-    config.baseUrl = 'http://localhost:9091'
+    config.baseUrl = 'http://merchant.bsxkj.com:9001'
     config.publicBucketDomain = 'https://malls-admin-public-uat.oss-cn-shenzhen.aliyuncs.com/'
     break
 
