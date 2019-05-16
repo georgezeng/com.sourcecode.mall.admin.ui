@@ -45,7 +45,7 @@
       return {
         loading: false,
         codeLoading: false,
-        codeBtnText: '发送验证码',
+        codeBtnText: '获取验证码',
         form: {
           id: null,
           verifyCode: '',
@@ -97,10 +97,8 @@
       },
       sendCode() {
         if (!this.form.username) {
-          let valid = this.$refs.form.validateField('username')
-          if (!valid) {
-            return
-          }
+          this.$refs.form.validateField('username')
+          return
         }
         if (this.codeLoading) {
           return
@@ -122,7 +120,7 @@
           return
         }
         this.codeLoading = false
-        this.codeBtnText = '发送验证码'
+        this.codeBtnText = '获取验证码'
       },
       save() {
         this.$refs.form.validate().then(valid => {
