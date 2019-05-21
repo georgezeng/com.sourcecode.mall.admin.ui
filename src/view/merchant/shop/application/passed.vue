@@ -19,7 +19,7 @@
         </div>
         <Form style="width: 250px; text-align: left;" :label-width="100" :model="form" v-if="form.deployed">
           <FormItem label="店铺主页" prop="domain">
-            https://{{form.domain}}.sourcecode.com
+            https://{{form.domain}}
           </FormItem>
           <FormItem label="Android版" prop="androidLink" v-if="form.androidUrl">
             <Button icon="logo-android" type="primary" :to="androidLink" target="_blank">安卓下载</Button>

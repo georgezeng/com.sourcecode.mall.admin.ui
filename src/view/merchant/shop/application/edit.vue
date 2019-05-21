@@ -26,7 +26,7 @@
         <FormItem label="店铺名称" prop="name">
           <Input v-model="form.name" readonly></Input>
         </FormItem>
-        <FormItem label="店铺二级域名" prop="domain">
+        <FormItem label="店铺域名" prop="domain">
           <Input v-model="form.domain" readonly></Input>
         </FormItem>
         <FormItem label="logo" prop="logo">

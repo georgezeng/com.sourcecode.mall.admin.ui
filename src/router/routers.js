@@ -466,6 +466,33 @@ export default [
   },
 
   {
+    path: '/Setting',
+    name: 'SettingManage',
+    meta: {
+      icon: 'md-menu',
+      title: '配置管理',
+      notCache: true,
+      access: [
+        'AUTH_WECHAT_SETTING_PAGE'
+      ]
+    },
+    component: Main,
+    children: [
+      {
+        path: 'Wechat',
+        name: 'WechatSetting',
+        component: () => import('@/view/setting/wechat.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '微信配置',
+          access: ['AUTH_WECHAT_SETTING_PAGE'],
+          notCache: true
+        }
+      }
+    ]
+  },
+
+  {
     path: '/SystemSetting',
     name: 'SystemSetting',
     meta: {
