@@ -1,7 +1,7 @@
 <template>
   <Form ref="form" :model="form" :rules="rules" :label-width="80">
     <FormItem label="手机号" prop="username">
-      <Input :value="mobileNum" placeholder="输入手机号" :readonly="hideBtns"></Input>
+      <Input v-model="form.username" placeholder="输入手机号" :readonly="hideBtns"></Input>
     </FormItem>
     <FormItem label="验证码" prop="verifyCode">
       <Input v-model="form.verifyCode" @on-change="setForm" @on-search="sendCode" search
