@@ -1,6 +1,4 @@
 import Main from '@/components/main'
-import Blank from '@/components/main/blank.vue'
-import parentView from '@/components/parent-view'
 
 /**
  * iview-admin中meta除了原生参数外可配置的参数:
