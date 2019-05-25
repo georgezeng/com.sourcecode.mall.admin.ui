@@ -188,8 +188,7 @@
           ],
           domain: [
             {required: true, message: '店铺域名不能为空', trigger: 'change'},
-            {max: 50, message: '店铺域名不能大于50', trigger: 'change'},
-            {type: 'string', pattern: /^[a-zA-Z0-9]+$/, message: '域名必须是字母或数字', trigger: 'change'}
+            {max: 50, message: '店铺域名不能长度大于50', trigger: 'change'},
           ],
           logo: [
             {required: true, message: 'logo不能为空', trigger: 'change'},
