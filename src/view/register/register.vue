@@ -48,6 +48,16 @@
           callback();
         }
       }
+      const userCheck = (rule, value, callback) => {
+          API.exists(this.form.username).then(existed => {
+            this.checking = false
+            if (existed) {
+              callback(new Error('用户名已注册'));
+            } else {
+              callback();
+            }
+          })
+      }
       return {
         loading: false,
         codeLoading: false,
@@ -62,6 +72,7 @@
         rules: {
           username: [
             {required: true, message: '手机号不能为空', trigger: 'change'},
+            {validator: userCheck, trigger: 'blur'},
             {
               type: 'string',
               pattern: /^\d{11}$/,
@@ -114,11 +125,11 @@
         })
       },
       disableVerifyCodeBtn(second) {
-        if(second > 0) {
+        if (second > 0) {
           this.codeLoading = true
           this.codeBtnText = second + '秒后重试'
           let self = this
-          setTimeout(function() {
+          setTimeout(function () {
             self.disableVerifyCodeBtn(second - 1)
           }, 1000)
           return

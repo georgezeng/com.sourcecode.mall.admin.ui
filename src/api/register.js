@@ -10,5 +10,8 @@ export default {
   },
   save (user) {
     return axios.post('/merchant/register/' + user.verifyCode, user)
+  },
+  exists (mobile) {
+    return axios.get('/merchant/register/exists/' + mobile)
   }
 }
