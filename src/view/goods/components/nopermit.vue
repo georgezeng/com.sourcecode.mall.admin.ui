@@ -43,7 +43,7 @@
     },
     methods: {
       load() {
-        API.load().then(res => {
+        API.load(true).then(res => {
           if(!res || !res.noPermit) {
             this.goEdit()
             return
