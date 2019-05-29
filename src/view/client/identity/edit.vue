@@ -25,7 +25,7 @@
   <div>
     <Card>
       <p slot="title">
-        实名认证审核
+        会员认证审核 ({{form.statusText}})
         <div class="unpass" v-if="!(isChecking || !isUnPassed)"></div>
         <div class="pass" v-if="!(isChecking || isUnPassed)"></div>
       </p>

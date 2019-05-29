@@ -92,7 +92,7 @@ export default [
         component: () => import('@/view/client/identity/list.vue'),
         meta: {
           icon: 'md-funnel',
-          title: '实名认证',
+          title: '会员认证',
           access: ['AUTH_CLIENT_IDENTITY_LIST_PAGE'],
           notCache: true
         }
@@ -103,7 +103,7 @@ export default [
         component: () => import('@/view/client/identity/edit.vue'),
         meta: {
           icon: 'md-funnel',
-          title: '实名认证审核',
+          title: '会员认证审核',
           hideInMenu: true,
           access: ['AUTH_CLIENT_IDENTITY_EDIT_PAGE'],
           notCache: true
