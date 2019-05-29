@@ -96,6 +96,18 @@ export default [
           access: ['AUTH_CLIENT_IDENTITY_LIST_PAGE'],
           notCache: true
         }
+      },
+      {
+        path: 'Identity/Edit/:id',
+        name: 'ClientIdentityEdit',
+        component: () => import('@/view/client/identity/edit.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '实名认证审核',
+          hideInMenu: true,
+          access: ['AUTH_CLIENT_IDENTITY_EDIT_PAGE'],
+          notCache: true
+        }
       }
     ]
   },

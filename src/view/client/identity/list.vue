@@ -4,8 +4,9 @@
     :loading="loading"
     :statusList="statusList"
     statusItemName="name"
-    enableStatusText="通过"
-    disableStatusText="未通过"
+    :updateStatusHandler="updateStatusHandler"
+    enableStatusText="审核通过"
+    disableStatusText="审核未通过"
     :useStatus="true"
     :useReason="true"
     initSortProperty="createTime"
@@ -96,9 +97,6 @@
       updateStatusHandler: API.updateStatus,
       setLoading(loading) {
         this.loading = loading
-      },
-      setTriggerStatus(callback) {
-        this.triggerStatus = callback
       },
       setGoEdit(callback) {
         this.goEdit = callback

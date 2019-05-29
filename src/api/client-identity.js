@@ -8,7 +8,7 @@ export default {
     return axios.get('/client/identity/load/params/' + id)
   },
   updateStatus: (ids, status, parentId, reason) => {
-    return axios.post('/user/updateStatus', {
+    return axios.post('/client/identity/updateStatus', {
       ids,
       reason,
       pass: status

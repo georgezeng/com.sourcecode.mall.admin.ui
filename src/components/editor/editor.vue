@@ -1,10 +1,13 @@
-<style>
+<style scoped lang="less">
   .toolbar {
     border: 1px solid #ccc;
   }
   .text {
     border: 1px solid #ccc;
     height: 2000px;
+  }
+  .editor-wrapper *{
+    z-index: 10 !important;
   }
 </style>
 
@@ -80,8 +83,3 @@ export default {
 }
 </script>
 
-<style lang="less">
-.editor-wrapper *{
-  z-index: 10 !important;
-}
-</style>

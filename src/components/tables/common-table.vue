@@ -31,7 +31,7 @@
           </li>
         </ul>
       </div>
-      <div v-if="!toEnable && useReason">
+      <div style="margin-top: 20px;" v-if="!toEnable && useReason">
         <Input v-model="reason" type="textarea" :autosize="{minRows: 2, maxRows: 5}"
                placeholder="输入审核失败原因"/>
       </div>
@@ -271,10 +271,10 @@
           ids.push(item.id)
         })
         let parentId = this.queryInfo.data.parent ? this.queryInfo.data.parent.id : 0
-        this.updateStatusHandler(ids, enable, parentId).then(res => {
+        this.updateStatusHandler(ids, enable, parentId, this.reason).then(res => {
           this.setLoading(false)
           this.bulkStatusModal = false
-          Message.success(this.txt + '成功')
+          Message.success(txt + '成功')
           this.load()
         }).catch(ex => {
           this.setLoading(false)
@@ -329,7 +329,7 @@
         let ids = []
         ids.push(item.id)
         let parentId = this.queryInfo.data.parent ? this.queryInfo.data.parent.id : 0
-        this.updateStatusHandler(ids, !item.enabled, parentId, this.reason).then(res => {
+        this.updateStatusHandler(ids, !item.enabled, parentId).then(res => {
           this.setLoading(false)
           Message.success(action + '成功')
           this.load()
