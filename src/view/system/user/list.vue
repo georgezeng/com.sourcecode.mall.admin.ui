@@ -56,6 +56,7 @@
           {title: '主副', key: 'accountText'},
           {
             title: '状态',
+            key: 'enabled',
             sortable: true,
             render: (h, params) => {
               return h('span', params.row.enabled ? '启用中' : '禁用中')

@@ -74,6 +74,33 @@ export default [
   },
 
   {
+    path: '/Client',
+    name: 'ClientManage',
+    meta: {
+      icon: 'md-menu',
+      title: '会员管理',
+      notCache: true,
+      access: [
+        'AUTH_CLIENT_IDENTITY_LIST_PAGE'
+      ]
+    },
+    component: Main,
+    children: [
+      {
+        path: 'Identity/List',
+        name: 'ClientIdentityList',
+        component: () => import('@/view/client/identity/list.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '实名认证',
+          access: ['AUTH_CLIENT_IDENTITY_LIST_PAGE'],
+          notCache: true
+        }
+      }
+    ]
+  },
+
+  {
     path: '/Merchant',
     name: 'MerchantManage',
     meta: {
@@ -509,7 +536,7 @@ export default [
       {
         path: 'User/List',
         name: 'UserList',
-        component: () => import('@/view/system-setting/user/list.vue'),
+        component: () => import('@/view/system/user/list.vue'),
         meta: {
           icon: 'md-funnel',
           title: '用户列表',
@@ -527,12 +554,12 @@ export default [
           access: ['AUTH_SUPER_ADMIN', 'AUTH_USER_EDIT_PAGE'],
           notCache: true
         },
-        component: () => import('@/view/system-setting/user/edit.vue')
+        component: () => import('@/view/system/user/edit.vue')
       },
       {
         path: 'Role/List',
         name: 'RoleList',
-        component: () => import('@/view/system-setting/role/list.vue'),
+        component: () => import('@/view/system/role/list.vue'),
         meta: {
           icon: 'md-funnel',
           title: '角色列表',
@@ -550,12 +577,12 @@ export default [
           access: ['AUTH_SUPER_ADMIN', 'AUTH_ROLE_EDIT_PAGE'],
           notCache: true
         },
-        component: () => import('@/view/system-setting/role/edit.vue')
+        component: () => import('@/view/system/role/edit.vue')
       },
       {
         path: 'Authority/List',
         name: 'AuthorityList',
-        component: () => import('@/view/system-setting/authority/list.vue'),
+        component: () => import('@/view/system/authority/list.vue'),
         meta: {
           icon: 'md-funnel',
           title: '权限列表',
@@ -573,7 +600,7 @@ export default [
           access: ['AUTH_SUPER_ADMIN', 'AUTH_AUTHORITY_EDIT_PAGE'],
           notCache: true
         },
-        component: () => import('@/view/system-setting/authority/edit.vue')
+        component: () => import('@/view/system/authority/edit.vue')
       }
     ]
   },
