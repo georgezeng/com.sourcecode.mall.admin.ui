@@ -30,6 +30,8 @@ export const saveErrorLogger = info => {
   //   data: info,
   //   method: 'post'
   // })
+  console.log(info)
+  return axios.get('/user/current')
 }
 
 export const uploadImg = formData => {
