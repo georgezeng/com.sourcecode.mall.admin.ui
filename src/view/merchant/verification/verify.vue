@@ -32,7 +32,7 @@
           <Input v-model="form.name"></Input>
         </FormItem>
         <FormItem label="证件类型" prop="type">
-          <Select v-model="form.type" style="width:200px">
+          <Select v-model="form.type">
             <Option v-for="type in types" :value="type.value" :key="type.value">{{ type.text }}</Option>
           </Select>
         </FormItem>

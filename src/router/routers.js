@@ -81,11 +81,35 @@ export default [
       title: '会员管理',
       notCache: true,
       access: [
-        'AUTH_CLIENT_IDENTITY_LIST_PAGE'
+        'AUTH_CLIENT_IDENTITY_LIST_PAGE',
+        'AUTH_CLIENT_USER_LIST_PAGE'
       ]
     },
     component: Main,
     children: [
+      {
+        path: 'User/List',
+        name: 'ClientUserList',
+        component: () => import('@/view/client/user/list.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '会员列表',
+          access: ['AUTH_CLIENT_USER_LIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'User/Edit/:id',
+        name: 'ClientUserEdit',
+        component: () => import('@/view/client/user/edit.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '会员信息',
+          hideInMenu: true,
+          access: ['AUTH_CLIENT_USER_EDIT_PAGE'],
+          notCache: true
+        }
+      },
       {
         path: 'Identity/List',
         name: 'ClientIdentityList',
@@ -109,6 +133,7 @@ export default [
           notCache: true
         }
       }
+
     ]
   },
 

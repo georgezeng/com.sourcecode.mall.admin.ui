@@ -43,7 +43,7 @@
           <Input v-model="form.statusText" readonly></Input>
         </FormItem>
         <FormItem label="审核状态" v-else prop="statusType">
-          <Select v-model="form.status" style="width:200px">
+          <Select v-model="form.status">
             <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.text }}</Option>
           </Select>
         </FormItem>
