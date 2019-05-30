@@ -5,6 +5,7 @@
     :statusList="statusList"
     statusItemName="name"
     :updateStatusHandler="updateStatusHandler"
+    :disableAddBtn="true"
     enableStatusText="审核通过"
     disableStatusText="审核未通过"
     :useStatus="true"

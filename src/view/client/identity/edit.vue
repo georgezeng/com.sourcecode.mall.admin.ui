@@ -137,7 +137,7 @@
         this.$refs.form.validate().then(valid => {
           if (valid) {
             this.loading = true
-            API.updateStatus([this.form.id], this.form.status === 'Passed', null, this.reason).then(res => {
+            API.updateStatus([this.form.id], this.form.status === 'Passed', null, this.form.reason).then(res => {
               this.loading = false
               Message.success('保存成功')
               this.goList()
