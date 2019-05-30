@@ -25,7 +25,7 @@
           <Input v-model="form.nickname" readonly></Input>
         </FormItem>
         <FormItem label="性别">
-          <Input v-model="form.sex.text" readonly></Input>
+          <Input v-model="form.sexText" readonly></Input>
         </FormItem>
         <FormItem label="生日">
           <Input v-model="form.birthday" readonly></Input>
@@ -67,6 +67,7 @@
           username: null,
           nickname: null,
           sex: null,
+          sexText: null,
           birthday: null,
           avatar: null,
           enabled: null
@@ -80,6 +81,7 @@
           API.load(this.form.id).then(data => {
             this.form = data
             this.form.enabled = data.enabled + ''
+            this.form.sexText = data.sex ? data.sex.text : '保密'
             this.loading = false
           }).catch(ex => {
             this.loading = false

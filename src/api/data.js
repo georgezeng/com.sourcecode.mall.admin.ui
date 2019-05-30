@@ -5,7 +5,7 @@ export const getTableData = () => {
   //   url: 'get_table_data',
   //   method: 'get'
   // })
-  return axios.get('/user/current')
+  return axios.get('/user/current/info')
 }
 
 export const getDragList = () => {
@@ -13,7 +13,7 @@ export const getDragList = () => {
   //   url: 'get_drag_list',
   //   method: 'get'
   // })
-  return axios.get('/user/current')
+  return axios.get('/user/current/info')
 }
 
 export const errorReq = () => {
@@ -21,7 +21,7 @@ export const errorReq = () => {
   //   url: 'error_url',
   //   method: 'post'
   // })
-  return axios.get('/user/current')
+  return axios.get('/user/current/info')
 }
 
 export const saveErrorLogger = info => {
@@ -31,7 +31,7 @@ export const saveErrorLogger = info => {
   //   method: 'post'
   // })
   console.log(info)
-  return axios.get('/user/current')
+  return axios.get('/user/current/info')
 }
 
 export const uploadImg = formData => {
@@ -39,7 +39,7 @@ export const uploadImg = formData => {
   //   url: 'image/upload',
   //   data: formData
   // })
-  return axios.get('/user/current')
+  return axios.get('/user/current/info')
 }
 
 export const getOrgData = () => {
@@ -47,7 +47,7 @@ export const getOrgData = () => {
   //   url: 'get_org_data',
   //   method: 'get'
   // })
-  return axios.get('/user/current')
+  return axios.get('/user/current/info')
 }
 
 export const getTreeSelectData = () => {
@@ -55,5 +55,5 @@ export const getTreeSelectData = () => {
   //   url: 'get_tree_select_data',
   //   method: 'get'
   // })
-  return axios.get('/user/current')
+  return axios.get('/user/current/info')
 }
