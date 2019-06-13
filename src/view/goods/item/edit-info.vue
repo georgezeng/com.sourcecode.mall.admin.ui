@@ -9,11 +9,11 @@
         <Button @click="goList" type="success">返回</Button>
       </div>
       <Form ref="form" :model="form" :rules="rules" :label-width="80">
-        <FormItem label="上下架" prop="enabled">
-          <Select v-model="form.enabled" @on-change="editCompleteCheck">
-            <Option v-for="status in statusList" :value="status.value" :key="status.value">{{ status.label }}</Option>
-          </Select>
-        </FormItem>
+        <!--<FormItem label="上下架" prop="enabled">-->
+          <!--<Select v-model="form.enabled" @on-change="editCompleteCheck">-->
+            <!--<Option v-for="status in statusList" :value="status.value" :key="status.value">{{ status.label }}</Option>-->
+          <!--</Select>-->
+        <!--</FormItem>-->
         <FormItem label="名称" prop="name">
           <Input v-model="form.name" @on-change="editCompleteCheck"></Input>
         </FormItem>
@@ -176,9 +176,9 @@
           brandId: [
             {required: true, validator: brandCheck, trigger: 'change'},
           ],
-          enabled: [
-            {required: true, message: '上下架状态不能为空', trigger: 'change'},
-          ],
+          // enabled: [
+          //   {required: true, message: '上下架状态不能为空', trigger: 'change'},
+          // ],
           realPrice: [
             {required: true, validator: realPriceCheck, trigger: 'change'},
           ],
