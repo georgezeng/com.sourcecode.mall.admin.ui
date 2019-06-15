@@ -29,8 +29,11 @@
             <Option v-for="brand in brands" :value="brand.id" :key="brand.id">{{ brand.name }}</Option>
           </Select>
         </FormItem>
-        <FormItem label="价格" prop="realPrice">
-          <Input v-model="form.realPrice" @on-change="editCompleteCheck"></Input>
+        <FormItem label="最低价格" prop="minPrice">
+          <Input v-model="form.minPrice" @on-change="editCompleteCheck"></Input>
+        </FormItem>
+        <FormItem label="最高价格" prop="maxPrice">
+          <Input v-model="form.maxPrice" @on-change="editCompleteCheck"></Input>
         </FormItem>
         <FormItem label="原价" prop="marketPrice">
           <Input v-model="form.marketPrice" @on-change="editCompleteCheck"></Input>
@@ -116,8 +119,15 @@
           callback();
         }
       }
-      const realPriceCheck = (rule, value, callback) => {
-        if (isNaN(this.form.realPrice)) {
+      const minPriceCheck = (rule, value, callback) => {
+        if (isNaN(this.form.minPrice)) {
+          callback(new Error('价格必须是有效数字'));
+        } else {
+          callback();
+        }
+      }
+      const maxPriceCheck = (rule, value, callback) => {
+        if (isNaN(this.form.maxPrice)) {
           callback(new Error('价格必须是有效数字'));
         } else {
           callback();
@@ -153,7 +163,8 @@
           brandId: '',
           enabled: 'false',
           marketPrice: null,
-          realPrice: null,
+          minPrice: null,
+          maxPrice: null,
           sellingPoints: null,
           content: null,
           thumbnail: null,
@@ -179,8 +190,11 @@
           // enabled: [
           //   {required: true, message: '上下架状态不能为空', trigger: 'change'},
           // ],
-          realPrice: [
-            {required: true, validator: realPriceCheck, trigger: 'change'},
+          minPrice: [
+            {required: true, validator: minPriceCheck, trigger: 'change'},
+          ],
+          maxPrice: [
+            {required: false, validator: maxPriceCheck, trigger: 'change'},
           ],
           marketPrice: [
             {required: false, validator: marketPriceCheck, trigger: 'change'},
