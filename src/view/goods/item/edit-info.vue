@@ -10,9 +10,9 @@
       </div>
       <Form ref="form" :model="form" :rules="rules" :label-width="80">
         <!--<FormItem label="上下架" prop="enabled">-->
-          <!--<Select v-model="form.enabled" @on-change="editCompleteCheck">-->
-            <!--<Option v-for="status in statusList" :value="status.value" :key="status.value">{{ status.label }}</Option>-->
-          <!--</Select>-->
+        <!--<Select v-model="form.enabled" @on-change="editCompleteCheck">-->
+        <!--<Option v-for="status in statusList" :value="status.value" :key="status.value">{{ status.label }}</Option>-->
+        <!--</Select>-->
         <!--</FormItem>-->
         <FormItem label="名称" prop="name">
           <Input v-model="form.name" @on-change="editCompleteCheck"></Input>
@@ -322,7 +322,7 @@
             this.form = data
             this.setCategory(data.categoryId)
             this.form.brandId = brandId
-              this.form.enabled = data.enabled ? 'true' : 'false'
+            this.form.enabled = data.enabled ? 'true' : 'false'
             this.$refs.editor.setHtml(data.content)
             for (let i in this.form.photos) {
               this.addPhoto(i)
@@ -364,11 +364,16 @@
           index,
         })
       },
-      removePhoto(index) {
+      removePhoto(index, mockup) {
         if (this.photos.length > 1) {
           this.form.photos.splice(index, 1)
           this.photos.splice(index, 1)
-          this.photos[index].index = index
+          if (this.photos[index]) {
+            this.photos[index].index = index
+          }
+          if (mockup) {
+            this.addPhoto(index)
+          }
         } else {
           this.form.photos[0] = null
           this.photos.splice(0, 1)

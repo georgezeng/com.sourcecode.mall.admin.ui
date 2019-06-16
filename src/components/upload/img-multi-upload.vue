@@ -103,7 +103,7 @@
         this.errorText = '文件大小必须在' + this.size + 'KB以内'
       },
       remove() {
-        this.$emit('remove', parseInt(this.index))
+        this.$emit('remove', parseInt(this.index), this.previewUrl == uploadPlaceholder)
       }
     },
     computed: {
