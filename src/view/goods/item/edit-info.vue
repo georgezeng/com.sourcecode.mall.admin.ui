@@ -53,10 +53,10 @@
         </FormItem>
         <FormItem label="相册" prop="photos">
           <MultiUpload v-for="item in photos"
-                       :index="item.index"
+                       :index="parseInt(item.index)"
                        :uploadUrl="uploadUrl"
-                       :previewUri="form.photos[item.index]"
-                       :btnText="('上传图片' + (item.index + 1))"
+                       :previewUri="form.photos[parseInt(item.index)]"
+                       :btnText="('上传图片' + (parseInt(item.index) + 1))"
                        :imgPrefix="imgPrefix"
                        width="180"
                        height="180"

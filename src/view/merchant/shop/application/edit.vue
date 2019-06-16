@@ -84,9 +84,9 @@
         </FormItem>
         <FormItem v-if="form.androidType || form.iosType" label="App引导页" prop="instructions">
           <MultiUpload v-for="item in instructions"
-                       :index="item.index"
+                       :index="parseInt(item.index)"
                        :uploadUrl="uploadUrl"
-                       :previewUri="form.instructions[item.index]"
+                       :previewUri="form.instructions[parseInt(item.index)]"
                        :btnText="('上传App引导图' + (parseInt(item.index) + 1))"
                        :imgPrefix="imgPrefix"
                        width="180"
