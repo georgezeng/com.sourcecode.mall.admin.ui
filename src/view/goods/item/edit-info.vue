@@ -364,14 +364,19 @@
           index,
         })
       },
-      removePhoto(index, mockup) {
+      removePhoto(index, isDefault) {
         if (this.photos.length > 1) {
           this.form.photos.splice(index, 1)
           this.photos.splice(index, 1)
-          if (this.photos[index]) {
-            this.photos[index].index = index
+          // if (this.photos[index]) {
+          //   this.photos[index].index = index
+          // }
+          let i = index
+          while (i < this.photos.length) {
+            this.photos[i].index = i
+            i++
           }
-          if (mockup) {
+          if (isDefault) {
             this.addPhoto(index)
           }
         } else {

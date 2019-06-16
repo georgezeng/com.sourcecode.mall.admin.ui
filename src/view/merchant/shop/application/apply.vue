@@ -341,7 +341,7 @@
           index,
         })
       },
-      removeInstruction(index) {
+      removeInstruction(index, isDefault) {
         if (this.instructions.length > 1) {
           this.form.instructions.splice(index, 1)
           this.instructions.splice(index, 1)
@@ -349,6 +349,9 @@
           while (i < this.instructions.length) {
             this.instructions[i].index = i
             i++
+          }
+          if (isDefault) {
+            this.addInstruction(index)
           }
         } else {
           this.form.instructions[0] = null
