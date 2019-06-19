@@ -184,9 +184,9 @@
           categoryId: [
             {required: true, validator: categoryCheck, trigger: 'change'},
           ],
-          brandId: [
-            {required: true, validator: brandCheck, trigger: 'change'},
-          ],
+          // brandId: [
+          //   {required: true, validator: brandCheck, trigger: 'change'},
+          // ],
           // enabled: [
           //   {required: true, message: '上下架状态不能为空', trigger: 'change'},
           // ],
