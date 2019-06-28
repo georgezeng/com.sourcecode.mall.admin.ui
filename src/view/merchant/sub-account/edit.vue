@@ -34,8 +34,13 @@
           />
         </FormItem>
         <FormItem label="权限">
-          <MultiSelectors :leftList="authLeftList" :rightList="authRightList" :originLeftList="originAuthLeftList"
-                          :originRightList="originAuthRightList" @set-multi-selectors-data="setAuthLists"/>
+          <Transfer
+            :data="authLeftList"
+            :target-keys="authRightList"
+            filterable
+            :list-style="{width: '300px', height: '400px'}"
+            :filter-method="filterAuth"
+            @on-change="changeTargetAuth"></Transfer>
         </FormItem>
       </Form>
     </Card>
@@ -44,7 +49,6 @@
 
 <script>
   import API from '@/api/merchant-sub-account'
-  import MultiSelectors from '@/components/multi-selectors/multi-selectors'
   import {Message} from 'iview'
   import config from '@/config/index'
   import avatar from '@/assets/images/avatar.png'
@@ -55,7 +59,6 @@
   export default {
     name: 'MerchantSubAccountEdit',
     components: {
-      MultiSelectors,
       Upload
     },
     data() {
@@ -79,11 +82,8 @@
           avatar: null,
           authorities: []
         },
-        authorities: [],
         authLeftList: [],
         authRightList: [],
-        originAuthLeftList: [],
-        originAuthRightList: [],
         rules: {
           username: [
             {required: true, message: '用户名不能为空', trigger: 'change'},
@@ -111,6 +111,25 @@
       }
     },
     methods: {
+      filterAuth(data, query) {
+        return data.label.indexOf(query) > -1;
+      },
+      changeTargetAuth (newTargetKeys) {
+        this.authRightList = newTargetKeys;
+        this.form.authorities = []
+        for (let i in this.authRightList) {
+          const key = this.authRightList[i]
+          for (let j in this.authLeftList) {
+            const item = this.authLeftList[j]
+            if (item.key == key) {
+              this.form.authorities.push({
+                id: key
+              })
+              break
+            }
+          }
+        }
+      },
       load() {
         if (this.form.id) {
           this.loading = true
@@ -121,14 +140,9 @@
             let arr = []
             for (let i in data.authorities) {
               let item = data.authorities[i]
-              arr.push({
-                key: item.id,
-                text: item.name,
-                selected: false
-              })
+              arr.push(item.id)
             }
             this.authRightList = arr
-            this.originAuthRightList = arr.concat()
             this.loading = false
           }).catch(ex => {
             this.loading = false
@@ -144,12 +158,10 @@
               let item = result[i]
               arr.push({
                 key: item.id,
-                text: item.name,
-                selected: false
+                label: item.name
               })
             }
             this.authLeftList = arr
-            this.originAuthLeftList = arr.concat()
           }
           this.loading = false
         }).catch(ex => {
@@ -179,34 +191,6 @@
         this.$router.push({
           name: 'MerchantSubAccountList'
         })
-      },
-      setAuthLists(leftList, rightList, reload) {
-        this.authLeftList = leftList
-        this.authRightList = rightList
-        if (reload) {
-          this.originAuthLeftList = leftList.concat()
-          this.originAuthRightList = rightList.concat()
-
-          this.form.authorities = []
-          for (let i in rightList) {
-            let item = rightList[i]
-            this.form.authorities.push({
-              id: item.key,
-              name: item.text,
-              selected: item.selected
-            })
-          }
-
-          this.authorities = []
-          for (let i in leftList) {
-            let item = leftList[i]
-            this.authorities.push({
-              id: item.key,
-              name: item.text,
-              selected: item.selected
-            })
-          }
-        }
       },
       setPreviewUrl(url) {
         this.form.avatar = url

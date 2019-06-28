@@ -42,8 +42,13 @@
           </Select>
         </FormItem>
         <FormItem label="角色">
-          <MultiSelectors :leftList="roleLeftList" :rightList="roleRightList" :originLeftList="originRoleLeftList"
-                          :originRightList="originRoleRightList" @set-multi-selectors-data="setRoleLists"/>
+          <Transfer
+            :data="roleLeftList"
+            :target-keys="roleRightList"
+            filterable
+            :list-style="{width: '300px', height: '400px'}"
+            :filter-method="filterRole"
+            @on-change="changeTargetRole"></Transfer>
         </FormItem>
       </Form>
     </Card>
@@ -53,7 +58,6 @@
 <script>
   import API from '@/api/users'
   import RoleAPI from '@/api/role'
-  import MultiSelectors from '@/components/multi-selectors/multi-selectors'
   import Upload from '@/components/upload/img-one-line-upload'
   import {Message} from 'iview'
   import config from '@/config/index'
@@ -64,7 +68,6 @@
   export default {
     name: 'UserEdit',
     components: {
-      MultiSelectors,
       Upload
     },
     data() {
@@ -93,11 +96,8 @@
           {text: '使用中', value: 'true'},
           {text: '禁用中', value: 'false'}
         ],
-        roles: [],
         roleLeftList: [],
         roleRightList: [],
-        originRoleLeftList: [],
-        originRoleRightList: [],
         rules: {
           username: [
             {required: true, message: '用户名不能为空', trigger: 'change'},
@@ -125,6 +125,25 @@
       }
     },
     methods: {
+      filterRole(data, query) {
+        return data.label.indexOf(query) > -1;
+      },
+      changeTargetRole (newTargetKeys) {
+        this.roleRightList = newTargetKeys;
+        this.form.roles = []
+        for (let i in this.roleRightList) {
+          const key = this.roleRightList[i]
+          for (let j in this.roleLeftList) {
+            const item = this.roleLeftList[j]
+            if (item.key == key) {
+              this.form.roles.push({
+                id: key
+              })
+              break
+            }
+          }
+        }
+      },
       load() {
         if (this.form.id) {
           this.loading = true
@@ -134,16 +153,11 @@
             let arr = []
             for (let i in data.roles) {
               let item = data.roles[i]
-              arr.push({
-                key: item.id,
-                text: item.name,
-                selected: false
-              })
+              arr.push(item.id)
             }
             this.form.password = FAKE_PASSWORD
             this.form.confirmPassword = FAKE_PASSWORD
             this.roleRightList = arr
-            this.originRoleRightList = arr.concat()
             this.loading = false
           }).catch(ex => {
             this.loading = false
@@ -162,17 +176,15 @@
           }
         }).then(result => {
           if (result.total > 0) {
-            let arr = []
+            const arr = []
             for (let i in result.list) {
               let item = result.list[i]
               arr.push({
                 key: item.id,
-                text: item.name,
-                selected: false
+                label: item.name
               })
             }
             this.roleLeftList = arr
-            this.originRoleLeftList = arr.concat()
           }
           this.loading = false
         }).catch(ex => {
@@ -202,34 +214,6 @@
         this.$router.push({
           name: 'UserList'
         })
-      },
-      setRoleLists(leftList, rightList, reload) {
-        this.roleLeftList = leftList
-        this.roleRightList = rightList
-        if (reload) {
-          this.originRoleLeftList = leftList.concat()
-          this.originRoleRightList = rightList.concat()
-
-          this.form.roles = []
-          for (let i in rightList) {
-            let item = rightList[i]
-            this.form.roles.push({
-              id: item.key,
-              name: item.text,
-              selected: item.selected
-            })
-          }
-
-          this.roles = []
-          for (let i in leftList) {
-            let item = leftList[i]
-            this.roles.push({
-              id: item.key,
-              name: item.text,
-              selected: item.selected
-            })
-          }
-        }
       },
       setPreviewUrl(url, index) {
         this.form.avatar = url

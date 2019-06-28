@@ -523,7 +523,7 @@ export default [
           access: ['AUTH_GOODS_SPECIFICATION_DEFINITION_EDIT_PAGE'],
           notCache: true
         }
-      },
+      }
     ]
   },
 
@@ -535,7 +535,8 @@ export default [
       title: '配置管理',
       notCache: true,
       access: [
-        'AUTH_WECHAT_SETTING_PAGE'
+        'AUTH_WECHAT_SETTING_PAGE',
+        'AUTH_INVOICE_SETTING_LIST_PAGE'
       ]
     },
     component: Main,
@@ -548,6 +549,29 @@ export default [
           icon: 'md-funnel',
           title: '微信配置',
           access: ['AUTH_WECHAT_SETTING_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Invoice/List',
+        name: 'InvoiceSettingList',
+        component: () => import('@/view/setting/invoice/list.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '发票配置',
+          access: ['AUTH_INVOICE_SETTING_LIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Invoice/Edit/:id',
+        name: 'InvoiceSettingEdit',
+        component: () => import('@/view/setting/invoice/edit.vue'),
+        meta: {
+          hideInMenu: true,
+          icon: 'md-funnel',
+          title: '编辑发票配置',
+          access: ['AUTH_INVOICE_SETTING_EDIT_PAGE'],
           notCache: true
         }
       }
