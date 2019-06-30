@@ -68,7 +68,8 @@
           <div class="clearfix"></div>
         </FormItem>
         <FormItem label="商品描述" prop="content">
-          <editor ref="editor" :value="form.content" @on-change="setContent"/>
+          <editor ref="editor" :uploadUrl="editorUploadUrl"
+                  :value="form.content" @on-change="setContent"/>
         </FormItem>
       </Form>
     </Card>
@@ -401,12 +402,17 @@
       },
       imgPreviewUrl() {
         return config.baseUrl + '/goods/item/file/load/params/' + this.uploadId + '?filePath='
-      }
+      },
+      editorUploadUrl() {
+        return config.baseUrl + '/goods/item/content/image/upload/params/' + this.uploadId
+      },
     },
-    mounted: function () {
+    created: function () {
       this.form.id = this.$router.currentRoute.params.id
-      let isEdit = this.form.id != 0
+      let isEdit = this.form.id > 0
       this.form.id = isEdit ? this.form.id : null;
+    },
+    mounted() {
       this.addPhoto(0)
       this.$refs.editor.setHtml('')
       this.loadApplication()
