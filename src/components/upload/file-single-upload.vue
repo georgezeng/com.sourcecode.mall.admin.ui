@@ -42,7 +42,6 @@
       'formats',
       'maxSize',
       'uploadUrl',
-      'previewUri',
       'btnText',
       'imgPrefix',
       'loading',
