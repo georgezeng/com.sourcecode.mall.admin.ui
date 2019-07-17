@@ -528,6 +528,45 @@ export default [
   },
 
   {
+    path: '/Order',
+    name: 'OrderManage',
+    meta: {
+      icon: 'md-menu',
+      title: '订单管理',
+      notCache: true,
+      access: [
+        'AUTH_ORDER_LIST_PAGE'
+      ]
+    },
+    component: Main,
+    children: [
+      {
+        path: 'List',
+        name: 'OrderList',
+        component: () => import('@/view/order/list.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '订单列表',
+          access: ['AUTH_ORDER_LIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Shippment/:id',
+        name: 'OrderShippment',
+        component: () => import('@/view/order/shippment.vue'),
+        meta: {
+          hideInMenu: true,
+          icon: 'md-funnel',
+          title: '物流信息编辑',
+          access: ['AUTH_ORDER_SHIPPMENT_PAGE'],
+          notCache: true
+        }
+      }
+    ]
+  },
+
+  {
     path: '/Setting',
     name: 'SettingManage',
     meta: {

@@ -48,6 +48,10 @@
     <Card>
       <Input v-model="queryInfo.data.searchText" search enter-button @on-search="load"
              style="float: left; width: 200px; margin-bottom: 5px;"/>
+      <DatePicker @on-clear="clearDate" @on-change="changeDate" v-if="useDateRange" v-model="queryInfo.dateRange"
+                  type="daterange"
+                  placement="bottom-end"
+                  placeholder="选择日期范围" style="width: 200px; margin-left: 5px;"></DatePicker>
       <Select v-if="useStatus" @on-change="load" style="width: 100px; margin-left: 5px;"
               v-model="queryInfo.data.statusText">
         <Option v-for="item in statusList" :value="item.value" :key="item.value">{{item.label}}</Option>
@@ -90,6 +94,7 @@
     name: 'CommonTable',
     components: {},
     props: [
+      'useDateRange',
       'hidePage',
       'listHandler',
       'deleteHandler',
@@ -130,6 +135,8 @@
         ids: [],
         queryInfo: {
           data: {
+            startTime: null,
+            endTime: null,
             parent: {
               id: 0
             },
@@ -170,6 +177,16 @@
       },
     },
     methods: {
+      clearDate() {
+        this.queryInfo.data.startTime = null
+        this.queryInfo.data.endTime = null
+        this.load()
+      },
+      changeDate(dateRange, type) {
+        this.queryInfo.data.startTime = dateRange[0]
+        this.queryInfo.data.endTime = dateRange[1]
+        this.load()
+      },
       goParentList() {
         this.ids.splice(this.ids.length - 1, 1)
         this.$store.commit('setQueryInfo', {queryInfo: null, routeName: this.$router.currentRoute.name})
