@@ -8,11 +8,11 @@
       <Button @click="back" type="success">返回</Button>
     </div>
     <Form ref="form" :model="form" :rules="rules" :label-width="80">
-      <FormItem label="物流公司" prop="company">
-        <Input v-model="form.company"></Input>
-      </FormItem>
       <FormItem label="发货单号" prop="number">
         <Input v-model="form.number"></Input>
+      </FormItem>
+      <FormItem label="物流公司" prop="company">
+        <Input v-model="form.company"></Input>
       </FormItem>
       <FormItem label="物流商品" prop="subList">
         <Select @on-change="updateSub" multiple v-model="form.subIndexList">
@@ -25,7 +25,8 @@
            width="40" height="40"/>
     </div>
     <Button style="position: relative; left: 80px;" type="primary" @click="updateExpress">{{updateBtnText}}</Button>
-    <Table style="margin-top: 20px;" class="margin-top-bottom" :loading="loading" :data="order.expressList" :columns="columns"/>
+    <Table style="margin-top: 20px;" :loading="loading" :data="order.expressList"
+           :columns="columns"/>
   </Card>
 
 </template>
@@ -34,7 +35,7 @@
   import API from '@/api/order'
   import {Message} from 'iview'
   import config from '@/config/index'
-
+  import moment from 'moment'
 
   export default {
     components: {},
@@ -56,7 +57,8 @@
           company: null,
           number: null,
           subIndexList: [],
-          subList: []
+          subList: [],
+          expressTime: null
         },
         order: {
           id: null,
@@ -75,8 +77,8 @@
           ],
         },
         columns: [
-          {title: '物流公司', key: 'company'},
           {title: '发货单号', key: 'number'},
+          {title: '物流公司', key: 'company'},
           {
             title: '物流商品',
             render: (h, params) => {
@@ -102,6 +104,12 @@
               }
 
               return h('div', arr)
+            }
+          },
+          {
+            title: '发货时间',
+            render: (h, params) => {
+              return h('div', params.row.expressTime)
             }
           },
           {
@@ -162,8 +170,12 @@
               if (!this.order.expressList) {
                 this.order.expressList = []
               }
-              this.order.expressList.push({...this.form})
+              this.order.expressList.push({
+                ...this.form,
+                expressTime: moment().format('YYYY-MM-DD HH:mm:ss')
+              })
             } else {
+              this.form.expressTime = moment().format('YYYY-MM-DD HH:mm:ss')
               this.add = true
               this.updateBtnText = '添加'
             }
@@ -211,7 +223,8 @@
     },
     mounted() {
       let res = this.$store.state.app.tagNavList.filter(item =>
-        item.name !== 'OrderList'
+        item.name !== 'OrderList' &&
+        item.name !== 'OrderEdit'
       )
       this.$store.commit('setTagNavList', res)
       this.order.id = this.$router.currentRoute.params.id

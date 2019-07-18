@@ -21,13 +21,11 @@
   import config from '@/config'
   import API from '@/api/order'
   import CommonTable from '@/components/tables/common-table'
-  import Shippment from './shippment'
 
   export default {
     name: 'InvoiceSettingList',
     components: {
-      CommonTable,
-      Shippment
+      CommonTable
     },
     data() {
       return {
@@ -95,7 +93,7 @@
                     on: {
                       click: () => {
                         this.$router.push({
-                          name: 'OrderShippment',
+                          name: 'OrderExpress',
                           params: {
                             id: params.row.id
                           }
@@ -153,7 +151,8 @@
     },
     mounted() {
       let res = this.$store.state.app.tagNavList.filter(item =>
-        item.name !== 'OrderShippment'
+        item.name !== 'OrderExpress' &&
+        item.name !== 'OrderEdit'
       )
       this.$store.commit('setTagNavList', res)
     }

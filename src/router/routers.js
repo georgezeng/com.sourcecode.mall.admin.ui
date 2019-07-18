@@ -552,14 +552,26 @@ export default [
         }
       },
       {
-        path: 'Shippment/:id',
-        name: 'OrderShippment',
-        component: () => import('@/view/order/shippment.vue'),
+        path: 'Express/:id',
+        name: 'OrderExpress',
+        component: () => import('@/view/order/express.vue'),
         meta: {
           hideInMenu: true,
           icon: 'md-funnel',
           title: '物流信息编辑',
-          access: ['AUTH_ORDER_SHIPPMENT_PAGE'],
+          access: ['AUTH_ORDER_EXPRESS_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Edit/:id',
+        name: 'OrderEdit',
+        component: () => import('@/view/order/edit.vue'),
+        meta: {
+          hideInMenu: true,
+          icon: 'md-funnel',
+          title: '订单详情',
+          access: ['AUTH_ORDER_EDIT_PAGE'],
           notCache: true
         }
       }
