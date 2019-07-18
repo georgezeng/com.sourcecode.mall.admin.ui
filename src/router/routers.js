@@ -552,6 +552,17 @@ export default [
         }
       },
       {
+        path: 'CancelForRefundList',
+        name: 'OrderCancelForRefundList',
+        component: () => import('@/view/order/cancel-list.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '取消列表',
+          access: ['AUTH_ORDER_CANCEL_FOR_REFUND_LIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
         path: 'Express/:id',
         name: 'OrderExpress',
         component: () => import('@/view/order/express.vue'),

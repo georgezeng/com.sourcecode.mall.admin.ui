@@ -9,5 +9,8 @@ export default {
   },
   updateExpress: (obj) => {
     return axios.post('/order/updateExpress', obj)
+  },
+  cancelForRefundList: (queryInfo) => {
+    return axios.post('/order/cancelForRefundList', queryInfo)
   }
 }

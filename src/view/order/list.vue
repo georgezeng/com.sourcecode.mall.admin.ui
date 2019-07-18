@@ -3,6 +3,8 @@
     <CommonTable
       :columns="columns"
       :loading="loading"
+      :disableAddBtn="true"
+      :disableDelete="true"
       :useStatus="false"
       :useReason="false"
       :useDateRange="true"
@@ -23,7 +25,6 @@
   import CommonTable from '@/components/tables/common-table'
 
   export default {
-    name: 'InvoiceSettingList',
     components: {
       CommonTable
     },
