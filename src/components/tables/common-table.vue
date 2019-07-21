@@ -18,7 +18,7 @@
       </div>
     </Modal>
 
-    <Modal v-if="useStatus" v-model="bulkStatusModal" width="360">
+    <Modal v-if="useStatus && !useStatusQueryOnly" v-model="bulkStatusModal" width="360">
       <p slot="header" style="color:#f60;text-align:center">
         <Icon type="ios-information-circle"></Icon>
         <span>操作提示</span>
@@ -119,6 +119,7 @@
       'initSortProperty',
       'initSortOrder',
       'statusItemName',
+      'useStatusQueryOnly',
       'queryData',
       'parentPageName',
       'subPageName',
@@ -207,7 +208,10 @@
       load() {
         this.$emit('setQueryData', this.queryInfo.data)
         if (this.queryData) {
-          this.queryInfo.data = this.queryData
+          this.queryInfo.data = {
+            ...this.queryInfo.data,
+            ...this.queryData
+          }
         }
         this.changePage(1)
       },

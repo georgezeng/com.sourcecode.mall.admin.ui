@@ -535,7 +535,8 @@ export default [
       title: '订单管理',
       notCache: true,
       access: [
-        'AUTH_ORDER_LIST_PAGE'
+        'AUTH_ORDER_LIST_PAGE',
+        'AUTH_ORDER_REFUND_LIST_PAGE'
       ]
     },
     component: Main,
@@ -552,13 +553,13 @@ export default [
         }
       },
       {
-        path: 'CancelForRefundList',
-        name: 'OrderCancelForRefundList',
-        component: () => import('@/view/order/cancel-list.vue'),
+        path: 'Refund/List',
+        name: 'OrderRefundList',
+        component: () => import('@/view/order/refund-list.vue'),
         meta: {
           icon: 'md-funnel',
-          title: '取消列表',
-          access: ['AUTH_ORDER_CANCEL_FOR_REFUND_LIST_PAGE'],
+          title: '退款列表',
+          access: ['AUTH_ORDER_REFUND_LIST_PAGE'],
           notCache: true
         }
       },
@@ -590,6 +591,93 @@ export default [
   },
 
   {
+    path: '/AfterSale',
+    name: 'AfterSaleManage',
+    meta: {
+      icon: 'md-menu',
+      title: '售后管理',
+      notCache: true,
+      access: [
+        'AUTH_AFTERSALE_REFUND_ONLY_LIST_PAGE',
+        'AUTH_AFTERSALE_SALES_RETURN_LIST_PAGE',
+        'AUTH_AFTERSALE_CHANGE_LIST_PAGE'
+      ]
+    },
+    component: Main,
+    children: [
+      {
+        path: 'RefundOnly/List',
+        name: 'AfterSaleRefundOnlyList',
+        component: () => import('@/view/aftersale/refund/list.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '仅退款列表',
+          access: ['AUTH_AFTERSALE_REFUND_ONLY_LIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'SalesReturn/List',
+        name: 'AfterSaleSalesReturnList',
+        component: () => import('@/view/aftersale/return/list.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: ' 退货退款列表',
+          access: ['AUTH_AFTERSALE_SALES_RETURN_LIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Change/List',
+        name: 'AfterSaleChangeList',
+        component: () => import('@/view/aftersale/change/list.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '换货列表',
+          access: ['AUTH_AFTERSALE_CHANGE_LIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'RefundOnly/Detail/:id',
+        name: 'AfterSaleRefundOnlyDetail',
+        component: () => import('@/view/aftersale/refund/detail.vue'),
+        meta: {
+          hideInMenu: true,
+          icon: 'md-funnel',
+          title: '仅退款详情',
+          access: ['AUTH_AFTERSALE_REFUND_ONLY_DETAIL_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'SalesReturn/Detail/:id',
+        name: 'AfterSaleSalesReturnDetail',
+        component: () => import('@/view/aftersale/return/detail.vue'),
+        meta: {
+          hideInMenu: true,
+          icon: 'md-funnel',
+          title: '退货退款详情',
+          access: ['AUTH_AFTERSALE_SALES_RETURN_DETAIL_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Change/Detail/:id',
+        name: 'AfterSaleChangeDetail',
+        component: () => import('@/view/aftersale/change/detail.vue'),
+        meta: {
+          hideInMenu: true,
+          icon: 'md-funnel',
+          title: '换货详情',
+          access: ['AUTH_AFTERSALE_CHANGE_DETAIL_PAGE'],
+          notCache: true
+        }
+      }
+    ]
+  },
+
+  {
     path: '/Setting',
     name: 'SettingManage',
     meta: {
@@ -598,7 +686,9 @@ export default [
       notCache: true,
       access: [
         'AUTH_WECHAT_SETTING_PAGE',
-        'AUTH_INVOICE_SETTING_LIST_PAGE'
+        'AUTH_INVOICE_SETTING_LIST_PAGE',
+        'AUTH_AFTERSALE_RETURN_ADDRESS_PAGE',
+        'AUTH_AFTERSALE_REASON_SETTING_LIST_PAGE'
       ]
     },
     component: Main,
@@ -634,6 +724,40 @@ export default [
           icon: 'md-funnel',
           title: '编辑发票配置',
           access: ['AUTH_INVOICE_SETTING_EDIT_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'AfterSale/Reason/List',
+        name: 'AfterSaleReasonSettingList',
+        component: () => import('@/view/setting/aftersale/reason/list.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '售后原因配置',
+          access: ['AUTH_AFTERSALE_REASON_SETTING_LIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'AfterSale/Reason/Edit/:id',
+        name: 'AfterSaleReasonSettingEdit',
+        component: () => import('@/view/setting/aftersale/reason/edit.vue'),
+        meta: {
+          hideInMenu: true,
+          icon: 'md-funnel',
+          title: '编辑售后原因',
+          access: ['AUTH_AFTERSALE_REASON_SETTING_EDIT_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'AfterSale/ReturnAddress',
+        name: 'AfterSaleReturnAddress',
+        component: () => import('@/view/setting/aftersale/return-address.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '回寄地址配置',
+          access: ['AUTH_AFTERSALE_RETURN_ADDRESS_PAGE'],
           notCache: true
         }
       }

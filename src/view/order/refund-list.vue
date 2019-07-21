@@ -73,7 +73,7 @@
       }
     },
     methods: {
-      listHandler: API.cancelForRefundList,
+      listHandler: API.refundList,
       setLoading(loading) {
         this.loading = loading
       },
