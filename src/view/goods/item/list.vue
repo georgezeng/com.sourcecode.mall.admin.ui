@@ -9,7 +9,7 @@
     :useStatus="true"
     :columns="columns"
     :loading="loading"
-    initSortProperty="name"
+    initSortProperty="number"
     deleteItemName="name"
     editPageName="GoodsItemEdit"
     :filteredPageNames="['GoodsItemEdit']"
@@ -52,8 +52,8 @@
         loading: false,
         columns: [
           {type: 'selection', width: 60, align: 'center'},
-          {title: '名称', key: 'name', sortable: true, sortType: 'asc'},
-          {title: '编号', key: 'number', sortable: true},
+          {title: '编号', key: 'number', sortable: true, sortType: 'asc'},
+          {title: '名称', key: 'name', sortable: true},
           {title: '货号', key: 'code', sortable: true},
           {title: '最低价格', key: 'minPrice', sortable: true},
           {title: '最高价格', key: 'maxPrice', sortable: true},
