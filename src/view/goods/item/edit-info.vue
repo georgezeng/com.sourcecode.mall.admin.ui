@@ -17,6 +17,9 @@
         <FormItem label="名称" prop="name">
           <Input v-model="form.name" @on-change="editCompleteCheck"></Input>
         </FormItem>
+        <FormItem v-if="isEdit" label="编号">
+          <Input readonly :value="form.number"></Input>
+        </FormItem>
         <FormItem label="货号" prop="code">
           <Input v-model="form.code" @on-change="editCompleteCheck"></Input>
         </FormItem>

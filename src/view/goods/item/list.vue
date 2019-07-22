@@ -53,6 +53,7 @@
         columns: [
           {type: 'selection', width: 60, align: 'center'},
           {title: '名称', key: 'name', sortable: true, sortType: 'asc'},
+          {title: '编号', key: 'number', sortable: true},
           {title: '货号', key: 'code', sortable: true},
           {title: '最低价格', key: 'minPrice', sortable: true},
           {title: '最高价格', key: 'maxPrice', sortable: true},

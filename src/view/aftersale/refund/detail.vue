@@ -122,6 +122,10 @@
             key: 'itemName'
           },
           {
+            title: '编号',
+            key: 'itemNumber'
+          },
+          {
             title: '图片',
             render: (h, params) => {
               return h('img', {
