@@ -144,6 +144,10 @@
         },
         columns: [
           {
+            title: '编号',
+            key: 'itemNumber'
+          },
+          {
             title: '名称',
             key: 'itemName'
           },

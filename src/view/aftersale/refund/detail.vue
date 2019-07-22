@@ -118,12 +118,12 @@
         },
         columns: [
           {
-            title: '名称',
-            key: 'itemName'
-          },
-          {
             title: '编号',
             key: 'itemNumber'
+          },
+          {
+            title: '名称',
+            key: 'itemName'
           },
           {
             title: '图片',
