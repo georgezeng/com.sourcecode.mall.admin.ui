@@ -600,7 +600,8 @@ export default [
       access: [
         'AUTH_AFTERSALE_REFUND_ONLY_LIST_PAGE',
         'AUTH_AFTERSALE_SALES_RETURN_LIST_PAGE',
-        'AUTH_AFTERSALE_CHANGE_LIST_PAGE'
+        'AUTH_AFTERSALE_CHANGE_LIST_PAGE',
+        'AUTH_GOODS_ITEM_EVALUATION_LIST_PAGE'
       ]
     },
     component: Main,
@@ -673,7 +674,30 @@ export default [
           access: ['AUTH_AFTERSALE_CHANGE_DETAIL_PAGE'],
           notCache: true
         }
-      }
+      },
+      {
+        path: 'Evaluation/List',
+        name: 'EvaluationList',
+        component: () => import('@/view/aftersale/evaluation/list.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '评价列表',
+          access: ['AUTH_GOODS_ITEM_EVALUATION_LIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Evaluation/Edit/:id',
+        name: 'EvaluationEdit',
+        component: () => import('@/view/aftersale/evaluation/edit.vue'),
+        meta: {
+          hideInMenu: true,
+          icon: 'md-funnel',
+          title: '评价编辑',
+          access: ['AUTH_GOODS_ITEM_EVALUATION_EDIT_PAGE'],
+          notCache: true
+        }
+      },
     ]
   },
 
