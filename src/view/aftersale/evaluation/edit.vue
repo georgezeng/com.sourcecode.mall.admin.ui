@@ -98,6 +98,10 @@
           createTime: null,
           buyer: null,
           photos: null,
+          value: {
+            name: null,
+            text: null
+          },
           replied: false,
           remark: null,
           additional: false,
