@@ -72,6 +72,14 @@
             label: '未通过'
           },
           {
+            value: 'NotAdditional',
+            label: '首次评价'
+          },
+          {
+            value: 'IsAdditional',
+            label: '追加评价'
+          },
+          {
             value: 'All',
             label: '全部'
           }
