@@ -58,30 +58,28 @@
     </Card>
 
     <Card style="margin-top: 20px;">
-      <div style="border-bottom: 1px solid #f5f5f5;">
-        <p>
-          审核信息
-        </p>
-        <div>
-          <span style="margin-right: 10px;">审核结果:</span>
-          <RadioGroup v-model="data.agree">
-            <Radio label="true" :disabled="data.status.name != 'Processing'">
-              <span style="position: relative; left: -3px;">同意</span>
-            </Radio>
-            <Radio label="false" :disabled="data.status.name != 'Processing'">
-              <span style="position: relative; left: -3px;">拒绝</span>
-            </Radio>
-          </RadioGroup>
-          <div v-if="data.agree == 'false'" style="margin-top: 10px;">
-            <span style="margin-right: 10px;">拒绝原因:</span>
-            <Input :disabled="data.status.name != 'Processing'" style="display: inline-block; width: 90%;"
-                   v-model="data.rejectReason"/>
-          </div>
+      <p slot="title">
+        审核信息
+      </p>
+      <div>
+        <span style="margin-right: 10px;">审核结果:</span>
+        <RadioGroup v-model="data.agree">
+          <Radio :label="true" :disabled="data.status.name != 'Processing'">
+            <span style="position: relative; left: -3px;">同意</span>
+          </Radio>
+          <Radio :label="false" :disabled="data.status.name != 'Processing'">
+            <span style="position: relative; left: -3px;">拒绝</span>
+          </Radio>
+        </RadioGroup>
+        <div v-if="!data.agree" style="margin-top: 10px;">
+          <span style="margin-right: 10px;">拒绝原因:</span>
+          <Input :disabled="data.status.name != 'Processing'" style="display: inline-block; width: 90%;"
+                 v-model="data.rejectReason"/>
         </div>
       </div>
 
       <div v-if="data.status.name == 'Finished'"
-           style="margin-top: 10px; border-bottom: 1px solid #f5f5f5;">
+           style="margin-top: 10px;">
         <p>
           处理结果: 已退款
         </p>

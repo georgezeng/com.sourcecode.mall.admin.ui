@@ -416,6 +416,7 @@
         this.queryInfo.data.parent.id = this.ids[this.ids.length - 1]
         this.$emit('initForParentId', this.queryInfo.data.parent.id)
       }
+      this.$emit('setLoad', this.load)
       this.$emit('setGoEdit', this.goEdit)
       this.$emit('setDeleteData', this.deleteData)
       this.$emit('setTriggerStatus', this.triggerStatus)

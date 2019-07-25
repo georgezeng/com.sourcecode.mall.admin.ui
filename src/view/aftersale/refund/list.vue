@@ -45,6 +45,7 @@
       :queryData="data"
       @setLoading="setLoading"
       @setGoEdit="setGoEdit"
+      @setLoad="setLoad"
     >
     </CommonTable>
   </div>
@@ -53,6 +54,7 @@
   import config from '@/config'
   import API from '@/api/aftersale-application'
   import CommonTable from '@/components/tables/common-table'
+  import {Message} from 'iview'
 
   export default {
     components: {
@@ -183,7 +185,7 @@
                         this.form.id = params.row.id
                         this.form.nums = params.row.nums
                         this.form.amount = params.row.amount
-                        this.form.remakr = null
+                        this.form.remark = null
                         this.refundPopup = true
                       }
                     }
@@ -220,6 +222,9 @@
           if (valid) {
             this.loading = true
             API.refund(this.form).then(res => {
+              Message.success('退款成功')
+              this.closePopup()
+              this.load()
               this.loading = false
             }).catch(e => {
               this.loading = false
@@ -236,6 +241,9 @@
       setGoEdit(callback) {
         this.goEdit = callback
       },
+      setLoad(callback) {
+        this.load = callback
+      }
     },
   }
 </script>
