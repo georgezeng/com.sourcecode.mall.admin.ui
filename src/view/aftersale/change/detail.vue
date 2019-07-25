@@ -229,8 +229,9 @@
       save() {
         this.loading = true
         API.audit(this.data).then(res => {
-          Message.success('保存成功')
           this.loading = false
+          Message.success('保存成功')
+          this.goList()
         }).catch(e => {
           this.loading = false
         })
