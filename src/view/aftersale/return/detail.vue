@@ -198,7 +198,10 @@
       },
       save() {
         this.loading = true
-        API.audit(this.data).then(res => {
+        API.audit({
+          ...this.data,
+          type: this.data.type.name
+        }).then(res => {
           Message.success('保存成功')
           this.loading = false
         }).catch(e => {
