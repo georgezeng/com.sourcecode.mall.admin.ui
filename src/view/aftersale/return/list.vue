@@ -219,7 +219,7 @@
                         this.form.id = params.row.id
                         this.form.nums = params.row.nums
                         this.form.amount = params.row.amount
-                        this.form.remakr = null
+                        this.form.remark = null
                         this.refundPopup = true
                       }
                     }

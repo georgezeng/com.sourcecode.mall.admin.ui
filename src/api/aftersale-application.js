@@ -8,7 +8,11 @@ export default {
     return axios.get('/afterSale/application/load/params/' + id)
   },
   audit: (data) => {
-    return axios.post('/afterSale/application/audit', data)
+    return axios.post('/afterSale/application/audit', {
+      id: data.id,
+      agree: data.agree,
+      rejectReason: data.rejectReason
+    })
   },
   refund: (data) => {
     return axios.post('/afterSale/application/refund', data)

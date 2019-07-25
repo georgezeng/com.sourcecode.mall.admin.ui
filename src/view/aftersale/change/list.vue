@@ -211,7 +211,7 @@
                         this.form.id = params.row.id
                         this.form.merchantExpressCompany = null
                         this.form.merchantExpressNumber = null
-                        this.form.remakr = null
+                        this.form.remark = null
                         this.sendPopup = true
                       }
                     }
@@ -226,11 +226,11 @@
     },
     methods: {
       listHandler: API.list,
-      refund() {
+      sent() {
         this.$refs.form.validate().then(valid => {
           if (valid) {
             this.loading = true
-            API.refund(this.form).then(res => {
+            API.sent(this.form).then(res => {
               this.loading = false
             }).catch(e => {
               this.loading = false
@@ -239,7 +239,7 @@
         })
       },
       closePopup() {
-        this.refundPopup = false
+        this.sendPopup = false
       },
       setLoading(loading) {
         this.loading = loading
