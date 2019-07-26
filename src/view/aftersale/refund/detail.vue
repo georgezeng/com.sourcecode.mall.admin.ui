@@ -71,7 +71,7 @@
             <span style="position: relative; left: -3px;">拒绝</span>
           </Radio>
         </RadioGroup>
-        <div v-if="!data.agree" style="margin-top: 10px;">
+        <div v-if="data.agree == false" style="margin-top: 10px;">
           <span style="margin-right: 10px;">拒绝原因:</span>
           <Input :disabled="data.status.name != 'Processing'" style="display: inline-block; width: 90%;"
                  v-model="data.rejectReason"/>
