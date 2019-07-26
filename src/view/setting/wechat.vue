@@ -11,7 +11,7 @@
           <Input v-model="gzhForm.account"></Input>
         </FormItem>
         <FormItem label="密钥" prop="secret">
-          <Input type="password" v-model="gzhForm.secret"></Input>
+          <Input v-model="gzhForm.secret"></Input>
         </FormItem>
         <FormItem label="支付商户号" prop="mch">
           <Input v-model="gzhForm.mch"></Input>

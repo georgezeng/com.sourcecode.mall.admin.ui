@@ -11,7 +11,10 @@
           <Input v-model="form.account"></Input>
         </FormItem>
         <FormItem label="密钥" prop="secret">
-          <Input type="password" v-model="form.secret"></Input>
+          <Input v-model="form.secret"></Input>
+        </FormItem>
+        <FormItem label="支付宝公钥" prop="mch">
+          <Input v-model="form.mch"></Input>
         </FormItem>
       </Form>
     </Card>
@@ -32,6 +35,7 @@
         form: {
           account: null,
           secret: null,
+          mch: null
         },
         rules: {
           account: [
@@ -39,6 +43,9 @@
           ],
           secret: [
             {required: true, message: '密钥不能为空', trigger: 'change'},
+          ],
+          mch: [
+            {required: true, message: '支付宝公钥不能为空', trigger: 'change'},
           ],
         }
       }
