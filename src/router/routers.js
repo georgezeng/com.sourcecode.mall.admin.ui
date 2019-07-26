@@ -712,6 +712,7 @@ export default [
         'AUTH_WECHAT_SETTING_PAGE',
         'AUTH_INVOICE_SETTING_LIST_PAGE',
         'AUTH_AFTERSALE_RETURN_ADDRESS_PAGE',
+        'AUTH_ALIPAY_SETTING_PAGE',
         'AUTH_AFTERSALE_REASON_SETTING_LIST_PAGE'
       ]
     },
@@ -725,6 +726,17 @@ export default [
           icon: 'md-funnel',
           title: '微信配置',
           access: ['AUTH_WECHAT_SETTING_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Alipay',
+        name: 'AlipaySetting',
+        component: () => import('@/view/setting/alipay.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '支付宝配置',
+          access: ['AUTH_ALIPAY_SETTING_PAGE'],
           notCache: true
         }
       },
