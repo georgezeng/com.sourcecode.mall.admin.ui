@@ -44,8 +44,8 @@
       </div>
       <div style="margin-top: 10px;">
         评价晒图: <img v-for="(path, index) in data.photos" :key="index"
-                   :src="config.publicBucketDomain + path" style="margin-right: 5px;" width="42"
-                   height="42"/>
+                   :src="config.publicBucketDomain + path" style="margin-right: 5px;" width="200"
+                   height="200"/>
       </div>
     </Card>
 
@@ -116,6 +116,7 @@
           this.loading = true
           API.load(this.data.id).then(data => {
             this.data = data
+            this.reply = data.reply
             this.loading = false
           }).catch(e => {
             this.loading = false
