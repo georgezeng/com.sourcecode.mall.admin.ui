@@ -44,7 +44,7 @@
       </div>
       <div style="margin-top: 10px;">
         评价晒图: <img v-for="(path, index) in data.photos" :key="index"
-                   :src="config.publicBucketDomain + path" style="margin-right: 5px;" width="200"
+                   :src="config.publicBucketDomain + path" style="margin-right: 10px;" width="200"
                    height="200"/>
       </div>
     </Card>
