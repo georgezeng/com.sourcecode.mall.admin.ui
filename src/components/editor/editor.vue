@@ -75,6 +75,9 @@ export default {
     this.editor.customConfig.uploadImgServer = this.uploadUrl
     this.editor.customConfig.withCredentials = true
     this.editor.customConfig.uploadFileName = 'files'
+    this.editor.customConfig.uploadImgTimeout = 300000
+    this.editor.customConfig.uploadImgMaxSize = 10 * 1024 * 1024
+    this.editor.customConfig.uploadImgMaxLength = 10
     const loadUrl = this.loadUrl
     this.editor.customConfig.uploadImgHooks = {
       // 如果服务器端返回的不是 {errno:0, data: [...]} 这种格式，可使用该配置
