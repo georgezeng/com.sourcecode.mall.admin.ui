@@ -154,7 +154,7 @@
             title: '操作',
             key: 'action',
             render: (h, params) => {
-              arr = [
+              const arr = [
                 h('Button', {
                   props: {
                     type: 'primary',
