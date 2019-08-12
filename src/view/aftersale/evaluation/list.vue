@@ -120,7 +120,7 @@
             }
           },
           {
-            title: '是否公开',
+            title: '公开',
             key: 'show',
             render: (h, params) => {
               return h('input', {
