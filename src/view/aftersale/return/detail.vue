@@ -45,7 +45,7 @@
       </div>
       <div style="margin-top: 10px;">
         图片凭证: <img @click="showImage(data.photos)" v-for="(path, index) in data.photos" :key="index"
-                   :src="config.publicBucketDomain + path" style="margin-right: 5px;" width="42"
+                   :src="config.publicBucketDomain + path" style="cursor: pointer; margin-right: 5px;" width="42"
                    height="42"/>
       </div>
     </Card>
@@ -64,11 +64,11 @@
         </p>
         <div>
           <span style="margin-right: 10px;">审核结果:</span>
-          <RadioGroup v-model="data.agree">
-            <Radio :label="true" :disabled="data.status.name != 'Processing'">
+          <RadioGroup v-model="data.agree + ''">
+            <Radio label="true" :disabled="data.status.name != 'Processing'">
               <span style="position: relative; left: -3px;">同意</span>
             </Radio>
-            <Radio :label="false" :disabled="data.status.name != 'Processing'">
+            <Radio label="false" :disabled="data.status.name != 'Processing'">
               <span style="position: relative; left: -3px;">拒绝</span>
             </Radio>
           </RadioGroup>
