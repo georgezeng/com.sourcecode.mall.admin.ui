@@ -44,7 +44,7 @@
         描述说明: {{data.description}}
       </div>
       <div style="margin-top: 10px;">
-        图片凭证: <img @click="showImage(path)" v-for="(path, index) in data.photos" :key="index"
+        图片凭证: <img @click="showImage(data.photos)" v-for="(path, index) in data.photos" :key="index"
                    :src="config.publicBucketDomain + path" style="margin-right: 5px;" width="42"
                    height="42"/>
       </div>
@@ -158,19 +158,27 @@
       }
     },
     methods: {
-      showImage(path) {
+      showImage(photos) {
         this.$Modal.info({
           width: 540,
           render: (h) => {
-            return h('img', {
+            return h('Carousel', {
               attrs: {
-                src: config.publicBucketDomain + path
-              },
-              style: {
-                width: '500px',
-                height: '500px'
+                loop: true
               }
-            })
+            }, photos.map(img => {
+              return h('CarouselItem', null, [
+                h('img', {
+                  attrs: {
+                    src: config.publicBucketDomain + img
+                  },
+                  style: {
+                    width: '500px',
+                    height: '500px'
+                  }
+                })
+              ])
+            }))
           }
         })
       },
