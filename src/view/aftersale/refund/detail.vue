@@ -2,6 +2,15 @@
 </style>
 <template>
   <div>
+    <Modal v-model="show" :footer-hide="true">
+      <div style="margin: 20px;"></div>
+      <Carousel v-if="show" loop>
+        <CarouselItem v-for="(photo, index) in data.photos" :key="index">
+          <img style="position: relative;" :src="config.publicBucketDomain + photo" width="500" height="500">
+        </CarouselItem>
+      </Carousel>
+    </Modal>
+
     <Card>
       <p slot="title">
         申请信息 (仅退款)
@@ -44,7 +53,7 @@
         描述说明: {{data.description}}
       </div>
       <div style="margin-top: 10px;">
-        图片凭证: <img @click="showImage(data.photos)" v-for="(path, index) in data.photos" :key="index"
+        图片凭证: <img @click="showImage" v-for="(path, index) in data.photos" :key="index"
                    :src="config.publicBucketDomain + path" style="cursor: pointer; margin-right: 5px;" width="42"
                    height="42"/>
       </div>
@@ -100,6 +109,7 @@
     data() {
       return {
         config,
+        show: false,
         loading: false,
         data: {
           id: null,
@@ -158,29 +168,8 @@
       }
     },
     methods: {
-      showImage(photos) {
-        this.$Modal.info({
-          width: 540,
-          render: (h) => {
-            return h('Carousel', {
-              attrs: {
-                loop: true
-              }
-            }, photos.map(img => {
-              return h('CarouselItem', null, [
-                h('img', {
-                  attrs: {
-                    src: config.publicBucketDomain + img
-                  },
-                  style: {
-                    width: '500px',
-                    height: '500px'
-                  }
-                })
-              ])
-            }))
-          }
-        })
+      showImage() {
+        this.show = true
       },
       load() {
         if (this.data.id > 0) {
