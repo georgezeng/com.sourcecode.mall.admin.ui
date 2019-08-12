@@ -5,7 +5,10 @@
       :loading="loading"
       :disableAddBtn="true"
       :disableDelete="true"
-      :useStatus="false"
+      :statusList="statusList"
+      :disableStatusBtns="true"
+      :useStatus="true"
+      :useStatusQueryOnly="true"
       :useReason="false"
       :useDateRange="true"
       initSortProperty="createTime"
@@ -30,6 +33,36 @@
     },
     data() {
       return {
+        statusList: [
+          {
+            value: 'UnPay',
+            label: '待付款'
+          },
+          {
+            value: 'Paid',
+            label: '已付款'
+          },
+          {
+            value: 'Shipped',
+            label: '已发货'
+          },
+          {
+            value: 'Canceled',
+            label: '已取消'
+          },
+          {
+            value: 'Closed',
+            label: '已关闭'
+          },
+          {
+            value: 'Finished',
+            label: '交易成功'
+          },
+          {
+            value: 'all',
+            label: '全部'
+          }
+        ],
         loading: false,
         columns: [
           // {type: 'selection', width: 60, align: 'center'},

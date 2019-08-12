@@ -44,7 +44,7 @@
         描述说明: {{data.description}}
       </div>
       <div style="margin-top: 10px;">
-        图片凭证: <img v-for="(path, index) in data.photos" :key="index"
+        图片凭证: <img @click="showImage(path)" v-for="(path, index) in data.photos" :key="index"
                    :src="config.publicBucketDomain + path" style="margin-right: 5px;" width="42"
                    height="42"/>
       </div>
@@ -65,24 +65,25 @@
         <div>
           <span style="margin-right: 10px;">审核结果:</span>
           <RadioGroup v-model="data.agree">
-            <Radio label="true" :disabled="data.status.name != 'Processing'">
+            <Radio :label="true" :disabled="data.status.name != 'Processing'">
               <span style="position: relative; left: -3px;">同意</span>
             </Radio>
-            <Radio label="false" :disabled="data.status.name != 'Processing'">
+            <Radio :label="false" :disabled="data.status.name != 'Processing'">
               <span style="position: relative; left: -3px;">拒绝</span>
             </Radio>
           </RadioGroup>
-          <div v-if="data.agree == 'false'" style="margin-top: 10px;">
+          <div v-if="data.agree == false" style="margin-top: 10px;">
             <span style="margin-right: 10px;">拒绝原因:</span>
-            <Input :disabled="data.status.name != 'Processing'" style="display: inline-block; width: 90%;"
+            <Input v-if="data.status.name == 'Processing'" style="display: inline-block; width: 90%;"
                    v-model="data.rejectReason"/>
+            <span v-else>{{data.rejectReason}}</span>
           </div>
         </div>
       </div>
 
       <div
         v-if="data.status.name != 'Processing' && data.status.name != 'WaitForReturn' && data.status.name != 'Rejected'"
-        style="margin-top: 10px; border-bottom: 1px solid #f5f5f5;">
+        style="margin-top: 10px;">
         <p>
           商品回寄
         </p>
@@ -112,7 +113,7 @@
         && data.status.name != 'WaitForReceive'
         && data.status.name != 'WaitForSend'
         && data.status.name != 'Rejected'"
-        style="margin-top: 10px; border-bottom: 1px solid #f5f5f5;">
+        style="margin-top: 10px;">
         <p>
           换货寄送
         </p>
@@ -137,7 +138,7 @@
       </div>
 
       <div v-if="data.status.name == 'Finished'"
-           style="margin-top: 10px; border-bottom: 1px solid #f5f5f5;">
+           style="margin-top: 10px;">
         <p>
           处理结果: 已换货
         </p>
@@ -215,6 +216,22 @@
       }
     },
     methods: {
+      showImage(path) {
+        this.$Modal.info({
+          width: 540,
+          render: (h) => {
+            return h('img', {
+              attrs: {
+                src: config.publicBucketDomain + path
+              },
+              style: {
+                width: '500px',
+                height: '500px'
+              }
+            })
+          }
+        })
+      },
       load() {
         if (this.data.id > 0) {
           this.loading = true
@@ -238,7 +255,7 @@
       },
       goList() {
         this.$router.push({
-          name: 'AfterSaleRefundOnlyList'
+          name: 'AfterSaleChangeList'
         })
       },
     },
