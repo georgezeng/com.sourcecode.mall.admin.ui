@@ -102,21 +102,6 @@
       <div style="text-align: center; margin: 30px 0 10px;">商品信息</div>
       <Table :loading="loading" :data="data.subList" :columns="columns"></Table>
 
-      <div style="text-align: center; margin: 30px 0 10px;">费用信息</div>
-      <table cellspacing="0" cellpadding="0">
-        <tr>
-          <td style="text-align: right;">RMB订单应付总额: 商品总额 ￥{{data.totalPrice}} + 物流费用 ￥0.00 + 税票费用 ￥0.00 =
-            ￥{{data.totalPrice}}
-          </td>
-        </tr>
-        <tr>
-          <td style="text-align: right;">扣除优惠: - (满减优惠 ￥0.00 + 优惠券抵扣 ￥0.00) = ￥-0.00</td>
-        </tr>
-        <tr>
-          <td style="text-align: right;">订单实付金额: ￥{{data.totalPrice}}</td>
-        </tr>
-      </table>
-
       <div style="text-align: center; margin: 30px 0 10px;">发票信息</div>
       <table cellspacing="0" cellpadding="0">
         <tr>
@@ -130,6 +115,21 @@
           <td>{{data.invoice ? data.invoice.title : ''}}</td>
           <td width="100" style="background-color: #c3c3c3; text-align: center;">发票内容</td>
           <td>{{data.invoice ? data.invoice.content : ''}}</td>
+        </tr>
+      </table>
+
+      <div style="text-align: center; margin: 30px 0 10px;">费用信息</div>
+      <table cellspacing="0" cellpadding="0">
+        <tr>
+          <td style="text-align: right;">RMB订单应付总额: 商品总额 ￥{{data.totalPrice}} + 物流费用 ￥0.00 + 税票费用 ￥0.00 =
+            ￥{{data.totalPrice}}
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: right;">扣除优惠: - (满减优惠 ￥0.00 + 优惠券抵扣 ￥0.00) = ￥-0.00</td>
+        </tr>
+        <tr>
+          <td style="text-align: right;">订单实付金额: ￥{{data.totalPrice}}</td>
         </tr>
       </table>
 
