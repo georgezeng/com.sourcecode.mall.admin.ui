@@ -215,7 +215,7 @@
         this.loading = true
         API.audit({
           ...this.data,
-          agree: this.data == 'true'
+          agree: this.data.agree == 'true'
         }).then(res => {
           this.loading = false
           Message.success('保存成功')
