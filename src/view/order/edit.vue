@@ -54,22 +54,6 @@
         </tr>
       </table>
 
-      <div style="text-align: center; margin: 30px 0 10px;">发票信息</div>
-      <table cellspacing="0" cellpadding="0">
-        <tr>
-          <td width="100" style="background-color: #c3c3c3; text-align: center;">发票类型</td>
-          <td>{{data.invoice ? data.invoice.type.name : ''}}</td>
-          <td width="100" style="background-color: #c3c3c3; text-align: center;">纳税编号</td>
-          <td>{{data.invoice ? data.invoice.code : ''}}</td>
-        </tr>
-        <tr>
-          <td width="100" style="background-color: #c3c3c3; text-align: center;">发票抬头</td>
-          <td>{{data.invoice ? data.invoice.title : ''}}</td>
-          <td width="100" style="background-color: #c3c3c3; text-align: center;">发票内容</td>
-          <td>{{data.invoice ? data.invoice.content : ''}}</td>
-        </tr>
-      </table>
-
       <div style="text-align: center; margin: 30px 0 10px;">
         物流信息
         <Button @click="goUpdateExpress" v-if="data.status.name == 'Paid' || data.status.name == 'Shipped'"
@@ -130,6 +114,22 @@
         </tr>
         <tr>
           <td style="text-align: right;">订单实付金额: ￥{{data.totalPrice}}</td>
+        </tr>
+      </table>
+
+      <div style="text-align: center; margin: 30px 0 10px;">发票信息</div>
+      <table cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="100" style="background-color: #c3c3c3; text-align: center;">发票类型</td>
+          <td>{{data.invoice ? data.invoice.type.name : ''}}</td>
+          <td width="100" style="background-color: #c3c3c3; text-align: center;">纳税编号</td>
+          <td>{{data.invoice ? data.invoice.code : ''}}</td>
+        </tr>
+        <tr>
+          <td width="100" style="background-color: #c3c3c3; text-align: center;">发票抬头</td>
+          <td>{{data.invoice ? data.invoice.title : ''}}</td>
+          <td width="100" style="background-color: #c3c3c3; text-align: center;">发票内容</td>
+          <td>{{data.invoice ? data.invoice.content : ''}}</td>
         </tr>
       </table>
 
