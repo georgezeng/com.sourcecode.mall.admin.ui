@@ -181,11 +181,13 @@
       clearDate() {
         this.queryInfo.data.startTime = null
         this.queryInfo.data.endTime = null
+        this.queryInfo.page.num = 1
         this.load()
       },
       changeDate(dateRange, type) {
         this.queryInfo.data.startTime = dateRange[0]
         this.queryInfo.data.endTime = dateRange[1]
+        this.queryInfo.page.num = 1
         this.load()
       },
       goParentList() {
@@ -213,19 +215,20 @@
             ...this.queryData
           }
         }
-        this.changePage(1)
+        this.changePage()
       },
       sortChange({key, order}) {
         if (!order) order = 'ASC'
         this.queryInfo.page.property = key
         this.queryInfo.page.order = order.toUpperCase()
+        this.queryInfo.page.num = 1
         this.load()
       },
-      changePage(pageNum) {
+      changePage() {
         this.setLoading(true)
         this.selection = []
         this.disableBtns()
-        this.queryInfo.page.num = pageNum ? pageNum : this.queryInfo.page.num
+        // this.queryInfo.page.num = pageNum ? pageNum : this.queryInfo.page.num
         this.listHandler(this.queryInfo).then(res => {
           if (res.list) {
             this.total = res.total
@@ -256,6 +259,7 @@
           this.setLoading(false)
           this.bulkDeleteModal = false
           Message.success('删除成功')
+          this.queryInfo.page.num = 1
           this.load()
         }).catch(ex => {
           this.setLoading(false)
