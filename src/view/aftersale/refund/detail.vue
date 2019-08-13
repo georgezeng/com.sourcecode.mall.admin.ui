@@ -72,7 +72,7 @@
       </p>
       <div>
         <span style="margin-right: 10px;">审核结果:</span>
-        <RadioGroup v-model="data.agree + ''">
+        <RadioGroup v-model="data.agree">
           <Radio label="true" :disabled="data.status.name != 'Processing'">
             <span style="position: relative; left: -3px;">同意</span>
           </Radio>
@@ -176,6 +176,7 @@
           this.loading = true
           API.load(this.data.id).then(data => {
             this.data = data
+            this.data.agree = data.agree + ''
             this.loading = false
           }).catch(e => {
             this.loading = false
@@ -184,7 +185,10 @@
       },
       save() {
         this.loading = true
-        API.audit(this.data).then(res => {
+        API.audit({
+          ...this.data,
+          agree: this.data == 'true'
+        }).then(res => {
           this.loading = false
           Message.success('保存成功')
           this.goList()
