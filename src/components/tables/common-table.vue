@@ -205,7 +205,7 @@
       setLoading(loading) {
         this.$emit('setLoading', loading)
       },
-      load() {
+      load(pageNum) {
         this.$emit('setQueryData', this.queryInfo.data)
         if (this.queryData) {
           this.queryInfo.data = {
@@ -213,7 +213,7 @@
             ...this.queryData
           }
         }
-        this.changePage(1)
+        this.changePage(pageNum ? pageNum : 1)
       },
       sortChange({key, order}) {
         if (!order) order = 'ASC'
@@ -296,7 +296,7 @@
           this.setLoading(false)
           this.bulkStatusModal = false
           Message.success(txt + '成功')
-          this.load()
+          this.load(this.queryInfo.page.num)
         }).catch(ex => {
           this.setLoading(false)
         })
@@ -353,7 +353,7 @@
         this.updateStatusHandler(ids, !item.enabled, parentId).then(res => {
           this.setLoading(false)
           Message.success(action + '成功')
-          this.load()
+          this.load(this.queryInfo.page.num)
         }).catch(ex => {
           this.setLoading(false)
         })
