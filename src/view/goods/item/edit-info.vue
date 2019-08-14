@@ -124,7 +124,7 @@
         }
       }
       const minPriceCheck = (rule, value, callback) => {
-        if (isNaN(this.form.minPrice)) {
+        if (!this.form.minPrice || isNaN(this.form.minPrice)) {
           callback(new Error('价格必须是有效数字'));
         } else {
           callback();
