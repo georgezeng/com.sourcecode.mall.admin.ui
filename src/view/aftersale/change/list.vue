@@ -181,6 +181,7 @@
                       'on-ok': () => {
                         API.receive(params.row.id).then(res => {
                           Message.success('确认收货成功')
+                          this.load()
                         })
                       }
                     }
