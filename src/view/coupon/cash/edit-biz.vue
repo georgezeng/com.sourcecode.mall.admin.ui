@@ -249,7 +249,7 @@
           case 'Consume': {
             switch (this.relateTo) {
               case 'item': {
-                this.form.applyToAll = false
+                this.form.consumeSetting.applyToAll = false
                 this.form.consumeSetting.itemIds = this.itemList.map(it => it.id)
                 this.form.consumeSetting.categoryIds = []
                 this.form.consumeSetting.categories = []
@@ -257,14 +257,14 @@
               }
                 break
               case 'category': {
-                this.form.applyToAll = false
+                this.form.consumeSetting.applyToAll = false
                 this.form.consumeSetting.itemIds = []
                 this.form.consumeSetting.items = []
                 this.form.consumeSetting.categories = []
               }
                 break
               case 'all': {
-                this.form.applyToAll = true
+                this.form.consumeSetting.applyToAll = true
                 this.form.consumeSetting.categoryIds = []
                 this.form.consumeSetting.itemIds = []
                 this.form.consumeSetting.items = []
