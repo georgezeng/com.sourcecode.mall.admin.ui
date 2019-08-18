@@ -13,8 +13,11 @@ export default {
   saveBaseInfo: (obj) => {
     return axios.post('/coupon/cash/setting/save/baseInfo', obj)
   },
-  saveBizInfo: (obj) => {
-    return axios.post('/coupon/cash/setting/save/bizInfo', obj)
+  saveZsCondition: (obj) => {
+    return axios.post('/coupon/cash/setting/save/condition/zs', obj)
+  },
+  saveHxCondition: (obj) => {
+    return axios.post('/coupon/cash/setting/save/condition/hx', obj)
   },
   listClient: (queryInfo) => {
     return axios.post('/coupon/cash/client/list', queryInfo)

@@ -114,13 +114,12 @@
           if (valid) {
             this.loading = true
             let data = this.form
-            if (data.status) {
-              data.status = data.status.name
-            }
+            data.status = null
+            data.eventType = null
             API.saveBaseInfo(data).then(id => {
               this.loading = false
               Message.success('保存成功')
-              this.$emit('saveSuccess', {id, isEdit: this.isEdit})
+              this.$emit('saveSuccess', {id, to: 'zs'})
             }).catch(ex => {
               this.loading = false
             })

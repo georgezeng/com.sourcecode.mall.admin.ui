@@ -1,7 +1,7 @@
 <template>
   <Card>
     <p slot="title">
-      编辑业务属性
+      编辑赠送条件
     </p>
     <div slot="extra">
       <Button @click="save" type="primary" class="margin-right" :loading="loading">保存</Button>
@@ -22,7 +22,7 @@
         <InputNumber :min="0" v-model="form.consumeSetting.upToAmount" style="width: 300px;"
                      :precision="0"></InputNumber>
       </FormItem>
-      <FormItem v-if="form.eventType == 'Consume'" label="消费关联" prop="eventType">
+      <FormItem v-if="form.eventType == 'Consume'" label="消费关联" prop="relateTo">
         <RadioGroup v-model="relateTo">
           <Radio label="all">全部</Radio>
           <Radio label="category">分类</Radio>
@@ -52,7 +52,6 @@
 <script>
   import API from '@/api/cash-coupon'
   import CategorySelector from './category-selector'
-  import CategoryAPI from '@/api/goods-category'
   import GoodsItemAPI from '@/api/goods-item'
   import config from '@/config/index'
   import {Message} from 'iview'
@@ -62,7 +61,8 @@
       CategorySelector
     },
     props: [
-      'id'
+      'id',
+      'categories'
     ],
     data() {
       return {
@@ -141,7 +141,6 @@
           }
         ],
         relateTo: 'all',
-        categories: [],
         rules: {}
       }
     },
@@ -149,7 +148,10 @@
       loadId() {
         this.load()
         return this.id
-      }
+      },
+      isEdit() {
+        return this.form.id != null && this.form.id > 0
+      },
     },
     methods: {
       addToItemList() {
@@ -169,7 +171,6 @@
         this.items = []
         this.itemIndexes = []
       },
-
       searchItems(searchText) {
         this.loading = true
         GoodsItemAPI.list({
@@ -185,11 +186,9 @@
           this.loading = false;
         })
       },
-
       changeCategory(arr) {
         this.form.consumeSetting.categoryIds = arr
       },
-
       load() {
         if (this.id > 0) {
           this.form.id = this.id
@@ -221,28 +220,6 @@
           })
         }
       },
-
-      loadAllCategories() {
-        this.loading = true
-        CategoryAPI.list({
-          data: {},
-          page: {
-            num: 1,
-            size: 999999999
-          }
-        }).then(data => {
-          this.categories = []
-          for (let i in data) {
-            let item = data[i]
-            item.value = item.id
-            this.categories.push(item)
-          }
-          this.loading = false
-        }).catch(ex => {
-          this.loading = false
-        })
-      },
-
       save() {
         this.loading = true
         switch (this.form.eventType) {
@@ -273,24 +250,19 @@
             }
           }
         }
-        API.saveBizInfo(this.form).then(res => {
+        API.saveZsCondition(this.form).then(res => {
           Message.success('保存成功')
-          this.goList()
+          this.$emit('saveSuccess', {id: this.form.id, to: 'hx'})
           this.loading = false
         }).catch(e => {
           this.loading = false
         })
       },
-
       goList() {
         this.$router.push({
           name: 'CashCouponSettingList',
         })
       },
     },
-
-    mounted() {
-      this.loadAllCategories()
-    }
   }
 </script>
