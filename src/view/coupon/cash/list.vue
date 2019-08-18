@@ -172,7 +172,7 @@
                   }, [
                     h('Button', {
                       props: {
-                        type: 'warn',
+                        type: 'warning',
                         size: 'small'
                       },
                       style: {
