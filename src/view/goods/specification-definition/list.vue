@@ -1,5 +1,6 @@
 <template>
   <CommonTable
+    :title="title"
     enableStatusText="关联"
     disableStatusText="取消"
     :statusList="statusList"
@@ -35,6 +36,7 @@
 </template>
 <script>
   import API from '@/api/goods-specification-definition'
+  import GroupAPI from '@/api/goods-specification-group'
   import {Message} from 'iview'
   import CommonTable from '@/components/tables/common-table'
 
@@ -45,6 +47,7 @@
     },
     data() {
       return {
+        title: null,
         parentId: 0,
         statusList: [
           {
@@ -205,6 +208,13 @@
       initForParentId(id) {
         this.parentId = id
       }
+    },
+    mounted() {
+      const ids = (this.$router.currentRoute.params.ids + '').split(',')
+      const parentId = ids[ids.length - 1]
+      GroupAPI.load(parentId).then(data => {
+        this.title = data.name
+      })
     }
   }
 </script>

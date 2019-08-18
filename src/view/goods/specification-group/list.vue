@@ -1,5 +1,6 @@
 <template>
   <CommonTable
+    :title="title"
     :columns="columns"
     :loading="loading"
     initSortProperty="name"
@@ -25,6 +26,7 @@
   </CommonTable>
 </template>
 <script>
+  import CategoryAPI from '@/api/goods-category'
   import API from '@/api/goods-specification-group'
   import {Message} from 'iview'
   import CommonTable from '@/components/tables/common-table'
@@ -36,6 +38,7 @@
     },
     data() {
       return {
+        title: null,
         loading: false,
         columns: [
           {type: 'selection', width: 60, align: 'center'},
@@ -115,6 +118,13 @@
       setGoSubList(callback) {
         this.goSubList = callback
       }
+    },
+    mounted() {
+      const ids = (this.$router.currentRoute.params.ids + '').split(',')
+      const parentId = ids[ids.length - 1]
+      CategoryAPI.load(parentId).then(data => {
+        this.title = data.name
+      })
     }
   }
 </script>

@@ -28,7 +28,7 @@
                         @change="setCategory"/>
         </FormItem>
         <FormItem label="商品品牌" prop="brandId">
-          <Select v-model="form.brandId" @on-change="editCompleteCheck">
+          <Select filterable v-model="form.brandId" @on-change="editCompleteCheck">
             <Option v-for="brand in brands" :value="brand.id" :key="brand.id">{{ brand.name }}</Option>
           </Select>
         </FormItem>

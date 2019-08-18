@@ -702,6 +702,57 @@ export default [
   },
 
   {
+    path: '/Coupon',
+    name: 'CouponManage',
+    meta: {
+      icon: 'md-menu',
+      title: '优惠券管理',
+      notCache: true,
+      access: [
+        'AUTH_CASH_COUPON_SETTING_LIST_PAGE',
+      ]
+    },
+    component: Main,
+    children: [
+      {
+        path: 'Cash/Setting/List',
+        name: 'CashCouponSettingList',
+        component: () => import('@/view/coupon/cash/list.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '现金券列表',
+          access: ['AUTH_CASH_COUPON_SETTING_LIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Cash/Setting/Edit/:id',
+        name: 'CashCouponSettingEdit',
+        component: () => import('@/view/coupon/cash/edit.vue'),
+        meta: {
+          hideInMenu: true,
+          icon: 'md-funnel',
+          title: ' 现金券编辑',
+          access: ['AUTH_CASH_COUPON_SETTING_EDIT_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Cash/Client/List/:id',
+        name: 'CashCouponClientList',
+        component: () => import('@/view/coupon/cash/client-list.vue'),
+        meta: {
+          hideInMenu: true,
+          icon: 'md-funnel',
+          title: '用户领券列表',
+          access: ['AUTH_CASH_COUPON_CLIENT_LIST_PAGE'],
+          notCache: true
+        }
+      }
+    ]
+  },
+
+  {
     path: '/Setting',
     name: 'SettingManage',
     meta: {
@@ -709,6 +760,7 @@ export default [
       title: '配置管理',
       notCache: true,
       access: [
+        'AUTH_COUPON_SETTING_PAGE',
         'AUTH_WECHAT_SETTING_PAGE',
         'AUTH_INVOICE_SETTING_LIST_PAGE',
         'AUTH_AFTERSALE_RETURN_ADDRESS_PAGE',
@@ -718,6 +770,17 @@ export default [
     },
     component: Main,
     children: [
+      {
+        path: 'Coupon',
+        name: 'CouponSetting',
+        component: () => import('@/view/setting/coupon.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '优惠券配置',
+          access: ['AUTH_COUPON_SETTING_PAGE'],
+          notCache: true
+        }
+      },
       {
         path: 'Wechat',
         name: 'WechatSetting',

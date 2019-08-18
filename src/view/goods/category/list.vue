@@ -248,6 +248,6 @@
       setPageList(callback) {
         this.setPageList = callback
       },
-    },
+    }
   }
 </script>

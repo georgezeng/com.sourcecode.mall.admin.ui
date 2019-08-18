@@ -1,6 +1,5 @@
 <template>
-  <Select :disabled="disabled" filterable :value="value" @on-change="change">
-    <Option value="0,0" v-if="noneValue">无上级</Option>
+  <Select :disabled="disabled" :value="value" filterable multiple @on-change="change">
     <Option :disabled="disableParent && parent.level != 3"
             :style="{paddingLeft: parent.level*10+'px'}"
             v-for="parent in parents"
@@ -14,7 +13,6 @@
 
 <script>
   export default {
-    name: 'GoodsCategoryParents',
     props: [
       'value',
       'disabled',
