@@ -41,7 +41,7 @@
       return {
         statusList: [
           {
-            value: 'UnUsed',
+            value: 'UnUse',
             label: '未使用'
           },
           {
