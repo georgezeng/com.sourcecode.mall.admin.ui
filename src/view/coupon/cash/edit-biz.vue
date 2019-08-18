@@ -23,7 +23,7 @@
                      :precision="0"></InputNumber>
       </FormItem>
       <FormItem v-if="form.eventType == 'Consume'" label="消费关联" prop="eventType">
-        <RadioGroup v-model="relateTo" @on-change="changeRelateTo">
+        <RadioGroup v-model="relateTo">
           <Radio label="all">全部</Radio>
           <Radio label="category">分类</Radio>
           <Radio label="item">商品</Radio>
@@ -152,9 +152,6 @@
       }
     },
     methods: {
-      changeRelateTo(value) {
-        this.form.consumeSetting.applyToAll = value == 'all'
-      },
       addToItemList() {
         for (let i in this.itemIndexes) {
           let found = false
@@ -252,6 +249,7 @@
           case 'Consume': {
             switch (this.relateTo) {
               case 'item': {
+                this.form.applyToAll = false
                 this.form.consumeSetting.itemIds = this.itemList.map(it => it.id)
                 this.form.consumeSetting.categoryIds = []
                 this.form.consumeSetting.categories = []
@@ -259,12 +257,14 @@
               }
                 break
               case 'category': {
+                this.form.applyToAll = false
                 this.form.consumeSetting.itemIds = []
                 this.form.consumeSetting.items = []
                 this.form.consumeSetting.categories = []
               }
                 break
               case 'all': {
+                this.form.applyToAll = true
                 this.form.consumeSetting.categoryIds = []
                 this.form.consumeSetting.itemIds = []
                 this.form.consumeSetting.items = []
