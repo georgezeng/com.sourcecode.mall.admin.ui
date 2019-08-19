@@ -22,17 +22,17 @@
         <InputNumber :min="0" v-model="form.consumeSetting.upToAmount" style="width: 300px;"
                      :precision="0"></InputNumber>
       </FormItem>
-      <FormItem v-if="form.eventType == 'Consume'" label="消费关联" prop="relateTo">
-        <RadioGroup v-model="relateTo">
-          <Radio label="all">全部</Radio>
-          <Radio label="category">分类</Radio>
-          <Radio label="item">商品</Radio>
+      <FormItem v-if="form.eventType == 'Consume'" label="消费关联" prop="type">
+        <RadioGroup v-model="form.type">
+          <Radio label="All">全部</Radio>
+          <Radio label="Category">分类</Radio>
+          <Radio label="Item">商品</Radio>
         </RadioGroup>
       </FormItem>
-      <FormItem v-if="form.eventType == 'Consume' && relateTo == 'category'" label="关联分类" prop="categoryIds">
+      <FormItem v-if="form.eventType == 'Consume' && form.type == 'Category'" label="关联分类" prop="categoryIds">
         <CategorySelector :value="selectedCategories" :parents="categories" @change="changeCategory"/>
       </FormItem>
-      <FormItem v-if="form.eventType == 'Consume' && relateTo == 'item'" label="关联商品" prop="itemIds">
+      <FormItem v-if="form.eventType == 'Consume' && form.type == 'Item'" label="关联商品" prop="itemIds">
         <Select style="width: 90%; margin-right: 10px; margin-bottom: 10px;"
                 v-model="itemIndexes"
                 multiple
@@ -75,7 +75,7 @@
           id: null,
           eventType: null,
           consumeSetting: {
-            applyToAll: null,
+            type: null,
             upToAmount: 0,
             categories: [],
             categoryIds: [],
@@ -140,7 +140,6 @@
             text: '用户注册'
           }
         ],
-        relateTo: 'all',
         rules: {}
       }
     },
@@ -198,14 +197,18 @@
             switch (this.form.eventType) {
               case 'Consume': {
                 this.form.consumeSetting = data.consumeSetting
-                if (this.form.consumeSetting.applyToAll) {
-                  this.relateTo = 'all'
-                } else if (this.form.consumeSetting.categories != null && this.form.consumeSetting.categories.length > 0) {
-                  this.relateTo = 'category'
-                  this.selectedCategories = this.form.consumeSetting.categories.map(it => it.id)
-                } else if (this.form.consumeSetting.items != null && this.form.consumeSetting.items.length > 0) {
-                  this.itemList = this.form.consumeSetting.items
-                  this.relateTo = 'item'
+                if (data.consumeSetting.type) {
+                  this.form.consumeSetting.type = data.consumeSetting.type.name
+                  switch (this.form.consumeSetting.type) {
+                    case "Category": {
+                      this.selectedCategories = this.form.consumeSetting.categories.map(it => it.id)
+                    }
+                      break
+                    case 'Item': {
+                      this.itemList = this.form.consumeSetting.items
+                    }
+                      break
+                  }
                 }
               }
                 break
@@ -224,29 +227,27 @@
         this.loading = true
         switch (this.form.eventType) {
           case 'Consume': {
-            switch (this.relateTo) {
-              case 'item': {
-                this.form.consumeSetting.applyToAll = false
+            switch (this.form.consumeSetting.type) {
+              case 'Item': {
                 this.form.consumeSetting.itemIds = this.itemList.map(it => it.id)
                 this.form.consumeSetting.categoryIds = []
                 this.form.consumeSetting.categories = []
                 this.form.consumeSetting.items = []
               }
                 break
-              case 'category': {
-                this.form.consumeSetting.applyToAll = false
+              case 'Category': {
                 this.form.consumeSetting.itemIds = []
                 this.form.consumeSetting.items = []
                 this.form.consumeSetting.categories = []
               }
                 break
-              case 'all': {
-                this.form.consumeSetting.applyToAll = true
+              case 'All': {
                 this.form.consumeSetting.categoryIds = []
                 this.form.consumeSetting.itemIds = []
                 this.form.consumeSetting.items = []
                 this.form.consumeSetting.categories = []
-              } break
+              }
+                break
             }
           }
         }

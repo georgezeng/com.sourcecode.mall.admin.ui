@@ -11,6 +11,9 @@
       <FormItem label="券名称" prop="name">
         <Input v-model="form.name"></Input>
       </FormItem>
+      <FormItem label="券标题" prop="title">
+        <Input v-model="form.title"></Input>
+      </FormItem>
       <FormItem label="面额" prop="amount">
         <InputNumber :min="0" v-model="form.amount" style="width: 300px;" :precision="0"></InputNumber>
       </FormItem>
@@ -92,6 +95,10 @@
           name: [
             {required: true, message: '券名称不能为空', trigger: 'change'},
             {max: 50, message: '券名称不能多于50位', trigger: 'change'}
+          ],
+          title: [
+            {required: true, message: '券标题不能为空', trigger: 'change'},
+            {max: 50, message: '券标题不能多于50位', trigger: 'change'}
           ],
           amount: [
             {required: true, validator: amountCheck, trigger: 'change'},

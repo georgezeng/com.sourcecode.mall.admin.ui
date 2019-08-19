@@ -9,17 +9,17 @@
     </div>
     <input type="hidden" :value="loadId"></input>
     <Form ref="form" :model="form" :rules="rules" :label-width="100">
-      <FormItem label="核销关联" prop="relateTo">
-        <RadioGroup v-model="relateTo">
-          <Radio label="all">全部</Radio>
-          <Radio label="category">分类</Radio>
-          <Radio label="item">商品</Radio>
+      <FormItem label="核销关联" prop="type">
+        <RadioGroup v-model="form.type">
+          <Radio label="All">全部</Radio>
+          <Radio label="Category">分类</Radio>
+          <Radio label="Item">商品</Radio>
         </RadioGroup>
       </FormItem>
-      <FormItem v-if="relateTo == 'category'" label="关联分类" prop="categoryIds">
+      <FormItem v-if="form.type == 'Category'" label="关联分类" prop="categoryIds">
         <CategorySelector :value="selectedCategories" :parents="categories" @change="changeCategory"/>
       </FormItem>
-      <FormItem v-if="relateTo == 'item'" label="关联商品" prop="itemIds">
+      <FormItem v-if="form.type == 'Item'" label="关联商品" prop="itemIds">
         <Select style="width: 90%; margin-right: 10px; margin-bottom: 10px;"
                 v-model="itemIndexes"
                 multiple
@@ -60,7 +60,7 @@
         selectedCategories: [],
         form: {
           id: null,
-          applyToAll: null,
+          type: null,
           categoryIds: [],
           itemIds: [],
         },
@@ -104,7 +104,6 @@
             }
           }
         ],
-        relateTo: 'all',
         rules: {}
       }
     },
@@ -155,18 +154,19 @@
           this.form.id = this.id
           this.loading = true
           API.load(this.form.id).then(data => {
-            // this.form = data
-            this.form.applyToAll = data.applyToAll
             this.form.categoryIds = data.categoryIds
             this.form.items = data.items
-            if (this.form.applyToAll) {
-              this.relateTo = 'all'
-            } else if (this.form.categoryIds != null && this.form.categoryIds.length > 0) {
-              this.relateTo = 'category'
-              this.selectedCategories = this.form.categoryIds
-            } else if (this.form.items != null && this.form.items.length > 0) {
-              this.itemList = this.form.items
-              this.relateTo = 'item'
+            if (data.hxType) {
+              this.form.type = data.hxType.name
+              switch (this.form.type) {
+                case 'Category': {
+                  this.selectedCategories = this.form.categoryIds
+                }
+                  break
+                case 'Item': {
+                  this.itemList = this.form.items
+                }
+              }
             }
             this.loading = false
           }).catch(e => {
@@ -176,22 +176,19 @@
       },
       save() {
         this.loading = true
-        switch (this.relateTo) {
-          case 'item': {
-            this.form.applyToAll = false
+        switch (this.form.type) {
+          case 'Item': {
             this.form.itemIds = this.itemList.map(it => it.id)
             this.form.categoryIds = []
             this.form.items = []
           }
             break
-          case 'category': {
-            this.form.applyToAll = false
+          case 'Category': {
             this.form.itemIds = []
             this.form.items = []
           }
             break
-          case 'all': {
-            this.form.applyToAll = true
+          case 'All': {
             this.form.categoryIds = []
             this.form.itemIds = []
             this.form.items = []
