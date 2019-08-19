@@ -47,7 +47,7 @@
 
     <Card>
       <span v-if="title != null && title != ''" style="position: relative; top: 5px; float: left; margin-right: 20px; font-weight: bold;">{{title}}</span>
-      <Input v-model="queryInfo.data.searchText" search enter-button @on-search="load()"
+      <Input v-if="!disableSearch" v-model="queryInfo.data.searchText" search enter-button @on-search="load()"
              style="float: left; width: 200px; margin-bottom: 5px;"/>
       <DatePicker @on-clear="clearDate" @on-change="changeDate" v-if="useDateRange" v-model="queryInfo.dateRange"
                   type="daterange"
@@ -96,6 +96,7 @@
     components: {},
     props: [
       'title',
+      'disableSearch',
       'useDateRange',
       'hidePage',
       'listHandler',

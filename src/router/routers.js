@@ -710,6 +710,7 @@ export default [
       notCache: true,
       access: [
         'AUTH_CASH_COUPON_SETTING_LIST_PAGE',
+        'AUTH_CASH_COUPON_ORDER_LIMITED_SETTING_LIST_PAGE',
       ]
     },
     component: Main,
@@ -726,6 +727,17 @@ export default [
         }
       },
       {
+        path: 'Cash/OrderLimited/Setting/List',
+        name: 'CashCouponOrderLimitedSettingList',
+        component: () => import('@/view/coupon/cash/order-limited-list.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '限额配置',
+          access: ['AUTH_CASH_COUPON_ORDER_LIMITED_SETTING_LIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
         path: 'Cash/Setting/Edit/:id',
         name: 'CashCouponSettingEdit',
         component: () => import('@/view/coupon/cash/edit.vue'),
@@ -734,6 +746,18 @@ export default [
           icon: 'md-funnel',
           title: ' 现金券编辑',
           access: ['AUTH_CASH_COUPON_SETTING_EDIT_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Cash/OrderLimited/Setting/Edit/:id',
+        name: 'CashCouponOrderLimitedSettingEdit',
+        component: () => import('@/view/coupon/cash/order-limited-edit.vue'),
+        meta: {
+          hideInMenu: true,
+          icon: 'md-funnel',
+          title: ' 限额编辑',
+          access: ['AUTH_CASH_COUPON_ORDER_LIMITED_SETTING_EDIT_PAGE'],
           notCache: true
         }
       },
@@ -770,17 +794,6 @@ export default [
     },
     component: Main,
     children: [
-      {
-        path: 'Coupon',
-        name: 'CouponSetting',
-        component: () => import('@/view/setting/coupon.vue'),
-        meta: {
-          icon: 'md-funnel',
-          title: '优惠券配置',
-          access: ['AUTH_COUPON_SETTING_PAGE'],
-          notCache: true
-        }
-      },
       {
         path: 'Wechat',
         name: 'WechatSetting',
