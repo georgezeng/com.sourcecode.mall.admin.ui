@@ -66,7 +66,7 @@
     data() {
       const amountCheck = (rule, value, callback) => {
         if (!this.form.amount) {
-          callback(new Error('面额不能为空'));
+          callback(new Error('面额必须大于0'));
         } else {
           callback();
         }

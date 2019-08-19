@@ -9,6 +9,14 @@
     </div>
     <input type="hidden" :value="loadId"></input>
     <Form ref="form" :model="form" :rules="rules" :label-width="100">
+      <FormItem label="限制张数" prop="limitedNums">
+        <RadioGroup v-model="isLimited">
+          <Radio label="false">不限量</Radio>
+          <Radio label="true">限量</Radio>
+        </RadioGroup>
+        <InputNumber v-if="isLimited == 'true'" :min="0" :precision="0" v-model="form.limitedNums"
+                     style="width: 300px;"></InputNumber>
+      </FormItem>
       <FormItem label="核销关联" prop="type">
         <RadioGroup v-model="form.type">
           <Radio label="All">全部</Radio>
@@ -60,6 +68,7 @@
         selectedCategories: [],
         form: {
           id: null,
+          limitedNums: 0,
           type: null,
           categoryIds: [],
           itemIds: [],
@@ -111,7 +120,19 @@
       loadId() {
         this.load()
         return this.id
-      }
+      },
+      isLimited: {
+        get: function () {
+          return (this.form.limitedNums > 0) + ''
+        },
+        set: function (value) {
+          if (value == 'true') {
+            this.form.limitedNums = 1
+          } else {
+            this.form.limitedNums = 0
+          }
+        }
+      },
     },
     methods: {
       addToItemList() {
