@@ -18,11 +18,8 @@
       :listHandler="listHandler"
       @setLoading="setLoading"
       :useParent="true"
-      parentPageName="CashCouponSettingList"
-      :filteredPageNames="[
-        'CashCouponSettingEdit',
-        'CashCouponSettingList'
-      ]"
+      :parentPageName="parentPageName"
+      :filteredPageNames="filteredPageNames"
     >
     </CommonTable>
   </div>
@@ -39,6 +36,8 @@
     },
     data() {
       return {
+        parentPageName: null,
+        filteredPageNames: [],
         statusList: [
           {
             value: 'UnUse',
@@ -92,6 +91,10 @@
     },
     mounted() {
       this.data.id = this.$router.currentRoute.params.id
+      const type = this.$router.currentRoute.params.type
+      this.parentPageName = type + 'CouponSettingList'
+      this.filteredPageNames.push(type + 'CouponSettingList')
+      this.filteredPageNames.push(type + 'CouponSettingEdit')
       API.load(this.data.id).then(data => {
         this.title = data.name
       })

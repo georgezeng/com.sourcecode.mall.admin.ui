@@ -231,9 +231,10 @@
       },
       goClientList(id) {
         this.$router.push({
-          name: 'CashCouponClientList',
+          name: 'CouponClientList',
           params: {
-            id
+            id,
+            type: 'Cash'
           }
         })
       }

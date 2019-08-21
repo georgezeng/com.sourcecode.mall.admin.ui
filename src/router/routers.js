@@ -762,9 +762,9 @@ export default [
         }
       },
       {
-        path: 'Cash/Client/List/:id',
-        name: 'CashCouponClientList',
-        component: () => import('@/view/coupon/cash/client-list.vue'),
+        path: 'Client/:type/List/:id',
+        name: 'CouponClientList',
+        component: () => import('@/view/coupon/common/client-list.vue'),
         meta: {
           hideInMenu: true,
           icon: 'md-funnel',
