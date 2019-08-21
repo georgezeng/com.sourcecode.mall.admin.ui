@@ -53,7 +53,7 @@
 </template>
 
 <script>
-  import API from '@/api/cash-coupon'
+  import API from '@/api/coupon'
   import {Message} from 'iview'
   import Upload from '@/components/upload/img-single-upload'
   import config from '@/config/index'
@@ -123,6 +123,7 @@
             let data = this.form
             data.status = null
             data.eventType = null
+            data.type = 'Cash'
             API.saveBaseInfo(data).then(id => {
               this.loading = false
               Message.success('保存成功')

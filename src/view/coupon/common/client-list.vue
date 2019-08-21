@@ -29,7 +29,7 @@
 </template>
 <script>
   import config from '@/config'
-  import API from '@/api/cash-coupon'
+  import API from '@/api/coupon'
   import CommonTable from '@/components/tables/common-table'
   import {Message} from 'iview'
 

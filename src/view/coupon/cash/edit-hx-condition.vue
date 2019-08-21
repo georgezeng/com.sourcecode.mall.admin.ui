@@ -45,8 +45,8 @@
 </template>
 
 <script>
-  import API from '@/api/cash-coupon'
-  import CategorySelector from './category-selector'
+  import API from '@/api/coupon'
+  import CategorySelector from '../common/category-selector'
   import GoodsItemAPI from '@/api/goods-item'
   import config from '@/config/index'
   import {Message} from 'iview'

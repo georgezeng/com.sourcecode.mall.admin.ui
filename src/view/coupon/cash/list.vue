@@ -27,13 +27,14 @@
       :deleteHandler="deleteHandler"
       @setTriggerStatus="setTriggerStatus"
       @setDeleteData="setDeleteData"
+      :queryData="queryData"
     >
     </CommonTable>
   </div>
 </template>
 <script>
   import config from '@/config'
-  import API from '@/api/cash-coupon'
+  import API from '@/api/coupon'
   import CommonTable from '@/components/tables/common-table'
   import {Message} from 'iview'
 
@@ -65,6 +66,9 @@
             label: '全部'
           }
         ],
+        queryData: {
+          type: 'Cash'
+        },
         loading: false,
         columns: [
           {type: 'selection', width: 60, align: 'center'},
