@@ -31,6 +31,7 @@
     methods: {
       saveSuccess(id) {
         this.id = id
+        this.goInfo()
       },
       goInfo() {
         this.tab = 'info'

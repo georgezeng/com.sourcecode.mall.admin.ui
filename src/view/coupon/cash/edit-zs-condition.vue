@@ -23,16 +23,16 @@
                      :precision="0"></InputNumber>
       </FormItem>
       <FormItem v-if="form.eventType == 'Consume'" label="消费关联" prop="type">
-        <RadioGroup v-model="form.type">
+        <RadioGroup v-model="form.consumeSetting.type">
           <Radio label="All">全部</Radio>
           <Radio label="Category">分类</Radio>
           <Radio label="Item">商品</Radio>
         </RadioGroup>
       </FormItem>
-      <FormItem v-if="form.eventType == 'Consume' && form.type == 'Category'" label="关联分类" prop="categoryIds">
+      <FormItem v-if="form.eventType == 'Consume' && form.consumeSetting.type == 'Category'" label="关联分类" prop="categoryIds">
         <CategorySelector :value="selectedCategories" :parents="categories" @change="changeCategory"/>
       </FormItem>
-      <FormItem v-if="form.eventType == 'Consume' && form.type == 'Item'" label="关联商品" prop="itemIds">
+      <FormItem v-if="form.eventType == 'Consume' && form.consumeSetting.type == 'Item'" label="关联商品" prop="itemIds">
         <Select style="width: 90%; margin-right: 10px; margin-bottom: 10px;"
                 v-model="itemIndexes"
                 multiple

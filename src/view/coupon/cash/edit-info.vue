@@ -157,7 +157,7 @@
     },
     computed: {
       imgPrefix() {
-        return this.isEdit && !this.uploaded ? config.publicBucketDomain : config.baseUrl + '/coupon/cash/setting/file/load?filePath='
+        return this.isEdit && !this.uploaded ? config.publicBucketDomain : config.baseUrl + '/coupon/setting/file/load?filePath='
       },
       isEndDateLimited: {
         get: function () {
@@ -184,7 +184,7 @@
         }
       },
       uploadUrl() {
-        return config.baseUrl + '/coupon/cash/setting/file/upload/params/' + this.uploadId
+        return config.baseUrl + '/coupon/setting/file/upload/params/' + this.uploadId
       },
       uploadId() {
         return this.form.id ? this.form.id : 0

@@ -544,6 +544,7 @@
         API.saveProperties(this.data).then(res => {
           this.loading = false
           Message.success('保存成功')
+          this.goList()
         }).catch(ex => {
           this.loading = false
         })
