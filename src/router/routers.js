@@ -762,7 +762,7 @@ export default [
         }
       },
       {
-        path: 'Client/:type/List/:id',
+        path: 'Client/List/:type/:id',
         name: 'CouponClientList',
         component: () => import('@/view/coupon/common/client-list.vue'),
         meta: {

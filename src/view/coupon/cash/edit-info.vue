@@ -120,10 +120,13 @@
         this.$refs.form.validate().then(valid => {
           if (valid) {
             this.loading = true
-            let data = this.form
+            let data = {...this.form}
             data.status = null
             data.eventType = null
+            data.hxType = null
             data.type = 'Cash'
+            data.consumeSetting = null
+            data.inviteSetting = null
             API.saveBaseInfo(data).then(id => {
               this.loading = false
               Message.success('保存成功')
