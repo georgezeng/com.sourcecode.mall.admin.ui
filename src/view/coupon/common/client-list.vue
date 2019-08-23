@@ -41,7 +41,7 @@
         statusList: [
           {
             value: 'UnUse',
-            label: '未使用'
+            label: '已领取'
           },
           {
             value: 'Used',
@@ -89,7 +89,7 @@
         this.loading = loading
       },
     },
-    mounted() {
+    created() {
       this.data.id = this.$router.currentRoute.params.id
       const type = this.$router.currentRoute.params.type
       this.parentPageName = type + 'CouponSettingList'

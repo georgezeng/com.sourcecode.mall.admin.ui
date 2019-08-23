@@ -118,6 +118,9 @@
         </tr>
       </table>
 
+      <div style="text-align: center; margin: 30px 0 10px;">优惠券信息</div>
+      <Table :loading="loading" :data="data.coupons" :columns="couponColumns"></Table>
+
       <div style="text-align: center; margin: 30px 0 10px;">费用信息</div>
       <table cellspacing="0" cellpadding="0">
         <tr>
@@ -126,10 +129,10 @@
           </td>
         </tr>
         <tr>
-          <td style="text-align: right;">扣除优惠: - (满减优惠 ￥0.00 + 优惠券抵扣 ￥0.00) = ￥-0.00</td>
+          <td style="text-align: right;">扣除优惠: - (满减优惠 ￥0.00 + 优惠券抵扣 ￥{{data.couponAmount}}) = -￥{{totalBonus}}</td>
         </tr>
         <tr>
-          <td style="text-align: right;">订单实付金额: ￥{{data.totalPrice}}</td>
+          <td style="text-align: right;">订单实付金额: ￥{{data.realPrice}}</td>
         </tr>
       </table>
 
@@ -197,6 +200,15 @@
           {title: '商品单价', key: 'unitPrice'},
           {title: '商品金额', key: 'dealPrice'},
           {title: '库存数量', key: 'inventory'},
+        ],
+        couponColumns: [
+          {title: '券编号', key: 'couponId'},
+          {title: '券名称', key: 'name'},
+          {title: '券面额', key: 'amount'},
+          {title: '生效时间', key: 'startDate'},
+          {title: '过期时间', key: 'endDate'},
+          {title: '领取时间', key: 'receivedTime'},
+          {title: '使用时间', key: 'usedTime'},
         ]
       }
     },
@@ -224,7 +236,11 @@
         }
       }
     },
-    computed: {},
+    computed: {
+      totalBonus() {
+        return this.data.couponAmount
+      }
+    },
     mounted: function () {
       let res = this.$store.state.app.tagNavList.filter(item =>
         item.name !== 'OrderExpress' &&
