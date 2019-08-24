@@ -25,6 +25,7 @@
   import config from '@/config'
   import API from '@/api/order'
   import CommonTable from '@/components/tables/common-table'
+  import {Message} from 'iview'
 
   export default {
     components: {
