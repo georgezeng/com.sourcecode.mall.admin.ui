@@ -105,7 +105,7 @@
             }
           },
           {title: '商品总额', key: 'totalPrice'},
-          {title: '实付金额', key: 'totalPrice'},
+          {title: '实付金额', key: 'realPrice'},
           {
             title: '订单状态',
             key: 'status',

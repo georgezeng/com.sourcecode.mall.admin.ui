@@ -74,7 +74,7 @@
             }
           },
           {title: '商品总额', key: 'totalPrice'},
-          {title: '实付金额', key: 'totalPrice'},
+          {title: '实付金额', key: 'realPrice'},
           {
             title: '操作',
             key: 'action',
