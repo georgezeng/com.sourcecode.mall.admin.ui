@@ -46,7 +46,7 @@
           <td width="100" style="background-color: #c3c3c3; text-align: center;">交易号</td>
           <td>{{data.transactionId}}</td>
           <td width="100" style="background-color: #c3c3c3; text-align: center;">支付金额</td>
-          <td>{{data.totalPrice}}</td>
+          <td>{{data.realPrice}}</td>
         </tr>
         <tr>
           <td width="100" style="background-color: #c3c3c3; text-align: center;">买家留言</td>
@@ -176,6 +176,7 @@
           payTime: null,
           transactionId: null,
           totalPrice: null,
+          realPrice: null,
           invoice: null,
           expressList: [],
           subList: []
