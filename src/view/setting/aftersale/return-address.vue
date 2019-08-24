@@ -4,7 +4,7 @@
       售后回寄地址配置
     </p>
     <div slot="extra">
-      <Button @click="saveGzh" type="primary" :loading="loading">保存</Button>
+      <Button @click="save" type="primary" :loading="loading">保存</Button>
     </div>
     <Form ref="form" :model="form" :rules="rules" :label-width="100">
       <FormItem label="收件人" prop="name">
@@ -62,7 +62,7 @@
           this.loading = false
         })
       },
-      saveGzh() {
+      save() {
         this.$refs.form.validate().then(valid => {
           if (valid) {
             this.loading = true

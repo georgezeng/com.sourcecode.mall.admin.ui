@@ -81,11 +81,24 @@
               <span style="position: relative; left: -3px;">拒绝</span>
             </Radio>
           </RadioGroup>
-          <div v-if="data.agree == false" style="margin-top: 10px;">
+          <div v-if="data.agree == 'false'" style="margin-top: 10px;">
             <span style="margin-right: 10px;">拒绝原因:</span>
             <Input v-if="data.status.name == 'Processing'" style="display: inline-block; width: 90%;"
                    v-model="data.rejectReason"/>
             <span v-else>{{data.rejectReason}}</span>
+          </div>
+          <div v-if="data.agree == 'true'" style="margin-top: 10px;">
+            <Form :label-width="100">
+              <FormItem label="收件人" prop="name">
+                <Input :readonly="data.status.name != 'Processing'" v-model="data.returnAddress.name"></Input>
+              </FormItem>
+              <FormItem label="联系电话" prop="phone">
+                <Input :readonly="data.status.name != 'Processing'" v-model="data.returnAddress.phone"></Input>
+              </FormItem>
+              <FormItem label="回寄地址" prop="location">
+                <Input :readonly="data.status.name != 'Processing'" v-model="data.returnAddress.location"></Input>
+              </FormItem>
+            </Form>
           </div>
         </div>
       </div>
@@ -182,6 +195,7 @@
           reason: null,
           description: null,
           subOrder: {},
+          returnAddress: {}
         },
         columns: [
           {
@@ -235,6 +249,9 @@
           API.load(this.data.id).then(data => {
             this.data = data
             this.data.agree = data.agree + ''
+            if (!data.returnAddress) {
+              this.data.returnAddress = {}
+            }
             this.loading = false
           }).catch(e => {
             this.loading = false
@@ -242,11 +259,26 @@
         }
       },
       save() {
-        this.loading = true
-        API.audit({
+        const data = {
           ...this.data,
           agree: this.data.agree == 'true'
-        }).then(res => {
+        }
+        if (data.agree) {
+          if (!data.returnAddress.name) {
+            Message.error('收件人不能为空')
+            return
+          }
+          if (!data.returnAddress.phone) {
+            Message.error('联系电话不能为空')
+            return
+          }
+          if (!data.returnAddress.location) {
+            Message.error('回寄地址不能为空')
+            return
+          }
+        }
+        this.loading = true
+        API.audit(data).then(res => {
           this.loading = false
           Message.success('保存成功')
           this.goList()

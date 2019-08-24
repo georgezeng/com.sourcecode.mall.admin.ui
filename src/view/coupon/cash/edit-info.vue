@@ -98,7 +98,7 @@
           ],
           title: [
             {required: true, message: '券标题不能为空', trigger: 'change'},
-            {max: 50, message: '券标题不能多于50位', trigger: 'change'}
+            {max: 14, message: '券标题不能多于14位', trigger: 'change'}
           ],
           amount: [
             {required: true, validator: amountCheck, trigger: 'change'},

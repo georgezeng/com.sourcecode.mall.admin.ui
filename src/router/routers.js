@@ -787,7 +787,7 @@ export default [
         'AUTH_COUPON_SETTING_PAGE',
         'AUTH_WECHAT_SETTING_PAGE',
         'AUTH_INVOICE_SETTING_LIST_PAGE',
-        'AUTH_AFTERSALE_RETURN_ADDRESS_PAGE',
+        // 'AUTH_AFTERSALE_RETURN_ADDRESS_PAGE',
         'AUTH_ALIPAY_SETTING_PAGE',
         'AUTH_AFTERSALE_REASON_SETTING_LIST_PAGE'
       ]
@@ -861,18 +861,18 @@ export default [
           access: ['AUTH_AFTERSALE_REASON_SETTING_EDIT_PAGE'],
           notCache: true
         }
-      },
-      {
-        path: 'AfterSale/ReturnAddress',
-        name: 'AfterSaleReturnAddress',
-        component: () => import('@/view/setting/aftersale/return-address.vue'),
-        meta: {
-          icon: 'md-funnel',
-          title: '回寄地址配置',
-          access: ['AUTH_AFTERSALE_RETURN_ADDRESS_PAGE'],
-          notCache: true
-        }
       }
+      // {
+      //   path: 'AfterSale/ReturnAddress',
+      //   name: 'AfterSaleReturnAddress',
+      //   component: () => import('@/view/setting/aftersale/return-address.vue'),
+      //   meta: {
+      //     icon: 'md-funnel',
+      //     title: '回寄地址配置',
+      //     access: ['AUTH_AFTERSALE_RETURN_ADDRESS_PAGE'],
+      //     notCache: true
+      //   }
+      // }
     ]
   },
 
