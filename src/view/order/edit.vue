@@ -54,7 +54,7 @@
         </tr>
       </table>
 
-      <div style="text-align: center; margin: 30px 0 10px;">
+      <div v-if="data.expressList != null && data.expressList.length > 0" style="text-align: center; margin: 30px 0 10px;">
         物流信息
         <Button @click="goUpdateExpress" v-if="data.status.name == 'Paid' || data.status.name == 'Shipped'"
                 type="primary" size="small"

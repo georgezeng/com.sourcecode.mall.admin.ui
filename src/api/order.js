@@ -12,5 +12,8 @@ export default {
   },
   refundList: (queryInfo) => {
     return axios.post('/order/refund/list', queryInfo)
+  },
+  approveRefund: (id) => {
+    return axios.post('/order/refund/approve/params' + id)
   }
 }

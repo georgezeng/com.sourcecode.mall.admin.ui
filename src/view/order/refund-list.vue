@@ -12,6 +12,8 @@
       initSortOrder="DESC"
       :listHandler="listHandler"
       @setLoading="setLoading"
+      @setLoad="setLoad"
+      @setGoEdit="setGoEdit"
     >
     </CommonTable>
   </div>
@@ -69,6 +71,69 @@
           },
           {title: '商品总额', key: 'totalPrice'},
           {title: '实付金额', key: 'totalPrice'},
+          {
+            title: '操作',
+            key: 'action',
+            render: (h, params) => {
+              if (params.row.status.name == 'RefundApplied') {
+                return h('div', [
+                  h('Poptip', {
+                    props: {
+                      confirm: true,
+                      title: '确定同意退款吗?'
+                    },
+                    on: {
+                      'on-ok': () => {
+                        API.approveRefund(params.row.id).then(res => {
+                          Message.success('退款成功')
+                          this.load()
+                        })
+                      }
+                    }
+                  }, [
+                    h('Button', {
+                      props: {
+                        type: 'error',
+                        size: 'small'
+                      }
+                    }, '退款')
+                  ]),
+
+                  h('Button', {
+                    props: {
+                      type: 'primary',
+                      size: 'small'
+                    },
+                    style: {
+                      marginLeft: '5px'
+                    },
+                    on: {
+                      click: () => {
+                        this.goEdit(params.row.id)
+                      }
+                    }
+                  }, '查看'),
+                ])
+              } else {
+                return h('div', [
+                  h('Button', {
+                    props: {
+                      type: 'primary',
+                      size: 'small'
+                    },
+                    style: {
+                      marginLeft: '5px'
+                    },
+                    on: {
+                      click: () => {
+                        this.goEdit(params.row.id)
+                      }
+                    }
+                  }, '查看'),
+                ])
+              }
+            }
+          }
         ]
       }
     },
@@ -77,6 +142,12 @@
       setLoading(loading) {
         this.loading = loading
       },
-    },
+      setLoad(callback) {
+        this.load = callback
+      },
+      setGoEdit(callback) {
+        this.goEdit = callback
+      }
+    }
   }
 </script>

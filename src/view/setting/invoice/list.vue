@@ -88,7 +88,7 @@
       },
       setGoEdit(callback) {
         this.goEdit = callback
-      },
+      }
     },
   }
 </script>
