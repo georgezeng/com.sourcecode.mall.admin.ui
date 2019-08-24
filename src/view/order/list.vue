@@ -15,6 +15,7 @@
       initSortOrder="DESC"
       editPageName="OrderEdit"
       :filteredPageNames="['OrderEdit']"
+      from="OrderList"
       :listHandler="listHandler"
       @setLoading="setLoading"
       @setGoEdit="setGoEdit"

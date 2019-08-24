@@ -576,7 +576,7 @@ export default [
         }
       },
       {
-        path: 'Edit/:id',
+        path: 'Edit/:from/:id',
         name: 'OrderEdit',
         component: () => import('@/view/order/edit.vue'),
         meta: {

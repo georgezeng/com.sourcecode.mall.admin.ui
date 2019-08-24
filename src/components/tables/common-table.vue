@@ -132,7 +132,8 @@
       'initPageSize',
       'addBtnText',
       'deleteText',
-      'initStatusText'
+      'initStatusText',
+      'from'
     ],
     data() {
       return {
@@ -373,6 +374,9 @@
           params.id = this.ids[0]
         } else {
           params.ids = this.ids.join(',')
+        }
+        if(this.from) {
+          params.from = this.from
         }
         this.$router.push({
           name: this.editPageName,

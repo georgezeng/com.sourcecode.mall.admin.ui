@@ -151,6 +151,7 @@
     components: {},
     data() {
       return {
+        from: null,
         loading: false,
         config,
         data: {
@@ -221,7 +222,7 @@
       },
       back() {
         this.$router.push({
-          name: 'OrderList'
+          name: this.from
         })
       },
       load() {
@@ -244,10 +245,12 @@
     mounted: function () {
       let res = this.$store.state.app.tagNavList.filter(item =>
         item.name !== 'OrderExpress' &&
+        item.name !== 'OrderRefundList' &&
         item.name !== 'OrderList'
       )
       this.$store.commit('setTagNavList', res)
       this.data.id = this.$router.currentRoute.params.id
+      this.from = this.$router.currentRoute.params.from
       this.load()
     }
   }

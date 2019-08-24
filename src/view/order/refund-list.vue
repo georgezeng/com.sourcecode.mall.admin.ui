@@ -14,6 +14,9 @@
       @setLoading="setLoading"
       @setLoad="setLoad"
       @setGoEdit="setGoEdit"
+      editPageName="OrderEdit"
+      :filteredPageNames="['OrderEdit']"
+      from="OrderRefundList"
     >
     </CommonTable>
   </div>
@@ -148,6 +151,12 @@
       setGoEdit(callback) {
         this.goEdit = callback
       }
+    },
+    mounted() {
+      let res = this.$store.state.app.tagNavList.filter(item =>
+        item.name !== 'OrderEdit'
+      )
+      this.$store.commit('setTagNavList', res)
     }
   }
 </script>
