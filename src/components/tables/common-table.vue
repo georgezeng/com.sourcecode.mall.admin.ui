@@ -79,6 +79,7 @@
              @on-select="enableBtns" @on-sort-change="sortChange"
              @on-select-all-cancel="disableBtns" @on-select-cancel="disableBtns"/>
       <Page v-if="!hidePage" :total="total"
+            show-total
             :page-size="queryInfo.page.size"
             :current="queryInfo.page.num"
             @on-change="changePage"
