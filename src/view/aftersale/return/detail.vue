@@ -165,7 +165,11 @@
           reason: null,
           description: null,
           subOrder: {},
-          returnAddress: {}
+          returnAddress: {
+            name: null,
+            phone: null,
+            location: null
+          }
         },
         columns: [
           {
@@ -220,7 +224,11 @@
             this.data = data
             this.data.agree = data.agree + ''
             if (!data.returnAddress) {
-              this.data.returnAddress = {}
+              this.data.returnAddress = {
+                name: null,
+                phone: null,
+                location: null
+              }
             }
             this.loading = false
           }).catch(e => {
