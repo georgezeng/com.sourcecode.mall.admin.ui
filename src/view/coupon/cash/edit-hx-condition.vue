@@ -9,7 +9,7 @@
     </div>
     <input type="hidden" :value="loadId"></input>
     <Form ref="form" :model="form" :rules="rules" :label-width="100">
-      <FormItem label="标题" prop="title">
+      <FormItem label="核销标题" prop="title">
         <Input v-model="form.title"></Input>
       </FormItem>
       <FormItem label="限制张数" prop="limitedNums">
@@ -71,6 +71,7 @@
         selectedCategories: [],
         form: {
           id: null,
+          title: null,
           limitedNums: 0,
           type: null,
           categoryIds: [],
@@ -180,6 +181,7 @@
           API.load(this.form.id).then(data => {
             this.form.categoryIds = data.categoryIds
             this.form.items = data.items
+            this.form.title = data.title
             if (data.hxType) {
               this.form.type = data.hxType.name
               switch (this.form.type) {
