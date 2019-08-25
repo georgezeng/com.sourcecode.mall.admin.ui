@@ -9,6 +9,9 @@
     </div>
     <input type="hidden" :value="loadId"></input>
     <Form ref="form" :model="form" :rules="rules" :label-width="100">
+      <FormItem label="标题" prop="title">
+        <Input v-model="form.title"></Input>
+      </FormItem>
       <FormItem label="限制张数" prop="limitedNums">
         <RadioGroup v-model="isLimited">
           <Radio label="false">不限量</Radio>
