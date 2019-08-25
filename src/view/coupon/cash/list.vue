@@ -92,7 +92,12 @@
               })
             }
           },
-          {title: '发放数量', key: 'totalNums', sortable: true},
+          {
+            title: '发放数量', key: 'totalNums', sortable: true,
+            render: (h, params) => {
+              return h('span', params.row.totalNums == 0 ? '不限量' : params.row.totalNums)
+            }
+          },
           {title: '已领数量', key: 'sentNums', sortable: true},
           {title: '使用数量', key: 'usedNums', sortable: true},
           {
