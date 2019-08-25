@@ -165,11 +165,7 @@
           reason: null,
           description: null,
           subOrder: {},
-          returnAddress: {
-            name: null,
-            phone: null,
-            location: null
-          }
+          returnAddress: {}
         },
         columns: [
           {
@@ -224,11 +220,7 @@
             this.data = data
             this.data.agree = data.agree + ''
             if (!data.returnAddress) {
-              this.data.returnAddress = {
-                name: null,
-                phone: null,
-                location: null
-              }
+              this.data.returnAddress = {}
             }
             this.loading = false
           }).catch(e => {
@@ -237,6 +229,7 @@
         }
       },
       save() {
+        this.loading = true
         const data = {
           ...this.data,
           agree: this.data.agree == 'true'
@@ -255,7 +248,6 @@
             return
           }
         }
-        this.loading = true
         API.audit(data).then(res => {
           this.loading = false
           Message.success('保存成功')

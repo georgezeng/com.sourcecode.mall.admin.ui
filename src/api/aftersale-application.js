@@ -11,7 +11,8 @@ export default {
     return axios.post('/afterSale/application/audit', {
       id: data.id,
       agree: data.agree,
-      rejectReason: data.rejectReason
+      rejectReason: data.rejectReason,
+      returnAddress: data.returnAddress
     })
   },
   refund: (data) => {
