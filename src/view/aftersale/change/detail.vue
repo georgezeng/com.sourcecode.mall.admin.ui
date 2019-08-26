@@ -67,7 +67,7 @@
     </Card>
 
     <Card style="margin-top: 20px; margin-bottom: 20px;">
-      <div style="border-bottom: 1px solid #f5f5f5;">
+      <div>
         <p>
           审核信息
         </p>
