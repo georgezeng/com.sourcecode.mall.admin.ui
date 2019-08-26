@@ -66,7 +66,7 @@
       <Table :columns="columns" :data="[data.subOrder]"></Table>
     </Card>
 
-    <Card style="margin-top: 20px;">
+    <Card style="margin-top: 20px; margin-bottom: 20px;">
       <p slot="title">
         审核信息
       </p>
