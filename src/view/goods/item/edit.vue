@@ -31,10 +31,13 @@
     methods: {
       saveSuccess(id) {
         this.id = id
-        this.goInfo()
+        this.goSec()
       },
       goInfo() {
         this.tab = 'info'
+      },
+      goSec() {
+        this.tab = 'spec'
       }
     },
     computed: {

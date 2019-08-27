@@ -54,6 +54,15 @@
             @setPreviewUrl="setThumbPreviewUrl"
           />
         </FormItem>
+        <FormItem label="视频" prop="vedioPath">
+          <Vedio
+            :uploadUrl="uploadUrl"
+            :previewUri="form.vedioPath"
+            btnText="上传视频"
+            :vedioPrefix="imgPrefix"
+            @setPreviewUrl="setVedioPreviewUrl"
+          />
+        </FormItem>
         <FormItem label="相册" prop="photos">
           <MultiUpload v-for="item in photos"
                        :index="parseInt(item.index)"
@@ -86,6 +95,7 @@
   import GroupAPI from '@/api/goods-specification-group'
   import {Message} from 'iview'
   import Upload from '@/components/upload/img-single-upload'
+  import Vedio from '@/components/upload/vedio-single-upload'
   import MultiUpload from '@/components/upload/img-multi-upload'
   import config from '@/config/index'
   import Editor from '_c/editor'
@@ -97,6 +107,7 @@
     name: 'GoodsItemInfoEdit',
     components: {
       Upload,
+      Vedio,
       MultiUpload,
       Editor,
       CategoryList
@@ -337,6 +348,9 @@
             this.loading = false
           })
         }
+      },
+      setVedioPreviewUrl(url, index) {
+        this.form.vedioPath = url
       },
       setThumbPreviewUrl(url, index) {
         this.form.thumbnail = url
