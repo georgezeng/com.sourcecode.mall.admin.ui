@@ -99,7 +99,19 @@ export default [
         }
       },
       {
-        path: 'User/Edit/:id',
+        path: 'User/SubList/:ids',
+        name: 'ClientUserSubList',
+        component: () => import('@/view/client/user/sub-list.vue'),
+        meta: {
+          hideInMenu: true,
+          icon: 'md-funnel',
+          title: '下级会员列表',
+          access: ['AUTH_CLIENT_USER_SUBLIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'User/Edit/:from/:ids',
         name: 'ClientUserEdit',
         component: () => import('@/view/client/user/edit.vue'),
         meta: {

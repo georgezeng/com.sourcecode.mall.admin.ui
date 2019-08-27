@@ -17,6 +17,7 @@
     :deleteHandler="deleteHandler"
     :useParent="true"
     parentPageName="GoodsCategoryList"
+    topPageName="GoodsCategoryList"
     subPageName="GoodsSpecificationDefinitionList"
     @setLoading="setLoading"
     @setGoEdit="setGoEdit"

@@ -2,26 +2,30 @@
   <CommonTable
     :columns="columns"
     :loading="loading"
-    :statusList="statusList"
-    statusItemName="username"
     :useDateRange="true"
-    :updateStatusHandler="updateStatusHandler"
     :disableAddBtn="true"
-    enableStatusText="启用"
-    disableStatusText="禁用"
-    :useStatus="true"
     initSortProperty="createTime"
     initSortOrder="DESC"
     :disableDelete="true"
     editPageName="ClientUserEdit"
-    from="ClientUserList"
-    :filteredPageNames="['ClientUserEdit', 'ClientUserSubList']"
+    :filteredPageNames="[
+      'ClientUserEdit',
+      'ClientUserList',
+      'ClientUserSubList'
+    ]"
+    :queryData="data"
+    :useParent="true"
     :listHandler="listHandler"
     @setLoading="setLoading"
     @setGoEdit="setGoEdit"
-    @setTriggerStatus="setTriggerStatus"
+    @setLoad="setLoad"
+    from="ClientUserSubList"
+    parentPageName="ClientUserSubList"
+    topPageName="ClientUserList"
+    :needReload="true"
     subPageName="ClientUserSubList"
     @setGoSubList="setGoSubList"
+    @prepareLoadParent="prepareLoadParent"
   >
   </CommonTable>
 </template>
@@ -30,26 +34,16 @@
   import CommonTable from '@/components/tables/common-table'
 
   export default {
-    name: 'ClientUserList',
     components: {
       CommonTable
     },
     data() {
       return {
-        statusList: [
-          {
-            value: 'true',
-            label: '启用中'
-          },
-          {
-            value: 'false',
-            label: '禁用中'
-          },
-          {
-            value: 'all',
-            label: '全部'
-          }
-        ],
+        data: {
+          id: null,
+          ids: []
+        },
+        parentPageName: null,
         loading: false,
         columns: [
           {type: 'selection', width: 60, align: 'center'},
@@ -64,14 +58,6 @@
             }
           },
           {title: '邀请者', key: 'invitor'},
-          {
-            title: '状态',
-            key: 'enabled',
-            sortable: true,
-            render: (h, params) => {
-              return h('span', params.row.enabled ? '启用中' : '禁用中')
-            }
-          },
           {title: '创建时间', key: 'createTime', sortable: true, sortType: 'desc'},
           {
             title: '操作',
@@ -93,28 +79,6 @@
                   }
                 }, '查看'),
 
-                h('Poptip', {
-                  props: {
-                    confirm: true,
-                    title: '你确定要' + (params.row.enabled ? '禁用' : '启用') + '吗?'
-                  },
-                  on: {
-                    'on-ok': () => {
-                      this.triggerStatus(params.row)
-                    }
-                  },
-                  style: {
-                    marginRight: '5px'
-                  }
-                }, [
-                  h('Button', {
-                    props: {
-                      type: params.row.enabled ? 'warning' : 'success',
-                      size: 'small'
-                    }
-                  }, params.row.enabled ? '禁用' : '启用')
-                ]),
-
                 h('Button', {
                   props: {
                     type: 'primary',
@@ -125,7 +89,9 @@
                   },
                   on: {
                     click: () => {
-                      this.goSubList(params.row.id)
+                      this.data.id = params.row.id
+                      this.parentPageName = 'ClientUserSubList'
+                      this.goSubList(params.row.id, this.parentPageName)
                     }
                   }
                 }, '下级')
@@ -137,19 +103,26 @@
     },
     methods: {
       listHandler: API.list,
-      updateStatusHandler: API.updateStatus,
       setLoading(loading) {
         this.loading = loading
-      },
-      setTriggerStatus(callback) {
-        this.triggerStatus = callback
       },
       setGoEdit(callback) {
         this.goEdit = callback
       },
+      setLoad(callback) {
+        this.load = callback
+      },
       setGoSubList(callback) {
         this.goSubList = callback
+      },
+      prepareLoadParent(id) {
+        this.data.id = id
       }
     },
+    created() {
+      this.data.ids = this.$router.currentRoute.params.ids.split(',')
+      this.data.id = this.data.ids[0]
+      this.parentPageName = this.$router.currentRoute.params.from
+    }
   }
 </script>

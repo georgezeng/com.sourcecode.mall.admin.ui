@@ -26,6 +26,7 @@
     :useParent="true"
     :disableDelete="isFromParent"
     parentPageName="GoodsSpecificationGroupList"
+    topPageName="GoodsSpecificationGroupList"
     @setLoading="setLoading"
     @setGoEdit="setGoEdit"
     @setDeleteData="setDeleteData"

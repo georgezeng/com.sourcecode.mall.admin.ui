@@ -46,10 +46,11 @@
 
   export default {
     name: 'ClientUserEdit',
-    components: {
-    },
+    components: {},
     data() {
       return {
+        ids: [],
+        from: null,
         loading: false,
         statusList: [
           {
@@ -99,18 +100,29 @@
         })
       },
       goList() {
+        this.ids.splice(this.ids.length - 1, 1)
         this.$router.push({
-          name: 'ClientUserList'
+          name: this.from,
+          params: {
+            ids: this.ids.join(',')
+          }
         })
       },
     },
     computed: {
       avatarPreviewUrl() {
-        return this.form.avatar ? config.baseUrl + '/client/user/file/load/params/' + this.form.id + '?filePath=' + this.form.avatar : avatar
+        return this.form.avatar ?
+          (!this.form.avatar.startsWith('http') ?
+              config.baseUrl + '/client/user/file/load/params/' + this.form.id + '?filePath=' + this.form.avatar
+              : this.form.avatar
+          )
+          : avatar
       }
     },
     mounted: function () {
-      this.form.id = this.$router.currentRoute.params.id
+      this.ids = this.$router.currentRoute.params.ids.split(',')
+      this.form.id = this.ids[this.ids.length - 1]
+      this.from = this.$router.currentRoute.params.from
       this.form.id = this.form.id != 0 ? this.form.id : null;
       this.load()
     }
