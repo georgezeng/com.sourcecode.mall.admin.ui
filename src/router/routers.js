@@ -82,7 +82,8 @@ export default [
       notCache: true,
       access: [
         'AUTH_CLIENT_IDENTITY_LIST_PAGE',
-        'AUTH_CLIENT_USER_LIST_PAGE'
+        'AUTH_CLIENT_USER_LIST_PAGE',
+        'AUTH_CLIENT_POINTS_LIST_PAGE'
       ]
     },
     component: Main,
@@ -107,6 +108,29 @@ export default [
           icon: 'md-funnel',
           title: '下级会员列表',
           access: ['AUTH_CLIENT_USER_SUBLIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'User/Points/List',
+        name: 'ClientPointsList',
+        component: () => import('@/view/client/points/list.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '积分列表',
+          access: ['AUTH_CLIENT_POINTS_LIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Points/Journals/:ids',
+        name: 'ClientPointsJournalList',
+        component: () => import('@/view/client/points/journal-list.vue'),
+        meta: {
+          hideInMenu: true,
+          icon: 'md-funnel',
+          title: '积分明细列表',
+          access: ['AUTH_CLIENT_POINTS_JOURNAL_LIST_PAGE'],
           notCache: true
         }
       },
