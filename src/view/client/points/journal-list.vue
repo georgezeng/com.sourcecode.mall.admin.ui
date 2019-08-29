@@ -69,6 +69,28 @@
           {title: '数量', key: 'bonusAmount', sortable: true},
           {title: '订单号', key: 'orderId', sortable: true},
           {title: '消费金额', key: 'amount', sortable: true},
+          {
+            title: '备注',
+            key: 'remark',
+            render: (h, params) => {
+
+              return h('Poptip', {
+                props: {
+                  confirm: false,
+                  title: params.row.remark
+                }
+              }, [
+                h('a', {
+                  attrs: {
+                    href: 'javascript:;'
+                  }
+                }, params.row.remark ? (params.row.remark.length > 20 ? params.row.remark.substring(0, 15) + '...' : params.row.remark) : '')
+              ])
+
+            }
+
+
+          },
         ]
       }
     },
