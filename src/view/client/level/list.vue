@@ -36,8 +36,18 @@
           {title: '会员等级', key: 'level'},
           {title: '等级名称', key: 'name'},
           {title: '消费累计', key: 'upToAmount'},
-          {title: '折扣权益', key: 'discount'},
-          {title: '活动日折扣权益', key: 'discountInActivity'},
+          {
+            title: '折扣权益', key: 'discount',
+            render: (h, params) => {
+              return h('span', params.row.discount + '%')
+            }
+          },
+          {
+            title: '活动日折扣权益', key: 'discountInActivity',
+            render: (h, params) => {
+              return h('span', params.row.discountInActivity + '%')
+            }
+          },
           {
             title: '操作',
             key: 'action',
@@ -77,7 +87,7 @@
                       type: 'error',
                       size: 'small'
                     }
-                  }, '删除')
+                  }, '清除')
                 ]))
               }
               return h('div', arr)
