@@ -4,6 +4,7 @@
     disableStatusText="下架"
     :statusList="statusList"
     statusItemName="name"
+    :useDateRange="true"
     :updateStatusHandler="updateStatusHandler"
     @setTriggerStatus="setTriggerStatus"
     :useStatus="true"
@@ -72,6 +73,7 @@
               })
             }
           },
+          {title: '上架时间', key: 'putTime', sortable: true},
           {
             title: '状态',
             render: (h, params) => {

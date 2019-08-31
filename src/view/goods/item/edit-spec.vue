@@ -348,7 +348,7 @@
         for (let i in this.selectedValues) {
           let item = this.selectedValues[i]
           if (item && item.length > 0) {
-            list.push(this.selectedValues[i])
+            list.push(item)
           }
         }
         list = multiDecartesian(list)
@@ -358,12 +358,14 @@
           let selection = selections[i]
           if (!selection) {
             selection = {
+              id: null,
               values: list[i],
               price: 0,
               inventory: 0
             }
           } else {
             selection = {
+              id: selection.id,
               values: list[i],
               price: selection.price,
               inventory: selection.inventory
