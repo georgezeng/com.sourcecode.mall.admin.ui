@@ -83,7 +83,8 @@ export default [
       access: [
         'AUTH_CLIENT_IDENTITY_LIST_PAGE',
         'AUTH_CLIENT_USER_LIST_PAGE',
-        'AUTH_CLIENT_POINTS_LIST_PAGE'
+        'AUTH_CLIENT_POINTS_LIST_PAGE',
+        'AUTH_CLIENT_LEVEL_SETTING_LIST_PAGE'
       ]
     },
     component: Main,
@@ -143,6 +144,29 @@ export default [
           title: '会员信息',
           hideInMenu: true,
           access: ['AUTH_CLIENT_USER_EDIT_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Level/Setting/List',
+        name: 'ClientLevelSettingList',
+        component: () => import('@/view/client/level/list.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '会员等级',
+          access: ['AUTH_CLIENT_LEVEL_SETTING_LIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Level/Setting/Edit/:id',
+        name: 'ClientLevelSettingEdit',
+        component: () => import('@/view/client/level/edit.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '编辑会员等级',
+          hideInMenu: true,
+          access: ['AUTH_CLIENT_LEVEL_SETTING_EDIT_PAGE'],
           notCache: true
         }
       },
@@ -806,6 +830,45 @@ export default [
           icon: 'md-funnel',
           title: '用户领券列表',
           access: ['AUTH_CASH_COUPON_CLIENT_LIST_PAGE'],
+          notCache: true
+        }
+      }
+    ]
+  },
+
+  {
+    path: '/Promotion',
+    name: 'PromotionManage',
+    meta: {
+      icon: 'md-menu',
+      title: '促销管理',
+      notCache: true,
+      access: [
+        'AUTH_CLIENT_ACTIVITY_EVENT_LIST_PAGE',
+      ]
+    },
+    component: Main,
+    children: [
+      {
+        path: 'Client/ActivityEvent/List',
+        name: 'ClientActivityEventList',
+        component: () => import('@/view/promotion/client-activity/list.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '活动日配置',
+          access: ['AUTH_CLIENT_ACTIVITY_EVENT_LIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Client/ActivityEvent/Edit/:id',
+        name: 'ClientActivityEventEdit',
+        component: () => import('@/view/promotion/client-activity/edit.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '编辑活动日',
+          hideInMenu: true,
+          access: ['AUTH_CLIENT_ACTIVITY_EVENT_EDIT_PAGE'],
           notCache: true
         }
       }
