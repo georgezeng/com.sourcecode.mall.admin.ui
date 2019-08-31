@@ -24,9 +24,12 @@
         </FormItem>
         <FormItem label="折扣权益" prop="discount">
           <InputNumber v-model="form.discount" :min="0" style="width: 300px;" :max="100" precision="0"></InputNumber>
+          %
         </FormItem>
         <FormItem label="活动日折扣权益" prop="discountInActivity">
-          <InputNumber v-model="form.discountInActivity" :min="0" style="width: 300px;" :max="100" precision="0"></InputNumber>
+          <InputNumber v-model="form.discountInActivity" :min="0" style="width: 300px;" :max="100"
+                       precision="0"></InputNumber>
+          %
         </FormItem>
       </Form>
     </Card>
