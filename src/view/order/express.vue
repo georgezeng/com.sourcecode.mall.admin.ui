@@ -14,9 +14,9 @@
       <FormItem label="物流公司" prop="company">
         <Input v-model="form.company"></Input>
       </FormItem>
-      <FormItem label="物流商品" prop="subList">
-        <Select @on-change="updateSub" multiple v-model="form.subIndexList">
-          <Option v-for="(sub, index) in order.subList" :value="index" :key="sub.id">{{ sub.itemName }}</Option>
+      <FormItem label="物流商品" prop="subIdList">
+        <Select @on-change="updateSub" multiple v-model="form.subIdList">
+          <Option v-for="(sub, index) in order.subList" :value="sub.id" :key="sub.id">{{ sub.itemName }}</Option>
         </Select>
       </FormItem>
     </Form>
@@ -56,7 +56,7 @@
           id: null,
           company: null,
           number: null,
-          subIndexList: [],
+          subIdList: [],
           subList: [],
           expressTime: null
         },
@@ -72,7 +72,7 @@
           number: [
             {required: true, message: '发货单号不能为空', trigger: 'change'},
           ],
-          subList: [
+          subIdList: [
             {required: true, validator: subListCheck, trigger: 'change'},
           ],
         },
@@ -125,6 +125,15 @@
                   on: {
                     click: () => {
                       this.form = params.row
+                      this.form.subIdList = []
+                      for (let i in this.order.subList) {
+                        for (let j in this.form.subList) {
+                          if (this.form.subList[j].id == this.order.subList[i].id) {
+                            this.form.subIdList.push(this.form.subList[j].id)
+                            break
+                          }
+                        }
+                      }
                       this.updateBtnText = '修改'
                       this.add = false
                     }
@@ -175,24 +184,32 @@
                 expressTime: moment().format('YYYY-MM-DD HH:mm:ss')
               })
             } else {
-              this.form.expressTime = moment().format('YYYY-MM-DD HH:mm:ss')
+              for (let i in this.order.expressList) {
+                let express = this.order.expressList[i]
+                if (express.id == this.form.id) {
+                  express.company = this.form.company
+                  express.number = this.form.number
+                  express.subList = this.form.subList
+                  express.expressTime = moment().format('YYYY-MM-DD HH:mm:ss')
+                  break;
+                }
+              }
               this.add = true
               this.updateBtnText = '添加'
             }
-            this.form = {
-              id: null,
-              company: null,
-              number: null,
-              subIndexList: [],
-              subList: []
-            }
+            this.$refs.form.resetFields()
           }
         })
       },
       updateSub(arr) {
         this.form.subList = []
         for (let i in arr) {
-          this.form.subList.push(this.order.subList[arr[i]])
+          for (let j in this.order.subList) {
+            if (this.order.subList[j].id == arr[i]) {
+              this.form.subList.push(this.order.subList[j])
+              break;
+            }
+          }
         }
       },
       back() {
@@ -208,6 +225,10 @@
         })
       },
       save() {
+        if (this.order.expressList == null || this.order.expressList.length == 0) {
+          Message.error('请添加至少一个物流信息')
+          return
+        }
         this.loading = true
         API.updateExpress({
           id: this.order.id,
