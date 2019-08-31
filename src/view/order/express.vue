@@ -41,7 +41,7 @@
     components: {},
     data() {
       const subListCheck = (rule, value, callback) => {
-        if (this.form.subList.length == 0) {
+        if (!this.reset && this.form.subList.length == 0) {
           callback(new Error('物流商品不能为空'));
         } else {
           callback();
@@ -52,6 +52,7 @@
         loading: false,
         updateBtnText: '添加',
         add: true,
+        reset: true,
         form: {
           id: null,
           company: null,
@@ -173,6 +174,7 @@
     computed: {},
     methods: {
       updateExpress() {
+        this.reset = false
         this.$refs.form.validate().then(valid => {
           if (valid) {
             if (this.add) {
@@ -197,6 +199,7 @@
               this.add = true
               this.updateBtnText = '添加'
             }
+            this.reset = true
             this.$refs.form.resetFields()
           }
         })
