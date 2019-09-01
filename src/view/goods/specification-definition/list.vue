@@ -213,9 +213,11 @@
     mounted() {
       const ids = (this.$router.currentRoute.params.ids + '').split(',')
       const parentId = ids[ids.length - 1]
-      GroupAPI.load(parentId).then(data => {
-        this.title = data.name
-      })
+      if (parentId > 0) {
+        GroupAPI.load(parentId).then(data => {
+          this.title = data.name
+        })
+      }
     }
   }
 </script>

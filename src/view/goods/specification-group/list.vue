@@ -123,9 +123,11 @@
     mounted() {
       const ids = (this.$router.currentRoute.params.ids + '').split(',')
       const parentId = ids[ids.length - 1]
-      CategoryAPI.load(parentId).then(data => {
-        this.title = data.name
-      })
+      if (parentId > 0) {
+        CategoryAPI.load(parentId).then(data => {
+          this.title = data.name
+        })
+      }
     }
   }
 </script>
