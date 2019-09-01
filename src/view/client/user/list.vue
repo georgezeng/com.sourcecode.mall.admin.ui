@@ -65,6 +65,22 @@
           },
           {title: '邀请者', key: 'invitor'},
           {
+            title: '会员等级',
+            key: 'level.name',
+            sortable: true,
+            render: (h, params) => {
+              return h('span', params.row.levelName)
+            }
+          },
+          {
+            title: '累计消费',
+            key: 'consumeTotalAmount',
+            sortable: true,
+            render: (h, params) => {
+              return h('span', '￥' + params.row.consumeTotalAmount.toFixed(2))
+            }
+          },
+          {
             title: '状态',
             key: 'enabled',
             sortable: true,
