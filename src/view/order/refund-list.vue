@@ -5,7 +5,10 @@
       :loading="loading"
       :disableAddBtn="true"
       :disableDelete="true"
-      :useStatus="false"
+      :statusList="statusList"
+      :disableStatusBtns="true"
+      initStatusText="RefundApplied"
+      :useStatus="true"
       :useReason="false"
       :useDateRange="true"
       initSortProperty="createTime"
@@ -33,6 +36,16 @@
     },
     data() {
       return {
+        statusList: [
+          {
+            value: 'RefundApplied',
+            label: '待退款'
+          },
+          {
+            value: 'Refunded',
+            label: '已退款'
+          }
+        ],
         loading: false,
         columns: [
           // {type: 'selection', width: 60, align: 'center'},

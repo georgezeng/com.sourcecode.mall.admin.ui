@@ -8,10 +8,15 @@
       <Button @click="back" type="success">返回</Button>
     </div>
     <Form ref="form" :model="form" :rules="rules" :label-width="80">
-      <FormItem label="发货单号" prop="number">
+      <FormItem label="取货方式" prop="type">
+        <Select v-model="form.type" @on-change="updateType">
+          <Option v-for="type in typeList" :value="type.name" :key="type.name">{{ type.text }}</Option>
+        </Select>
+      </FormItem>
+      <FormItem v-show="form.type == 'Delivery'" label="发货单号" prop="number">
         <Input v-model="form.number"></Input>
       </FormItem>
-      <FormItem label="物流公司" prop="company">
+      <FormItem v-show="form.type == 'Delivery'" label="物流公司" prop="company">
         <Input v-model="form.company"></Input>
       </FormItem>
       <FormItem label="物流商品" prop="subIdList">
@@ -40,6 +45,13 @@
   export default {
     components: {},
     data() {
+      const typeListCheck = (rule, value, callback) => {
+        if (!this.reset && (value == '' || value == null)) {
+          callback(new Error('取货方式不能为空'));
+        } else {
+          callback();
+        }
+      }
       const subListCheck = (rule, value, callback) => {
         if (!this.reset && this.form.subList.length == 0) {
           callback(new Error('物流商品不能为空'));
@@ -53,8 +65,19 @@
         updateBtnText: '添加',
         add: true,
         reset: true,
+        typeList: [
+          {
+            name: 'Delivery',
+            text: '投递'
+          },
+          {
+            name: 'Self',
+            text: '自取'
+          }
+        ],
         form: {
           id: null,
+          type: null,
           company: null,
           number: null,
           subIdList: [],
@@ -67,6 +90,9 @@
           subList: []
         },
         rules: {
+          type: [
+            {required: true, validator: typeListCheck, trigger: 'change'},
+          ],
           company: [
             {required: true, message: '物流公司不能为空', trigger: 'change'},
           ],
@@ -78,8 +104,6 @@
           ],
         },
         columns: [
-          {title: '发货单号', key: 'number'},
-          {title: '物流公司', key: 'company'},
           {
             title: '物流商品',
             render: (h, params) => {
@@ -108,6 +132,14 @@
             }
           },
           {
+            title: '取货方式',
+            render: (h, params) => {
+              return h('div', params.row.type == 'Delivery' ? '快递' : '自取')
+            }
+          },
+          {title: '发货单号', key: 'number'},
+          {title: '物流公司', key: 'company'},
+          {
             title: '发货时间',
             render: (h, params) => {
               return h('div', params.row.expressTime)
@@ -135,6 +167,7 @@
                           }
                         }
                       }
+                      this.form.type = params.row.type.name
                       this.updateBtnText = '修改'
                       this.add = false
                     }
@@ -171,8 +204,13 @@
         ]
       }
     },
-    computed: {},
+    computed: {
+    },
     methods: {
+      updateType(type) {
+        this.rules.company[0].required = type == 'Delivery'
+        this.rules.number[0].required = type == 'Delivery'
+      },
       updateExpress() {
         this.reset = false
         this.$refs.form.validate().then(valid => {
@@ -183,16 +221,19 @@
               }
               this.order.expressList.push({
                 ...this.form,
-                expressTime: moment().format('YYYY-MM-DD HH:mm:ss')
+                expressTime: this.form.type == 'Delivery' ? moment().format('YYYY-MM-DD HH:mm:ss') : null
               })
             } else {
               for (let i in this.order.expressList) {
                 let express = this.order.expressList[i]
                 if (express.id == this.form.id) {
-                  express.company = this.form.company
-                  express.number = this.form.number
+                  express.type = this.form.type
+                  if (express.type == 'Delivery') {
+                    express.company = this.form.company
+                    express.number = this.form.number
+                    express.expressTime = moment().format('YYYY-MM-DD HH:mm:ss')
+                  }
                   express.subList = this.form.subList
-                  express.expressTime = moment().format('YYYY-MM-DD HH:mm:ss')
                   break;
                 }
               }
