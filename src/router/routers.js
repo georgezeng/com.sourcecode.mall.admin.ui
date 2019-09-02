@@ -883,6 +883,7 @@ export default [
       title: '配置管理',
       notCache: true,
       access: [
+        'AUTH_SITE_SETTING_PAGE',
         'AUTH_COUPON_SETTING_PAGE',
         'AUTH_WECHAT_SETTING_PAGE',
         'AUTH_INVOICE_SETTING_LIST_PAGE',
@@ -893,6 +894,17 @@ export default [
     },
     component: Main,
     children: [
+      {
+        path: 'Site',
+        name: 'SiteSetting',
+        component: () => import('@/view/setting/site.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '站点配置',
+          access: ['AUTH_SITE_SETTING_PAGE'],
+          notCache: true
+        }
+      },
       {
         path: 'Wechat',
         name: 'WechatSetting',
