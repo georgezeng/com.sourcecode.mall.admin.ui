@@ -883,6 +883,7 @@ export default [
       title: '配置管理',
       notCache: true,
       access: [
+        'AUTH_ADVERTISEMENT_SETTING_LIST_PAGE',
         'AUTH_SITE_SETTING_PAGE',
         'AUTH_COUPON_SETTING_PAGE',
         'AUTH_WECHAT_SETTING_PAGE',
@@ -894,6 +895,29 @@ export default [
     },
     component: Main,
     children: [
+      {
+        path: 'Advertisement/List',
+        name: 'AdvertisementSettingList',
+        component: () => import('@/view/advertisement/list.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '广告位配置',
+          access: ['AUTH_ADVERTISEMENT_SETTING_LIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Advertisement/Edit/:id',
+        name: 'AdvertisementSettingEdit',
+        component: () => import('@/view/advertisement/edit.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '编辑广告位 ',
+          hideInMenu: true,
+          access: ['AUTH_ADVERTISEMENT_SETTING_EDIT_PAGE'],
+          notCache: true
+        }
+      },
       {
         path: 'Site',
         name: 'SiteSetting',
