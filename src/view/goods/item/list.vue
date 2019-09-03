@@ -84,7 +84,7 @@
             title: '操作',
             key: 'action',
             render: (h, params) => {
-              return h('div', [
+              const arr = [
                 h('Button', {
                   props: {
                     type: 'primary',
@@ -120,9 +120,12 @@
                       size: 'small'
                     }
                   }, params.row.enabled ? '下架' : '上架')
-                ]),
+                ])
 
-                h('Poptip', {
+              ]
+
+              if (!params.row.enabled) {
+                arr.push(h('Poptip', {
                   props: {
                     confirm: true,
                     title: '你确定要删除吗?'
@@ -139,8 +142,10 @@
                       size: 'small'
                     }
                   }, '删除')
-                ])
-              ])
+                ]))
+              }
+
+              return h('div', arr)
             }
           }
         ]
