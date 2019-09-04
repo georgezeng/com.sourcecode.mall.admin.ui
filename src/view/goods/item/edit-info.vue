@@ -255,20 +255,22 @@
         // })
       },
       loadApplication() {
-        this.loading = true
-        ApplicationAPI.load().then(res => {
-          this.loading = false
-          if (res && res.id) {
-            switch (res.status.name) {
-              case 'Passed': {
-                this.load()
-                this.loadAllCategories()
-                return
-              }
-            }
-          }
-          this.goNoPermit()
-        })
+        // this.loading = true
+        // ApplicationAPI.load().then(res => {
+        //   this.loading = false
+        //   if (res && res.id) {
+        //     switch (res.status.name) {
+        //       case 'Passed': {
+        //         this.load()
+        //         this.loadAllCategories()
+        //         return
+        //       }
+        //     }
+        //   }
+        //   this.goNoPermit()
+        // })
+        this.load()
+        this.loadAllCategories()
       },
       goNoPermit() {
         this.$store.commit('closeTag', this.$router.currentRoute)

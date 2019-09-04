@@ -97,20 +97,22 @@
     },
     methods: {
       loadApplication() {
-        this.loading = true
-        ApplicationAPI.load().then(res => {
-          this.loading = false
-          if (res && res.id) {
-            switch (res.status.name) {
-              case 'Passed': {
-                this.load()
-                this.loadAllParents()
-                return
-              }
-            }
-          }
-          this.goNoPermit()
-        })
+        // this.loading = true
+        // ApplicationAPI.load().then(res => {
+        //   this.loading = false
+        //   if (res && res.id) {
+        //     switch (res.status.name) {
+        //       case 'Passed': {
+        //         this.load()
+        //         this.loadAllParents()
+        //         return
+        //       }
+        //     }
+        //   }
+        //   this.goNoPermit()
+        // })
+        this.load()
+        this.loadAllParents()
       },
       goNoPermit() {
         this.$store.commit('closeTag', this.$router.currentRoute)

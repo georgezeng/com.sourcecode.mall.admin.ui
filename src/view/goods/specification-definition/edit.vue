@@ -157,20 +157,21 @@
         }
       },
       loadApplication() {
-        this.loading = true
-        ApplicationAPI.load().then(res => {
-          this.loading = false
-          if (res && res.id) {
-            switch (res.status.name) {
-              case 'Passed': {
-                this.load()
-                // this.loadCategories()
-                return
-              }
-            }
-          }
-          this.goNoPermit()
-        })
+        // this.loading = true
+        // ApplicationAPI.load().then(res => {
+        //   this.loading = false
+        //   if (res && res.id) {
+        //     switch (res.status.name) {
+        //       case 'Passed': {
+        //         this.load()
+        //         // this.loadCategories()
+        //         return
+        //       }
+        //     }
+        //   }
+        //   this.goNoPermit()
+        // })
+        this.load()
       },
       loadCategories() {
         this.loading = true
