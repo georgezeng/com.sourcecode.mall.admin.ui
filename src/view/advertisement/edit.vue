@@ -22,7 +22,7 @@
           <Input v-model="form.name"></Input>
         </FormItem>
         <FormItem label="排序" prop="orderNum">
-          <InputNumber v-model="form.orderNum" :min="1" style="width: 300px;" precision="0"></InputNumber>
+          <InputNumber v-model="form.orderNum" :min="1" style="width: 300px;" :precision="0"></InputNumber>
         </FormItem>
         <FormItem label="链接" prop="link">
           <Input v-model="form.link"></Input>

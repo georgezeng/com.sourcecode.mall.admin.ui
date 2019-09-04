@@ -419,9 +419,6 @@
       isEdit() {
         return this.form.id != null && this.form.id != 0
       },
-      imgPreviewUrl() {
-        return config.baseUrl + '/goods/item/file/load/params/' + this.uploadId + '?filePath='
-      },
       editorUploadUrl() {
         return config.baseUrl + '/goods/item/content/image/upload/params/' + this.uploadId
       },

@@ -14,7 +14,7 @@
       </div>
       <Form ref="form" :model="form" :rules="rules" :label-width="120">
         <FormItem label="等级" prop="level">
-          <InputNumber v-model="form.level" :min="0" style="width: 300px;" precision="0"></InputNumber>
+          <InputNumber v-model="form.level" :min="0" style="width: 300px;" :precision="0"></InputNumber>
         </FormItem>
         <FormItem label="名称" prop="name">
           <Input v-model="form.name"></Input>
@@ -23,12 +23,12 @@
           <InputNumber v-model="form.upToAmount" :min="0" style="width: 300px;"></InputNumber>
         </FormItem>
         <FormItem label="折扣权益" prop="discount">
-          <InputNumber v-model="form.discount" :min="0" style="width: 300px;" :max="100" precision="0"></InputNumber>
+          <InputNumber v-model="form.discount" :min="0" style="width: 300px;" :max="100" :precision="0"></InputNumber>
           %
         </FormItem>
         <FormItem label="活动日折扣权益" prop="discountInActivity">
           <InputNumber v-model="form.discountInActivity" :min="0" style="width: 300px;" :max="100"
-                       precision="0"></InputNumber>
+                       :precision="0"></InputNumber>
           %
         </FormItem>
       </Form>

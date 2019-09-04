@@ -876,6 +876,69 @@ export default [
   },
 
   {
+    path: '/Article',
+    name: 'ArticleManage',
+    meta: {
+      icon: 'md-menu',
+      title: '文章管理',
+      notCache: true,
+      access: [
+        'AUTH_ARTICLE_CATEGORY_LIST_PAGE',
+        'AUTH_ARTICLE_LIST_PAGE',
+      ]
+    },
+    component: Main,
+    children: [
+      {
+        path: 'Category/List',
+        name: 'ArticleCategoryList',
+        component: () => import('@/view/article/category/list.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '文章分类',
+          access: ['AUTH_ARTICLE_CATEGORY_LIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Category/Edit/:id',
+        name: 'ArticleCategoryEdit',
+        component: () => import('@/view/article/category/edit.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '编辑文章分类',
+          hideInMenu: true,
+          access: ['AUTH_ARTICLE_CATEGORY_EDIT_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'List',
+        name: 'ArticleList',
+        component: () => import('@/view/article/list/list.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '文章列表',
+          access: ['AUTH_ARTICLE_LIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Edit/:id',
+        name: 'ArticleEdit',
+        component: () => import('@/view/article/list/edit.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '编辑文章',
+          hideInMenu: true,
+          access: ['AUTH_ARTICLE_EDIT_PAGE'],
+          notCache: true
+        }
+      }
+    ]
+  },
+
+  {
     path: '/Setting',
     name: 'SettingManage',
     meta: {
@@ -912,7 +975,7 @@ export default [
         component: () => import('@/view/advertisement/edit.vue'),
         meta: {
           icon: 'md-funnel',
-          title: '编辑广告位 ',
+          title: '编辑广告位',
           hideInMenu: true,
           access: ['AUTH_ADVERTISEMENT_SETTING_EDIT_PAGE'],
           notCache: true
