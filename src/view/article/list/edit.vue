@@ -141,6 +141,8 @@
             }).catch(ex => {
               this.loading = false
             })
+          } else {
+            this.loading = false
           }
         }).catch(ex => {
           this.loading = false
