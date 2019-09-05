@@ -74,130 +74,6 @@ export default [
   },
 
   {
-    path: '/Client',
-    name: 'ClientManage',
-    meta: {
-      icon: 'md-menu',
-      title: '会员管理',
-      notCache: true,
-      access: [
-        'AUTH_CLIENT_IDENTITY_LIST_PAGE',
-        'AUTH_CLIENT_USER_LIST_PAGE',
-        'AUTH_CLIENT_POINTS_LIST_PAGE',
-        'AUTH_CLIENT_LEVEL_SETTING_LIST_PAGE'
-      ]
-    },
-    component: Main,
-    children: [
-      {
-        path: 'User/List',
-        name: 'ClientUserList',
-        component: () => import('@/view/client/user/list.vue'),
-        meta: {
-          icon: 'md-funnel',
-          title: '会员列表',
-          access: ['AUTH_CLIENT_USER_LIST_PAGE'],
-          notCache: true
-        }
-      },
-      {
-        path: 'User/SubList/:ids',
-        name: 'ClientUserSubList',
-        component: () => import('@/view/client/user/sub-list.vue'),
-        meta: {
-          hideInMenu: true,
-          icon: 'md-funnel',
-          title: '下级会员列表',
-          access: ['AUTH_CLIENT_USER_SUBLIST_PAGE'],
-          notCache: true
-        }
-      },
-      {
-        path: 'User/Points/List',
-        name: 'ClientPointsList',
-        component: () => import('@/view/client/points/list.vue'),
-        meta: {
-          icon: 'md-funnel',
-          title: '积分列表',
-          access: ['AUTH_CLIENT_POINTS_LIST_PAGE'],
-          notCache: true
-        }
-      },
-      {
-        path: 'Points/Journals/:ids',
-        name: 'ClientPointsJournalList',
-        component: () => import('@/view/client/points/journal-list.vue'),
-        meta: {
-          hideInMenu: true,
-          icon: 'md-funnel',
-          title: '积分明细列表',
-          access: ['AUTH_CLIENT_POINTS_JOURNAL_LIST_PAGE'],
-          notCache: true
-        }
-      },
-      {
-        path: 'User/Edit/:from/:ids',
-        name: 'ClientUserEdit',
-        component: () => import('@/view/client/user/edit.vue'),
-        meta: {
-          icon: 'md-funnel',
-          title: '会员信息',
-          hideInMenu: true,
-          access: ['AUTH_CLIENT_USER_EDIT_PAGE'],
-          notCache: true
-        }
-      },
-      {
-        path: 'Level/Setting/List',
-        name: 'ClientLevelSettingList',
-        component: () => import('@/view/client/level/list.vue'),
-        meta: {
-          icon: 'md-funnel',
-          title: '会员等级',
-          access: ['AUTH_CLIENT_LEVEL_SETTING_LIST_PAGE'],
-          notCache: true
-        }
-      },
-      {
-        path: 'Level/Setting/Edit/:id',
-        name: 'ClientLevelSettingEdit',
-        component: () => import('@/view/client/level/edit.vue'),
-        meta: {
-          icon: 'md-funnel',
-          title: '编辑会员等级',
-          hideInMenu: true,
-          access: ['AUTH_CLIENT_LEVEL_SETTING_EDIT_PAGE'],
-          notCache: true
-        }
-      },
-      {
-        path: 'Identity/List',
-        name: 'ClientIdentityList',
-        component: () => import('@/view/client/identity/list.vue'),
-        meta: {
-          icon: 'md-funnel',
-          title: '会员认证',
-          access: ['AUTH_CLIENT_IDENTITY_LIST_PAGE'],
-          notCache: true
-        }
-      },
-      {
-        path: 'Identity/Edit/:id',
-        name: 'ClientIdentityEdit',
-        component: () => import('@/view/client/identity/edit.vue'),
-        meta: {
-          icon: 'md-funnel',
-          title: '会员认证审核',
-          hideInMenu: true,
-          access: ['AUTH_CLIENT_IDENTITY_EDIT_PAGE'],
-          notCache: true
-        }
-      }
-
-    ]
-  },
-
-  {
     path: '/Merchant',
     name: 'MerchantManage',
     meta: {
@@ -401,6 +277,130 @@ export default [
           notCache: true
         }
       }
+    ]
+  },
+
+  {
+    path: '/Client',
+    name: 'ClientManage',
+    meta: {
+      icon: 'md-menu',
+      title: '会员管理',
+      notCache: true,
+      access: [
+        'AUTH_CLIENT_IDENTITY_LIST_PAGE',
+        'AUTH_CLIENT_USER_LIST_PAGE',
+        'AUTH_CLIENT_POINTS_LIST_PAGE',
+        'AUTH_CLIENT_LEVEL_SETTING_LIST_PAGE'
+      ]
+    },
+    component: Main,
+    children: [
+      {
+        path: 'User/List',
+        name: 'ClientUserList',
+        component: () => import('@/view/client/user/list.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '会员列表',
+          access: ['AUTH_CLIENT_USER_LIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'User/SubList/:ids',
+        name: 'ClientUserSubList',
+        component: () => import('@/view/client/user/sub-list.vue'),
+        meta: {
+          hideInMenu: true,
+          icon: 'md-funnel',
+          title: '下级会员列表',
+          access: ['AUTH_CLIENT_USER_SUBLIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'User/Points/List',
+        name: 'ClientPointsList',
+        component: () => import('@/view/client/points/list.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '积分列表',
+          access: ['AUTH_CLIENT_POINTS_LIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Points/Journals/:ids',
+        name: 'ClientPointsJournalList',
+        component: () => import('@/view/client/points/journal-list.vue'),
+        meta: {
+          hideInMenu: true,
+          icon: 'md-funnel',
+          title: '积分明细列表',
+          access: ['AUTH_CLIENT_POINTS_JOURNAL_LIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'User/Edit/:from/:ids',
+        name: 'ClientUserEdit',
+        component: () => import('@/view/client/user/edit.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '会员信息',
+          hideInMenu: true,
+          access: ['AUTH_CLIENT_USER_EDIT_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Level/Setting/List',
+        name: 'ClientLevelSettingList',
+        component: () => import('@/view/client/level/list.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '会员等级',
+          access: ['AUTH_CLIENT_LEVEL_SETTING_LIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Level/Setting/Edit/:id',
+        name: 'ClientLevelSettingEdit',
+        component: () => import('@/view/client/level/edit.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '编辑会员等级',
+          hideInMenu: true,
+          access: ['AUTH_CLIENT_LEVEL_SETTING_EDIT_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Identity/List',
+        name: 'ClientIdentityList',
+        component: () => import('@/view/client/identity/list.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '会员认证',
+          access: ['AUTH_CLIENT_IDENTITY_LIST_PAGE'],
+          notCache: true
+        }
+      },
+      {
+        path: 'Identity/Edit/:id',
+        name: 'ClientIdentityEdit',
+        component: () => import('@/view/client/identity/edit.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '会员认证审核',
+          hideInMenu: true,
+          access: ['AUTH_CLIENT_IDENTITY_EDIT_PAGE'],
+          notCache: true
+        }
+      }
+
     ]
   },
 
