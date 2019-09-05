@@ -845,6 +845,7 @@ export default [
       notCache: true,
       access: [
         'AUTH_CLIENT_ACTIVITY_EVENT_LIST_PAGE',
+        'AUTH_CLIENT_POINTS_SETTING_PAGE',
       ]
     },
     component: Main,
@@ -871,7 +872,18 @@ export default [
           access: ['AUTH_CLIENT_ACTIVITY_EVENT_EDIT_PAGE'],
           notCache: true
         }
-      }
+      },
+      {
+        path: 'Client/Points/Setting',
+        name: 'ClientPointsSetting',
+        component: () => import('@/view/promotion/client-points.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '积分奖励',
+          access: ['AUTH_CLIENT_POINTS_SETTING_PAGE'],
+          notCache: true
+        }
+      },
     ]
   },
 
