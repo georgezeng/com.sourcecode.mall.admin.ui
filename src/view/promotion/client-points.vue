@@ -7,10 +7,10 @@
         <Button @click="save" type="primary" :loading="loading">保存</Button>
       </div>
       <Form ref="form" :model="form" :rules="rules" :label-width="100">
-        <FormItem label="新人注册奖励" prop="rookie">
+        <FormItem label="注册奖励" prop="rookie">
           <InputNumber :min="0" :precision="0" v-model="form.rookie" style="width: 300px;"></InputNumber>
         </FormItem>
-        <FormItem label="新人注册奖励" prop="invite">
+        <FormItem label="邀请奖励" prop="invite">
           <InputNumber :min="0" :precision="0" v-model="form.invite" style="width: 300px;"></InputNumber>
         </FormItem>
       </Form>
@@ -27,8 +27,8 @@
     },
     data() {
       const numCheck = (rule, value, callback) => {
-        if (isNaN(value)) {
-          callback(new Error('必须是有效数字'));
+        if (value == null || value == '') {
+          callback(new Error('积分不能为空'));
         } else {
           callback();
         }
