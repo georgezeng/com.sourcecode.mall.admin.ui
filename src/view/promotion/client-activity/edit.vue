@@ -17,11 +17,11 @@
           <Input v-model="form.name"></Input>
         </FormItem>
         <FormItem label="开始时间" prop="startTime">
-          <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="请选择时间" @on-change="changeStartTime"
+          <DatePicker :value="form.startTime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="请选择时间" @on-change="changeStartTime"
                       style="width: 300px"></DatePicker>
         </FormItem>
         <FormItem label="结束时间" prop="endTime">
-          <DatePicker type="datetime" format="yyyy-MM-dd HH:mm" placeholder="请选择时间" @on-change="changeEndTime"
+          <DatePicker :value="form.endTime" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="请选择时间" @on-change="changeEndTime"
                       style="width: 300px"></DatePicker>
         </FormItem>
       </Form>
@@ -35,7 +35,6 @@
   import config from '@/config/index'
 
   export default {
-    name: 'ClientUserEdit',
     components: {},
     data() {
       const timeCheck = (rule, value, callback) => {

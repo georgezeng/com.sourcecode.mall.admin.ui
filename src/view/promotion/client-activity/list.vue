@@ -60,7 +60,7 @@
           {title: '开始时间', key: 'startTime'},
           {title: '结束时间', key: 'endTime'},
           {
-            title: '状态', 
+            title: '状态',
             key: 'status',
             render: (h, params) => {
               return h('span', params.row.status.text)
