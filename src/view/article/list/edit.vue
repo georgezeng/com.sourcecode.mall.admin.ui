@@ -12,7 +12,7 @@
         </Button>
         <Button @click="goList" type="success">返回</Button>
       </div>
-      <Form :model="form" ref="form" :rules="rules" :label-width="80">
+      <Form :model="form" ref="form" :rules="rules" :label-width="100">
         <FormItem label="文章分类" prop="categoryId">
           <Select v-model="form.categoryId" @on-change="changeCategory">
             <Option v-for="category in categoryList" :value="category.id" :key="category.id">{{ category.name }}
@@ -21,6 +21,12 @@
         </FormItem>
         <FormItem label="标题" prop="title">
           <Input v-model="form.title"></Input>
+        </FormItem>
+        <FormItem label="是否隐藏标题" prop="hidden">
+          <Select v-model="form.hidden">
+            <Option v-for="value in hiddenValues" :value="value.name" :key="value.name">{{ value.text }}
+            </Option>
+          </Select>
         </FormItem>
         <FormItem label="排序" prop="orderNum">
           <InputNumber v-model="form.orderNum" :min="1" style="width: 300px;" :precision="0"></InputNumber>
@@ -86,6 +92,16 @@
         imgUploaded: false,
         vedioUploaded: false,
         loading: false,
+        hiddenValues: [
+          {
+            name: 'true',
+            text: '是'
+          },
+          {
+            name: 'false',
+            text: '否'
+          }
+        ],
         categoryList: [],
         form: {
           id: null,
@@ -103,6 +119,9 @@
           title: [
             {required: true, message: '标题不能为空', trigger: 'change'},
             {max: 50, message: '标题不能大于50字', trigger: 'change'}
+          ],
+          hidden: [
+            {required: true, message: '是否隐藏标题不能为空', trigger: 'change'},
           ],
           orderNum: [
             {required: true, validator: numCheck, trigger: 'change'},
@@ -136,6 +155,7 @@
             API.load(this.form.id).then(data => {
               this.form = data
               this.form.type = data.type.name
+              this.form.hidden = data.hidden + ""
               this.$refs.editor.setHtml(data.content)
               this.loading = false
             }).catch(ex => {
@@ -152,7 +172,10 @@
         this.$refs.form.validate().then(valid => {
           if (valid) {
             this.loading = true
-            API.save(this.form).then(res => {
+            API.save({
+              ...this.form,
+              hidden: this.form.hidden == 'true'
+            }).then(res => {
               this.loading = false
               Message.success('保存成功')
               this.goList()
