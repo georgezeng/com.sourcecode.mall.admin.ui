@@ -65,6 +65,14 @@
               return h('span', params.row.category)
             }
           },
+          {title: '标题', key: 'title', sortable: true},
+          {
+            title: '是否隐藏标题',
+            key: 'hidden',
+            render: (h, params) => {
+              return h('span', params.row.hidden ? '是' : '否')
+            }
+          },
           {
             title: '图片',
             key: 'imgPath',
