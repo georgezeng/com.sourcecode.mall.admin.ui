@@ -22,7 +22,7 @@
         <FormItem label="标题" prop="title">
           <Input v-model="form.title"></Input>
         </FormItem>
-        <FormItem label="是否隐藏标题" prop="hidden">
+        <FormItem label="是否隐藏标题2" prop="hidden">
           <Select v-model="form.hidden">
             <Option v-for="value in hiddenValues" :value="value.name" :key="value.name">{{ value.text }}
             </Option>
@@ -38,7 +38,7 @@
             btnText="上传图片"
             :imgPrefix="imgPrefix"
             @setPreviewUrl="setImgPreviewUrl"
-          /> 
+          />
         </FormItem>
         <FormItem label="视频" prop="vedioPath">
           <Vedio
