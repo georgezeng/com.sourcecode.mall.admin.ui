@@ -38,7 +38,7 @@
             btnText="上传图片"
             :imgPrefix="imgPrefix"
             @setPreviewUrl="setImgPreviewUrl"
-          />
+          /> 
         </FormItem>
         <FormItem label="视频" prop="vedioPath">
           <Vedio
