@@ -14,6 +14,7 @@
       @setLoading="setLoading"
       @setGoEdit="setGoEdit"
       @setLoad="setLoad"
+      @setDeleteData="setDeleteData"
     >
     </CommonTable>
   </div>
@@ -32,19 +33,19 @@
       return {
         statusList: [
           {
-            value: 'in',
+            value: 'In',
             label: '进行中'
           },
           {
-            value: 'paused',
+            value: 'Paused',
             label: '暂停中'
           },
           {
-            value: 'unstarted',
+            value: 'UnStarted',
             label: '未开始'
           },
           {
-            value: 'stopped',
+            value: 'Stopped',
             label: '已结束'
           },
           {
@@ -58,6 +59,13 @@
           {title: '活动名称', key: 'name'},
           {title: '开始时间', key: 'startTime'},
           {title: '结束时间', key: 'endTime'},
+          {
+            title: '状态', 
+            key: 'status',
+            render: (h, params) => {
+              return h('span', params.row.status.text)
+            }
+          },
           {
             title: '操作',
             key: 'action',
