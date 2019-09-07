@@ -24,6 +24,7 @@
   import API from '@/api/client-level'
   import CommonTable from '@/components/tables/common-table'
   import {Message} from 'iview'
+  import config from '@/config/index'
 
   export default {
     components: {
@@ -35,6 +36,21 @@
         columns: [
           {title: '会员等级', key: 'level'},
           {title: '等级名称', key: 'name'},
+          {
+            title: '图标', key: 'imgPath',
+            render: (h, params) => {
+              return h('img', {
+                attrs: {
+                  src: config.publicBucketDomain + params.row.imgPath
+                },
+                style: {
+                  width: '40px',
+                  height: '40px',
+                  cursor: 'pointer'
+                }
+              })
+            }
+          },
           {title: '消费累计', key: 'upToAmount'},
           {
             title: '折扣权益', key: 'discount',

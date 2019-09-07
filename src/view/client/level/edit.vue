@@ -19,6 +19,15 @@
         <FormItem label="名称" prop="name">
           <Input v-model="form.name"></Input>
         </FormItem>
+        <FormItem label="图标" prop="imgPath">
+          <Upload
+            :uploadUrl="uploadUrl"
+            :previewUri="form.imgPath"
+            btnText="上传图标"
+            :imgPrefix="imgPrefix"
+            @setPreviewUrl="setPreviewUrl"
+          />
+        </FormItem>
         <FormItem label="消费累计" prop="upToAmount">
           <InputNumber v-model="form.upToAmount" :min="0" style="width: 300px;"></InputNumber>
         </FormItem>
@@ -40,10 +49,12 @@
   import API from '@/api/client-level'
   import {Message} from 'iview'
   import config from '@/config/index'
+  import Upload from '@/components/upload/img-single-upload'
 
   export default {
-    name: 'ClientUserEdit',
-    components: {},
+    components: {
+      Upload
+    },
     data() {
       const numCheck = (rule, value, callback) => {
         if (value == null) {
@@ -53,6 +64,7 @@
         }
       }
       return {
+        uploaded: false,
         loading: false,
         form: {
           id: null,
@@ -78,6 +90,9 @@
           ],
           discountInActivity: [
             {required: true, validator: numCheck, trigger: 'change'}
+          ],
+          imgPath: [
+            {required: true, message: '图片不能为空', trigger: 'change'},
           ],
         }
       }
@@ -113,6 +128,10 @@
           name: 'ClientLevelSettingList'
         })
       },
+      setPreviewUrl(url, index) {
+        this.uploaded = true
+        this.form.imgPath = url
+      },
     },
     computed: {
       action() {
@@ -120,6 +139,15 @@
       },
       isEdit() {
         return this.form.id > 0
+      },
+      imgPrefix() {
+        return this.isEdit && !this.uploaded ? config.publicBucketDomain : config.baseUrl + '/client/level/setting/file/load?filePath='
+      },
+      uploadUrl() {
+        return config.baseUrl + '/client/level/setting/file/upload/params/' + this.uploadId
+      },
+      uploadId() {
+        return this.form.id ? this.form.id : 0
       },
     },
     mounted: function () {
