@@ -27,11 +27,13 @@
         <FormItem label="链接" prop="link">
           <Input v-model="form.link"></Input>
         </FormItem>
-        <FormItem label="开始时间" prop="startDate">
-          <DatePicker @on-change="changeStartDate" :value="form.startDate" placeholder="请选择时间" style="width: 300px"></DatePicker>
+        <FormItem label="开始时间" prop="startTime">
+          <DatePicker @on-change="changeStartDate" type="datetime" format="yyyy-MM-dd HH:mm" :value="form.startTime"
+                      placeholder="请选择时间" style="width: 300px"></DatePicker>
         </FormItem>
-        <FormItem label="结束时间" prop="endDate">
-          <DatePicker @on-change="changeEndDate" :value="form.endDate" placeholder="请选择时间" style="width: 300px"></DatePicker>
+        <FormItem label="结束时间" prop="endTime">
+          <DatePicker @on-change="changeEndDate" type="datetime" format="yyyy-MM-dd HH:mm" :value="form.endTime"
+                      placeholder="请选择时间" style="width: 300px"></DatePicker>
         </FormItem>
         <FormItem label="图片" prop="path">
           <Upload
@@ -92,8 +94,8 @@
           type: null,
           link: null,
           orderNum: null,
-          startDate: null,
-          endDate: null,
+          startTime: null,
+          endTime: null,
           path: null,
         },
         rules: {
@@ -107,10 +109,10 @@
           orderNum: [
             {required: true, validator: numCheck, trigger: 'change'}
           ],
-          startDate: [
+          startTime: [
             {required: true, message: '开始时间不能为空', trigger: 'change'}
           ],
-          endDate: [
+          endTime: [
             {required: true, message: '结束时间不能为空', trigger: 'change'}
           ],
           path: [
@@ -121,10 +123,10 @@
     },
     methods: {
       changeStartDate(value) {
-        this.form.startDate = value
+        this.form.startTime = value
       },
       changeEndDate(value) {
-        this.form.endDate = value
+        this.form.endTime = value
       },
       setPreviewUrl(url) {
         this.uploaded = true

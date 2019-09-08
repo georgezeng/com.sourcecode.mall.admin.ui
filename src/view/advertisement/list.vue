@@ -68,8 +68,8 @@
           {title: '广告位名称', key: 'name', sortable: true},
           {title: '排序', key: 'orderNum'},
           {title: '链接', key: 'link'},
-          {title: '开始时间', key: 'startDate', sortable: true},
-          {title: '结束时间', key: 'endDate', sortable: true},
+          {title: '开始时间', key: 'startTime', sortable: true},
+          {title: '结束时间', key: 'endTime', sortable: true},
           {
             title: '图片',
             key: 'imgPath',
@@ -97,6 +97,14 @@
                 })
               ])
 
+            }
+          },
+          {
+            title: '状态',
+            key: 'status',
+            sortable: true,
+            render: (h, params) => {
+              return h('span', params.row.enabled ? '上架中' : '已下架')
             }
           },
           {
