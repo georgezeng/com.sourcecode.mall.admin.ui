@@ -148,7 +148,11 @@
         this.$refs.form.validate().then(valid => {
           if (valid) {
             this.loading = true
-            API.save(this.form).then(res => {
+            API.save({
+              ...this.form,
+              startTime: this.form.startTime + ':00',
+              endTime: this.form.endTime + ':00',
+            }).then(res => {
               Message.success('保存成功')
               this.goList()
               this.loading = false
