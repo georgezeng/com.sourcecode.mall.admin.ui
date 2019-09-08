@@ -184,7 +184,7 @@
                       click: () => {
                         this.form.id = params.row.id
                         this.form.nums = params.row.nums
-                        this.form.amount = params.row.amount
+                        this.form.amount = params.row.realPrice
                         this.form.remark = null
                         this.refundPopup = true
                       }
