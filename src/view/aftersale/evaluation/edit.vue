@@ -64,7 +64,7 @@
       </RadioGroup>
     </Card>
 
-    <Card v-else style="margin-top: 20px;">
+    <Card v-else-if="data.passed" style="margin-top: 20px;">
       <p slot="title">
         回复评价
       </p>
@@ -75,6 +75,15 @@
                    placeholder="限255个字以内"></Input>
           </FormItem>
         </Form>
+      </div>
+    </Card>
+
+    <Card v-else style="margin-top: 20px;">
+      <p slot="title">
+        审核结果
+      </p>
+      <div>
+        审核不通过
       </div>
     </Card>
   </div>

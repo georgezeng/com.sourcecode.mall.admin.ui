@@ -83,16 +83,29 @@
               let arr = null
               if (params.row.subList) {
                 arr = params.row.subList.map(item => {
-                  return h('img', {
-                    attrs: {
-                      src: config.publicBucketDomain + item.thumbnail
-                    },
-                    style: {
-                      marginRight: '8px',
-                      width: '40px',
-                      height: '40px'
-                    }
-                  });
+                  return h('Poptip', null, [
+                    h('img', {
+                      attrs: {
+                        src: config.publicBucketDomain + item.thumbnail
+                      },
+                      style: {
+                        marginRight: '8px',
+                        width: '40px',
+                        height: '40px',
+                        cursor: 'pointer'
+                      }
+                    }),
+                    h('img', {
+                      slot: "content",
+                      attrs: {
+                        src: config.publicBucketDomain + item.thumbnail
+                      },
+                      style: {
+                        width: '100%',
+                        height: '100%'
+                      }
+                    })
+                  ])
                 })
                 const maxLength = 5
                 if (arr.length > maxLength) {
@@ -167,7 +180,7 @@
                         this.goEdit(params.row.id)
                       }
                     }
-                  }, '编辑'),
+                  }, '查看'),
                 ])
               }
             }

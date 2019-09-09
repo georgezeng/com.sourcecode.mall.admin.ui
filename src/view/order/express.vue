@@ -21,7 +21,7 @@
       </FormItem>
       <FormItem label="物流商品" prop="subIdList">
         <Select @on-change="updateSub" multiple v-model="form.subIdList">
-          <Option v-for="(sub, index) in order.subList" :value="sub.id" :key="sub.id">{{ sub.itemName }}</Option>
+          <Option v-for="(sub, index) in filterSubList" :value="sub.id" :key="sub.id">{{ sub.itemName }}</Option>
         </Select>
       </FormItem>
     </Form>
@@ -205,6 +205,26 @@
       }
     },
     computed: {
+      filterSubList() {
+        const arr = []
+        for (let j in this.order.subList) {
+          let found = false
+          let sub = this.order.subList[j]
+          out: for (let i in this.order.expressList) {
+            let subList = this.order.expressList[i].subList
+            for (let k in subList) {
+              if (subList[k].id == sub.id) {
+                found = true
+                break out
+              }
+            }
+          }
+          if (!found) {
+            arr.push(sub)
+          }
+        }
+        return arr
+      }
     },
     methods: {
       updateType(type) {

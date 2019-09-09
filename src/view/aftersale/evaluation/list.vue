@@ -129,8 +129,13 @@
                   checked: params.row.open
                 },
                 on: {
-                  change: () => {
-                    API.open(params.row.id, !params.row.open)
+                  change: (e) => {
+                    if (params.row.passed) {
+                      API.open(params.row.id, !params.row.open)
+                    } else {
+                      Message.error('审核未通过，不能公开评价')
+                      e.target.checked = false
+                    }
                   }
                 }
               })
@@ -159,7 +164,7 @@
                     this.goEdit(params.row.id)
                   }
                 }
-              }, !params.row.hasAudit ? '审核' : (params.row.replied ? '编辑' : '回复'))
+              }, !params.row.hasAudit ? '审核' : (params.row.passed ? (params.row.replied ? '编辑' : '回复') : '查看'))
             }
           }
         ]

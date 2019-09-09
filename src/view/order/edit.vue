@@ -64,13 +64,13 @@
       </div>
       <table cellspacing="0" cellpadding="0">
         <tbody v-for="express in data.expressList" :key="express.id">
-        <tr>
+        <tr v-if="express.type.name == 'Delivery'">
           <td width="100" style="background-color: #c3c3c3; text-align: center;">发货单号</td>
           <td>{{express.number}}</td>
           <td width="100" style="background-color: #c3c3c3; text-align: center;">发货时间</td>
           <td>{{express.expressTime}}</td>
         </tr>
-        <tr>
+        <tr v-if="express.type.name == 'Delivery'">
           <td width="100" style="background-color: #c3c3c3; text-align: center;">物流公司</td>
           <td>{{express.company}}</td>
           <td width="100" style="background-color: #c3c3c3; text-align: center;">物流商品</td>
@@ -78,6 +78,22 @@
             <img style="margin-left: 10px;" v-for="sub in express.subList" :key="sub.id"
                  :src="config.publicBucketDomain + sub.thumbnail"
                  width="40" height="40"/>
+          </td>
+        </tr>
+        <tr v-if="express.type.name == 'Self'">
+          <td width="100" style="background-color: #c3c3c3; text-align: center;">取货方式</td>
+          <td>自取</td>
+        </tr>
+        <tr v-if="express.type.name == 'Self'">
+          <td width="100" style="background-color: #c3c3c3; text-align: center;">物流商品</td>
+          <td>
+            <poptip style="cursor: pointer;">
+              <img style="margin-left: 10px;" v-for="sub in express.subList" :key="sub.id"
+                   :src="config.publicBucketDomain + sub.thumbnail"
+                   width="40" height="40"/>
+              <img slot="content" style="margin-left: 10px;" v-for="sub in express.subList" :key="sub.id"
+                   :src="config.publicBucketDomain + sub.thumbnail" />
+            </poptip>
           </td>
         </tr>
         </tbody>
@@ -145,10 +161,11 @@
   import API from '@/api/order'
   import {Message} from 'iview'
   import config from '@/config/index'
+  import Poptip from "iview/src/components/poptip/poptip";
 
   export default {
     name: 'OrderEdit',
-    components: {},
+    components: {Poptip},
     data() {
       return {
         from: null,
@@ -182,21 +199,34 @@
           subList: []
         },
         columns: [
+          {title: '商品名称', key: 'itemName'},
           {
             title: '商品图片',
             render: (h, params) => {
-              return h('img', {
-                attrs: {
-                  src: config.publicBucketDomain + params.row.thumbnail
-                },
-                style: {
-                  width: '40px',
-                  height: '40px'
-                }
-              })
+              return h('Poptip', null, [
+                h('img', {
+                  attrs: {
+                    src: config.publicBucketDomain + params.row.thumbnail
+                  },
+                  style: {
+                    width: '40px',
+                    height: '40px',
+                    cursor: 'pointer'
+                  }
+                }),
+                h('img', {
+                  slot: "content",
+                  attrs: {
+                    src: config.publicBucketDomain + params.row.thumbnail
+                  },
+                  style: {
+                    width: '100%',
+                    height: '100%',
+                  }
+                })
+              ])
             }
           },
-          {title: '商品名称', key: 'itemName'},
           {title: '规格', key: 'specificationValues'},
           {title: '购买数量', key: 'nums'},
           {title: '商品单价', key: 'unitPrice'},

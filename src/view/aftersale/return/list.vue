@@ -176,7 +176,7 @@
                       this.goEdit(params.row.id)
                     }
                   }
-                }, '查看')
+                }, params.row.processedTime != null ? '查看' : '审核')
               ]
               if (params.row.status.name == 'WaitForReceive') {
                 arr.push(
