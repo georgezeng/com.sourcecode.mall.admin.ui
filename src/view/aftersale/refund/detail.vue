@@ -90,9 +90,18 @@
 
       <div v-if="data.status.name == 'Finished'"
            style="margin-top: 10px;">
-        <p>
-          处理结果: 已退款
-        </p>
+        <div style="display: inline-block; width: 30%;">
+          <span style="margin-right: 10px;">处理结果:</span>
+          已退款
+        </div>
+        <div style="display: inline-block; width: 30%;">
+          <span style="margin-right: 10px;">退款单号:</span>
+          {{data.serviceId}}
+        </div>
+        <div style="display: inline-block; width: 30%;">
+          <span style="margin-right: 10px;">退款时间:</span>
+          {{data.refundTime}}
+        </div>
       </div>
     </Card>
   </div>

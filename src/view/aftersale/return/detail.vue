@@ -69,9 +69,9 @@
     <Card style="margin-top: 20px; margin-bottom: 20px;">
       <div>
         <p>
-          审核信息
+          <strong>审核信息</strong>
         </p>
-        <div>
+        <div style="margin-top: 10px;">
           <span style="margin-right: 10px;">审核结果:</span>
           <RadioGroup v-model="data.agree">
             <Radio label="true" :disabled="data.status.name != 'Processing'">
@@ -107,9 +107,9 @@
         v-if="data.status.name != 'Processing' && data.status.name != 'WaitForReturn' && data.status.name != 'Rejected'"
         style="margin-top: 10px;">
         <p>
-          商品回寄
+          <strong>商品回寄</strong>
         </p>
-        <div>
+        <div style="margin-top: 10px;">
           <div style="display: inline-block; width: 30%;">
             <span style="margin-right: 10px;">物流公司:</span>
             {{data.clientExpressCompany}}
@@ -131,9 +131,18 @@
 
       <div v-if="data.status.name == 'Finished'"
            style="margin-top: 10px;">
-        <p>
-          处理结果: 已退款
-        </p>
+        <div style="display: inline-block; width: 30%;">
+          <span style="margin-right: 10px;">处理结果:</span>
+          已退款
+        </div>
+        <div style="display: inline-block; width: 30%;">
+          <span style="margin-right: 10px;">退款单号:</span>
+          {{data.serviceId}}
+        </div>
+        <div style="display: inline-block; width: 30%;">
+          <span style="margin-right: 10px;">退款时间:</span>
+          {{data.refundTime}}
+        </div>
       </div>
     </Card>
   </div>

@@ -48,6 +48,12 @@
           <td width="100" style="background-color: #c3c3c3; text-align: center;">支付金额</td>
           <td>{{data.realPrice}}</td>
         </tr>
+        <tr v-if="data.refundTime != null">
+          <td width="100" style="background-color: #c3c3c3; text-align: center;">退款单号</td>
+          <td>{{data.orderId}}</td>
+          <td width="100" style="background-color: #c3c3c3; text-align: center;">退款时间</td>
+          <td>{{data.refundTime}}</td>
+        </tr>
         <tr>
           <td width="100" style="background-color: #c3c3c3; text-align: center;">买家留言</td>
           <td colspan="3">{{data.remark}}</td>
@@ -174,6 +180,7 @@
         data: {
           id: null,
           orderId: null,
+          refundTime: null,
           address: {
             name: '',
             city: '',
