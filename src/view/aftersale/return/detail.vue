@@ -75,7 +75,7 @@
         商品信息
       </p>
       <Table :columns="columns"
-             :data="[{...data.subOrder, nums: data.nums, totalPrice: (data.nums * data.subOrder.unitPrice).toFixed(2), dealPrice: (data.nums * data.subOrder.unitPrice * data.order.discount * 0.01).toFixed(2)}]"></Table>
+             :data="[{...data.subOrder, nums: data.nums, totalPrice: (data.nums * data.subOrder.unitPrice).toFixed(2), dealPrice: data.amount}]"></Table>
     </Card>
 
     <Card style="margin-top: 20px; margin-bottom: 20px;">
