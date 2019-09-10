@@ -55,6 +55,10 @@
           <td>{{data.refundTime}}</td>
         </tr>
         <tr>
+          <td width="100" style="background-color: #c3c3c3; text-align: center;">收货时间</td>
+          <td colspan="3">{{data.pickupTime}}</td>
+        </tr>
+        <tr>
           <td width="100" style="background-color: #c3c3c3; text-align: center;">买家留言</td>
           <td colspan="3">{{data.remark}}</td>
         </tr>
@@ -202,6 +206,7 @@
           refundTime: null,
           clientLevelName: null,
           discount: null,
+          pickupTime: null,
           address: {
             name: '',
             city: '',
