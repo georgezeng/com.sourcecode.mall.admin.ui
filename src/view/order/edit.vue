@@ -70,6 +70,10 @@
       </div>
       <table cellspacing="0" cellpadding="0">
         <tbody v-for="express in data.expressList" :key="express.id">
+        <tr>
+          <td width="100" style="background-color: #f5f5f5; text-align: center;">取货方式</td>
+          <td colspan="3">{{express.type.text}}</td>
+        </tr>
         <tr v-if="express.type.name == 'Delivery'">
           <td width="100" style="background-color: #c3c3c3; text-align: center;">发货单号</td>
           <td>{{express.number}}</td>
@@ -81,18 +85,18 @@
           <td>{{express.company}}</td>
           <td width="100" style="background-color: #c3c3c3; text-align: center;">物流商品</td>
           <td>
-            <img style="margin-left: 10px;" v-for="sub in express.subList" :key="sub.id"
-                 :src="config.publicBucketDomain + sub.thumbnail"
-                 width="40" height="40"/>
+            <poptip style="cursor: pointer;">
+              <img style="margin-left: 10px;" v-for="sub in express.subList" :key="sub.id"
+                   :src="config.publicBucketDomain + sub.thumbnail"
+                   width="40" height="40"/>
+              <img slot="content" style="margin-left: 10px;" v-for="sub in express.subList" :key="sub.id"
+                   :src="config.publicBucketDomain + sub.thumbnail" />
+            </poptip>
           </td>
         </tr>
         <tr v-if="express.type.name == 'Self'">
-          <td width="100" style="background-color: #c3c3c3; text-align: center;">取货方式</td>
-          <td>自取</td>
-        </tr>
-        <tr v-if="express.type.name == 'Self'">
           <td width="100" style="background-color: #c3c3c3; text-align: center;">物流商品</td>
-          <td>
+          <td colspan="3">
             <poptip style="cursor: pointer;">
               <img style="margin-left: 10px;" v-for="sub in express.subList" :key="sub.id"
                    :src="config.publicBucketDomain + sub.thumbnail"
@@ -146,15 +150,30 @@
       <div style="text-align: center; margin: 30px 0 10px;">费用信息</div>
       <table cellspacing="0" cellpadding="0">
         <tr>
-          <td style="text-align: right;">RMB订单应付总额: 商品总额 ￥{{data.totalPrice}} + 物流费用 ￥0.00 + 税票费用 ￥0.00 =
-            ￥{{data.totalPrice}}
+          <td style="text-align: right;">
+            <strong>订单应付总额: </strong>商品总额 ￥{{data.totalPrice}} + 物流费用 ￥0.00 + 税票费用 ￥0.00 =
+            <span style="color: orangered;">￥{{data.totalPrice}}</span>
           </td>
         </tr>
         <tr>
-          <td style="text-align: right;">扣除优惠: - (满减优惠 ￥0.00 + 优惠券抵扣 ￥{{data.couponAmount}}) = -￥{{totalBonus}}</td>
+          <td style="text-align: right;">
+            <strong>会员折扣: </strong>{{data.levelName}}{{data.discount/10}}折 =
+            <span style="color: orangered;">{{data.discount/10}}折</span>
+          </td>
         </tr>
         <tr>
-          <td style="text-align: right;">订单实付金额: ￥{{data.realPrice}}</td>
+          <td style="text-align: right;">
+            <strong>优惠券: </strong>
+            <span v-for="(coupon,index) in coupons" :key="coupon.id">
+              ￥{{coupon.amount}}
+              <span v-if="index < coupons.length - 1">+</span>
+            </span>
+            =
+            <span style="color: orangered;">-￥{{data.couponAmount ? data.couponAmount : 0}}</span>
+          </td>
+        </tr>
+        <tr>
+          <td style="text-align: right;">订单实付金额 = <span style="color: orangered;">￥{{data.realPrice}}</span></td>
         </tr>
       </table>
 
@@ -181,6 +200,8 @@
           id: null,
           orderId: null,
           refundTime: null,
+          levelName: null,
+          discount: null,
           address: {
             name: '',
             city: '',
@@ -203,7 +224,8 @@
           realPrice: null,
           invoice: null,
           expressList: [],
-          subList: []
+          subList: [],
+          coupons: []
         },
         columns: [
           {title: '商品名称', key: 'itemName'},
@@ -237,8 +259,15 @@
           {title: '规格', key: 'specificationValues'},
           {title: '购买数量', key: 'nums'},
           {title: '商品单价', key: 'unitPrice'},
-          {title: '商品金额', key: 'dealPrice'},
-          {title: '库存数量', key: 'inventory'},
+          {
+            title: '商品金额',
+            key: 'totalPrice',
+            render: (h, params) => {
+              return h('span', (params.row.unitPrice * params.row.nums).toFixed(2))
+            }
+          },
+          {title: '实付金额', key: 'dealPrice'},
+          // {title: '库存数量', key: 'inventory'},
         ],
         couponColumns: [
           {title: '券编号', key: 'couponId'},
