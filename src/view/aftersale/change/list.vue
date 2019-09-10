@@ -103,7 +103,7 @@
           },
           {
             value: 'Rejected',
-            label: '已拒绝'
+            label: '未通过'
           },
           {
             value: 'Finished',

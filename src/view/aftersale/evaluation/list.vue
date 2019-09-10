@@ -144,7 +144,7 @@
           {
             title: '状态', key: 'replied',
             render: (h, params) => {
-              return h('div', !params.row.hasAudit ? '待审核' : (params.row.replied ? '已回复' : '待回复'))
+              return h('div', !params.row.hasAudit ? '待审核' : (params.row.passed ? (params.row.replied ? '已回复' : '待回复') : '未通过'))
             }
           },
           {
