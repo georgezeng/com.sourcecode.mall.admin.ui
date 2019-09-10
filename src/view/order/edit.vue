@@ -132,7 +132,7 @@
       <table cellspacing="0" cellpadding="0">
         <tr>
           <td width="100" style="background-color: #c3c3c3; text-align: center;">发票类型</td>
-          <td>{{data.invoice ? data.invoice.type.name : ''}}</td>
+          <td>{{data.invoice ? data.invoice.type.text : ''}}</td>
           <td width="100" style="background-color: #c3c3c3; text-align: center;">纳税编号</td>
           <td>{{data.invoice ? data.invoice.code : ''}}</td>
         </tr>
@@ -157,7 +157,7 @@
         </tr>
         <tr>
           <td style="text-align: right;">
-            <strong>会员折扣: </strong>{{data.levelName}}{{data.discount/10}}折 =
+            <strong>会员折扣: </strong>{{data.clientLevelName}}{{data.discount/10}}折 =
             <span style="color: orangered;">{{data.discount/10}}折</span>
           </td>
         </tr>
@@ -200,7 +200,7 @@
           id: null,
           orderId: null,
           refundTime: null,
-          levelName: null,
+          clientLevelName: null,
           discount: null,
           address: {
             name: '',
