@@ -63,7 +63,8 @@
       <p slot="title">
         商品信息
       </p>
-      <Table :columns="columns" :data="[data.subOrder]"></Table>
+      <Table :columns="columns"
+             :data="[{...data.subOrder, nums: data.nums, totalPrice: (data.nums * data.subOrder.unitPrice).toFixed(2), dealPrice: (data.nums * data.subOrder.unitPrice * data.order.discount * 0.01).toFixed(2)}]"></Table>
     </Card>
 
     <Card style="margin-top: 20px; margin-bottom: 20px;">
@@ -233,7 +234,11 @@
             key: 'unitPrice'
           },
           {
-            title: '金额',
+            title: '商品总额',
+            key: 'totalPrice'
+          },
+          {
+            title: '实付金额',
             key: 'dealPrice'
           },
         ]

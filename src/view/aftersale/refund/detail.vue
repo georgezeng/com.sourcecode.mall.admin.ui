@@ -44,7 +44,10 @@
           <span style="margin-right: 10px;">原订单号:</span>
           {{data.order.orderId}}
         </div>
-        <div style="display: inline-block; width: 30%;"></div>
+        <div style="display: inline-block; width: 30%;">
+          <span style="margin-right: 10px;">退款金额:</span>
+          {{data.amount}}
+        </div>
       </div>
       <div style="margin-top: 10px;">
         申请原因: {{data.reason}}
@@ -63,7 +66,7 @@
       <p slot="title">
         商品信息
       </p>
-      <Table :columns="columns" :data="[data.subOrder]"></Table>
+      <Table :columns="columns" :data="[{...data.subOrder, nums: data.nums, totalPrice: (data.nums * data.subOrder.unitPrice).toFixed(2), dealPrice: (data.nums * data.subOrder.unitPrice * data.order.discount * 0.01).toFixed(2)}]"></Table>
     </Card>
 
     <Card style="margin-top: 20px; margin-bottom: 20px;">
@@ -146,15 +149,28 @@
           {
             title: '图片',
             render: (h, params) => {
-              return h('img', {
-                attrs: {
-                  src: config.publicBucketDomain + params.row.thumbnail
-                },
-                style: {
-                  width: '40px',
-                  height: '40px'
-                }
-              })
+              return h('Poptip', null, [
+                h('img', {
+                  attrs: {
+                    src: config.publicBucketDomain + params.row.thumbnail
+                  },
+                  style: {
+                    width: '40px',
+                    height: '40px',
+                    cursor: 'pointer'
+                  }
+                }),
+                h('img', {
+                  slot: "content",
+                  attrs: {
+                    src: config.publicBucketDomain + params.row.thumbnail
+                  },
+                  style: {
+                    width: '100%',
+                    height: '100%',
+                  }
+                })
+              ])
             }
           },
           {
@@ -170,7 +186,11 @@
             key: 'unitPrice'
           },
           {
-            title: '金额',
+            title: '商品总额',
+            key: 'totalPrice'
+          },
+          {
+            title: '实付金额',
             key: 'dealPrice'
           },
         ]
