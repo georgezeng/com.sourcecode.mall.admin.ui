@@ -64,7 +64,8 @@
         </tr>
       </table>
 
-      <div v-if="data.expressList != null && data.expressList.length > 0" style="text-align: center; margin: 30px 0 10px;">
+      <div v-if="data.expressList != null && data.expressList.length > 0"
+           style="text-align: center; margin: 30px 0 10px;">
         物流信息
         <Button @click="goUpdateExpress" v-if="data.status.name == 'Paid' || data.status.name == 'Shipped'"
                 type="primary" size="small"
@@ -94,7 +95,7 @@
                    :src="config.publicBucketDomain + sub.thumbnail"
                    width="40" height="40"/>
               <img slot="content" style="margin-left: 10px;" v-for="sub in express.subList" :key="sub.id"
-                   :src="config.publicBucketDomain + sub.thumbnail" />
+                   :src="config.publicBucketDomain + sub.thumbnail"/>
             </poptip>
           </td>
         </tr>
@@ -106,7 +107,7 @@
                    :src="config.publicBucketDomain + sub.thumbnail"
                    width="40" height="40"/>
               <img slot="content" style="margin-left: 10px;" v-for="sub in express.subList" :key="sub.id"
-                   :src="config.publicBucketDomain + sub.thumbnail" />
+                   :src="config.publicBucketDomain + sub.thumbnail"/>
             </poptip>
           </td>
         </tr>
@@ -272,6 +273,20 @@
             }
           },
           {title: '实付金额', key: 'dealPrice'},
+          {
+            title: '售后方式',
+            key: 'aftersaleType',
+            render: (h, params) => {
+              return h('span', params.row.aftersale.status.name == 'Finished' ? params.row.aftersale.type.text : '')
+            }
+          },
+          {
+            title: '退换数量',
+            key: 'aftersaleNums',
+            render: (h, params) => {
+              return h('span', params.row.aftersale.status.name == 'Finished' ? params.row.aftersale.nums : '')
+            }
+          },
           // {title: '库存数量', key: 'inventory'},
         ],
         couponColumns: [
