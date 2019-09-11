@@ -88,6 +88,13 @@
                    v-model="data.rejectReason"/>
             <span v-else>{{data.rejectReason}}</span>
           </div>
+          <div style="margin-top: 10px;">
+            <span style="margin-right: 10px;">备注:</span>
+            <Input style="display: inline-block; width: 90%;" v-if="data.status.name == 'Processing'"
+                   v-model="form.remark" type="textarea"
+                   :autosize="{minRows: 2,maxRows: 5}"></Input>
+            <span v-else>{{data.remark}}</span>
+          </div>
           <div v-if="data.agree == 'true'" style="margin-top: 10px;">
             <Form :label-width="100">
               <FormItem label="收件人" prop="name">
@@ -192,6 +199,7 @@
           status: {},
           serviceId: null,
           order: {},
+          remark: null,
           photos: null,
           reason: null,
           description: null,
@@ -255,6 +263,13 @@
       }
     },
     methods: {
+      changeAgree(value) {
+        if (value == 'true') {
+          this.form.remark = '平台已执行退款，具体到账时间根据你付款账号平台决定，请及时查看你支付账号的退款信息。'
+        } else {
+          this.form.remark = null
+        }
+      },
       showImage() {
         this.show = true
       },
