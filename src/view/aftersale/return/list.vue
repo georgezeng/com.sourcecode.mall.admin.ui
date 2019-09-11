@@ -152,6 +152,13 @@
             }
           },
           {
+            title: '购买数量',
+            key: 'unitPrice',
+            render: (h, params) => {
+              return h('span', params.row.subOrder.nums)
+            }
+          },
+          {
             title: '单价',
             key: 'unitPrice',
             render: (h, params) => {
