@@ -829,7 +829,7 @@ export default [
           hideInMenu: true,
           icon: 'md-funnel',
           title: '用户领券列表',
-          access: ['AUTH_CASH_COUPON_CLIENT_LIST_PAGE'],
+          access: ['AUTH_COUPON_CLIENT_LIST_PAGE'],
           notCache: true
         }
       }
