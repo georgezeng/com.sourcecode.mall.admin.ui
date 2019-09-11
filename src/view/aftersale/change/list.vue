@@ -145,6 +145,31 @@
             }
           },
           {
+            title: '单价',
+            key: 'unitPrice',
+            render: (h, params) => {
+              return h('span', params.row.subOrder.unitPrice)
+            }
+          },
+          {
+            title: '商品金额',
+            key: 'totalPrice',
+            render: (h, params) => {
+              return h('span', (params.row.subOrder.unitPrice * params.row.subOrder.nums).toFixed(2))
+            }
+          },
+          {
+            title: '实付金额',
+            key: 'totalPrice',
+            render: (h, params) => {
+              return h('span', (params.row.subOrder.dealPrice))
+            }
+          },
+          {
+            title: '换货数',
+            key: 'nums',
+          },
+          {
             title: '状态', key: 'status', sortable: true,
             render: (h, params) => {
               return h('div', params.row.status.merchantText)
