@@ -165,6 +165,10 @@
         <p>
           处理结果: 已换货
         </p>
+        <div>
+          <span style="margin-right: 10px;">备注:</span>
+          {{data.remark}}
+        </div>
       </div>
     </Card>
   </div>
