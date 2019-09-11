@@ -64,7 +64,7 @@
         商品信息
       </p>
       <Table :columns="columns"
-             :data="[{...data.subOrder, nums: data.nums, totalPrice: (data.subOrder.nums * data.subOrder.unitPrice).toFixed(2), dealPrice: (data.subOrder.dealPrice).toFixed(2)}]"></Table>
+             :data="[{...data.subOrder, returnNums: data.nums}]"></Table>
     </Card>
 
     <Card style="margin-top: 20px; margin-bottom: 20px;">
@@ -226,7 +226,7 @@
             key: 'specificationValues'
           },
           {
-            title: '数量',
+            title: '购买数量',
             key: 'nums'
           },
           {
@@ -235,12 +235,22 @@
           },
           {
             title: '商品金额',
-            key: 'totalPrice'
+            key: 'totalPrice',
+            render: (h, params) => {
+              return h('span', (params.row.unitPrice * params.row.nums).toFixed(2))
+            }
           },
           {
             title: '实付金额',
-            key: 'dealPrice'
+            key: 'dealPrice',
+            render: (h, params) => {
+              return h('span', params.row.dealPrice)
+            }
           },
+          {
+            title: '换货数量',
+            key: 'returnNums'
+          }
         ]
       }
     },
