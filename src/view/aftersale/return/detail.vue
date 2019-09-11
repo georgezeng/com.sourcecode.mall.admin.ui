@@ -47,17 +47,6 @@
         <div style="display: inline-block; width: 30%;"></div>
       </div>
       <div style="margin-top: 10px;">
-        <div style="display: inline-block; width: 30%;">
-          <span style="margin-right: 10px;">退货数量:</span>
-          {{data.nums}}
-        </div>
-        <div style="display: inline-block; width: 30%;">
-          <span style="margin-right: 10px;">退款金额:</span>
-          {{data.amount}}
-        </div>
-        <div style="display: inline-block; width: 30%;"></div>
-      </div>
-      <div style="margin-top: 10px;">
         申请原因: {{data.reason}}
       </div>
       <div style="margin-top: 10px;">
@@ -75,7 +64,7 @@
         商品信息
       </p>
       <Table :columns="columns"
-             :data="[{...data.subOrder, returnNums: data.nums}]"></Table>
+             :data="[{...data.subOrder, returnNums: data.nums, amount: data.amount}]"></Table>
     </Card>
 
     <Card style="margin-top: 20px; margin-bottom: 20px;">

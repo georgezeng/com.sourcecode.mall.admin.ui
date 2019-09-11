@@ -201,7 +201,7 @@
           },
           {
             title: '退款金额',
-            key: 'amount'
+            key: 'dealPrice'
           },
         ]
       }
