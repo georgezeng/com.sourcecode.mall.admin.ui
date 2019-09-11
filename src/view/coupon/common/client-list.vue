@@ -18,6 +18,7 @@
       :listHandler="listHandler"
       @setLoading="setLoading"
       :useParent="true"
+      :topPageName="parentPageName"
       :parentPageName="parentPageName"
       :filteredPageNames="filteredPageNames"
     >
@@ -92,6 +93,7 @@
     created() {
       this.data.id = this.$router.currentRoute.params.id
       const type = this.$router.currentRoute.params.type
+      this.topPageName = type + 'CouponSettingList'
       this.parentPageName = type + 'CouponSettingList'
       this.filteredPageNames.push(type + 'CouponSettingList')
       this.filteredPageNames.push(type + 'CouponSettingEdit')
