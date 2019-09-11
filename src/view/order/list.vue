@@ -41,7 +41,7 @@
           },
           {
             value: 'Paid',
-            label: '已付款'
+            label: '待发货'
           },
           {
             value: 'Shipped',
