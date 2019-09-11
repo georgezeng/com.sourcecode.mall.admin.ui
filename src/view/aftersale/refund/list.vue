@@ -81,7 +81,7 @@
           id: null,
           nums: 0,
           amount: 0,
-          remark: '平台已执行退款，具体到账时间根据你付款账号平台决定，请及时查看你支付账号的退款信息。'
+          remark: null
         },
         rules: {
           nums: [
@@ -213,7 +213,7 @@
                         this.form.id = params.row.id
                         this.form.nums = params.row.nums
                         this.form.amount = params.row.realPrice
-                        this.form.remark = null
+                        this.form.remark = '平台已执行退款，具体到账时间根据你付款账号平台决定，请及时查看你支付账号的退款信息。'
                         this.refundPopup = true
                       }
                     }
