@@ -241,7 +241,7 @@
               }
               this.order.expressList.push({
                 ...this.form,
-                expressTime: this.form.type == 'Delivery' ? moment().format('YYYY-MM-DD HH:mm:ss') : null
+                expressTime: moment().format('YYYY-MM-DD HH:mm:ss')
               })
             } else {
               for (let i in this.order.expressList) {
