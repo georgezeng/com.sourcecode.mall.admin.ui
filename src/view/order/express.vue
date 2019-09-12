@@ -251,8 +251,8 @@
                   if (express.type == 'Delivery') {
                     express.company = this.form.company
                     express.number = this.form.number
-                    express.expressTime = moment().format('YYYY-MM-DD HH:mm:ss')
                   }
+                  express.expressTime = moment().format('YYYY-MM-DD HH:mm:ss')
                   express.subList = this.form.subList
                   break;
                 }
