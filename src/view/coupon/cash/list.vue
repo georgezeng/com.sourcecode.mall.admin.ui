@@ -195,24 +195,26 @@
                   ])
                 )
               }
-              arr.push(h('Poptip', {
-                props: {
-                  confirm: true,
-                  title: '你确定要删除吗?'
-                },
-                on: {
-                  'on-ok': () => {
-                    this.deleteData([params.row])
-                  }
-                }
-              }, [
-                h('Button', {
+              if (status != 'PutAway') {
+                arr.push(h('Poptip', {
                   props: {
-                    type: 'error',
-                    size: 'small'
+                    confirm: true,
+                    title: '你确定要删除吗?'
+                  },
+                  on: {
+                    'on-ok': () => {
+                      this.deleteData([params.row])
+                    }
                   }
-                }, '删除')
-              ]))
+                }, [
+                  h('Button', {
+                    props: {
+                      type: 'error',
+                      size: 'small'
+                    }
+                  }, '删除')
+                ]))
+              }
               return arr
             }
           }
