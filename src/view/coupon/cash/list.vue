@@ -151,7 +151,9 @@
                     },
                     on: {
                       'on-ok': () => {
-                        this.triggerStatus(params.row)
+                        const item = params.row
+                        item.enabled = true
+                        this.triggerStatus(item)
                       }
                     }
                   }, [
@@ -175,7 +177,9 @@
                     },
                     on: {
                       'on-ok': () => {
-                        this.triggerStatus(params.row)
+                        const item = params.row
+                        item.enabled = false
+                        this.triggerStatus(item)
                       }
                     }
                   }, [
