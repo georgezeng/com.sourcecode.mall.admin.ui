@@ -12,25 +12,25 @@
         <Input v-model="form.name"></Input>
       </FormItem>
       <FormItem label="面额" prop="amount">
-        <InputNumber :min="0" v-model="form.amount" style="width: 300px;" :precision="0"></InputNumber>
+        <InputNumber :disabled="form.id != null" :min="0" v-model="form.amount" style="width: 300px;" :precision="0"></InputNumber>
       </FormItem>
       <FormItem label="生效时间" prop="startDate">
-        <DatePicker type="date" placeholder="选择日期" v-model="form.startDate"></DatePicker>
+        <DatePicker :disabled="form.id != null" type="date" placeholder="选择日期" v-model="form.startDate"></DatePicker>
       </FormItem>
       <FormItem label="过期时间" prop="endDate">
-        <RadioGroup v-model="isEndDateLimited">
+        <RadioGroup :disabled="form.id != null" v-model="isEndDateLimited">
           <Radio label="false">不限期</Radio>
           <Radio label="true">限期</Radio>
         </RadioGroup>
-        <DatePicker v-if="isEndDateLimited == 'true'" type="date" placeholder="选择日期"
+        <DatePicker :disabled="form.id != null" v-if="isEndDateLimited == 'true'" type="date" placeholder="选择日期"
                     v-model="form.endDate"></DatePicker>
       </FormItem>
       <FormItem label="发放数量" prop="totalNums">
-        <RadioGroup v-model="isTotalLimited">
+        <RadioGroup :disabled="form.id != null" v-model="isTotalLimited">
           <Radio label="false">不限量</Radio>
           <Radio label="true">限量</Radio>
         </RadioGroup>
-        <InputNumber v-if="isTotalLimited == 'true'" :min="0" :precision="0" v-model="form.totalNums"
+        <InputNumber :disabled="form.id != null" v-if="isTotalLimited == 'true'" :min="0" :precision="0" v-model="form.totalNums"
                      style="width: 300px;"></InputNumber>
       </FormItem>
       <FormItem label="图片" prop="imgPath">
