@@ -71,24 +71,22 @@
             key: 'action',
             render: (h, params) => {
               const arr = []
-              if (!params.row.started || params.row.paused) {
-                arr.push(h('Button', {
-                  props: {
-                    type: 'primary',
-                    size: 'small'
-                  },
-                  style: {
-                    marginRight: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      this.goEdit(params.row.id)
-                    }
-                  }
-                }, '编辑'))
-              }
               // if (params.row.started && !params.row.ended) {
-                if (params.row.paused) {
+              if (params.row.paused) {
+                  arr.push(h('Button', {
+                    props: {
+                      type: 'primary',
+                      size: 'small'
+                    },
+                    style: {
+                      marginRight: '5px'
+                    },
+                    on: {
+                      click: () => {
+                        this.goEdit(params.row.id)
+                      }
+                    }
+                  }, '编辑'))
                   arr.push(h('Poptip', {
                     props: {
                       confirm: true,
