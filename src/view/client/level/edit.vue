@@ -28,8 +28,11 @@
             @setPreviewUrl="setPreviewUrl"
           />
         </FormItem>
-        <FormItem label="消费累计" prop="upToAmount">
+        <FormItem label="累计消费" prop="upToAmount">
           <InputNumber v-model="form.upToAmount" :min="0" style="width: 300px;"></InputNumber>
+        </FormItem>
+        <FormItem label="累计邀请" prop="upToMembers">
+          <InputNumber v-model="form.upToMembers" :min="0" :precision="0" style="width: 300px;"></InputNumber>
         </FormItem>
         <FormItem label="折扣权益" prop="discount">
           <InputNumber v-model="form.discount" :min="0" style="width: 300px;" :max="100" :precision="0"></InputNumber>
@@ -83,6 +86,9 @@
             {max: 50, message: '名称不能多于50位', trigger: 'change'}
           ],
           upToAmount: [
+            {required: true, validator: numCheck, trigger: 'change'}
+          ],
+          upToMember: [
             {required: true, validator: numCheck, trigger: 'change'}
           ],
           discount: [

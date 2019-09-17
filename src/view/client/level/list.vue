@@ -64,7 +64,8 @@
               ])
             }
           },
-          {title: '消费累计', key: 'upToAmount'},
+          {title: '累计消费', key: 'upToAmount'},
+          {title: '累计邀请', key: 'upToMembers'},
           {
             title: '折扣权益', key: 'discount',
             render: (h, params) => {

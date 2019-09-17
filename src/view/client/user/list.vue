@@ -81,6 +81,11 @@
             }
           },
           {
+            title: '累计邀请',
+            key: 'inviteMembers',
+            sortable: true
+          },
+          {
             title: '状态',
             key: 'enabled',
             sortable: true,
