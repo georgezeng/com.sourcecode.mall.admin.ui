@@ -90,6 +90,7 @@
             this.loading = true
             API.save({
               ...this.form,
+              status: this.form.status.name,
               startTime: this.form.startTime + ':00',
               endTime: this.form.endTime + ':00',
             }).then(res => {
