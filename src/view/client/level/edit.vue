@@ -74,6 +74,7 @@
           level: null,
           name: null,
           upToAmount: null,
+          upToMembers: null,
           discount: null,
           discountInActivity: null,
         },
