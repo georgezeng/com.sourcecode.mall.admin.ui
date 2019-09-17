@@ -71,7 +71,7 @@
             key: 'action',
             render: (h, params) => {
               const arr = []
-              if (!params.row.started || params.row.ended) {
+              if (!params.row.started || params.row.ended || params.row.paused) {
                 arr.push(h('Button', {
                   props: {
                     type: 'primary',
