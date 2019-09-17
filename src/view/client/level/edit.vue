@@ -88,7 +88,7 @@
           upToAmount: [
             {required: true, validator: numCheck, trigger: 'change'}
           ],
-          upToMember: [
+          upToMembers: [
             {required: true, validator: numCheck, trigger: 'change'}
           ],
           discount: [
