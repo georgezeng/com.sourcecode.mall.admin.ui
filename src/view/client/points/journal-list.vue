@@ -67,7 +67,14 @@
             }
           },
           {title: '数量', key: 'bonusAmount', sortable: true},
-          {title: '订单号', key: 'orderId', sortable: true},
+          {
+            title: '订单号',
+            key: 'orderId',
+            sortable: true,
+            render: (h, params) => {
+              return h('span', params.row.type.name != 'Invite' ? params.row.orderId : '')
+            }
+          },
           {title: '消费金额', key: 'amount', sortable: true},
           {
             title: '备注',
