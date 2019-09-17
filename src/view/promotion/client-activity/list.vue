@@ -87,7 +87,7 @@
                   }
                 }, '编辑'))
               }
-              if (params.row.started && !params.row.ended) {
+              // if (params.row.started && !params.row.ended) {
                 if (params.row.paused) {
                   arr.push(h('Poptip', {
                     props: {
@@ -139,7 +139,7 @@
                     }, '中止')
                   ]))
                 }
-              }
+              // }
               if (!params.row.started || params.row.ended) {
                 arr.push(h('Poptip', {
                   props: {
