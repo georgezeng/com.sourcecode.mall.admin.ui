@@ -62,15 +62,29 @@
             title: '缩略图',
             key: 'thumbnail',
             render: (h, params) => {
-              return h('img', {
-                attrs: {
-                  src: config.publicBucketDomain + params.row.thumbnail,
-                },
-                style: {
-                  width: '40px',
-                  height: '40px'
-                }
-              })
+              return h('Poptip', null, [
+                h('img', {
+                  attrs: {
+                    src: config.publicBucketDomain + params.row.thumbnail
+                  },
+                  style: {
+                    marginRight: '8px',
+                    width: '40px',
+                    height: '40px',
+                    cursor: 'pointer'
+                  }
+                }),
+                h('img', {
+                  slot: "content",
+                  attrs: {
+                    src: config.publicBucketDomain + params.row.thumbnail
+                  },
+                  style: {
+                    width: '100%',
+                    height: '100%'
+                  }
+                })
+              ])
             }
           },
           {title: '上架时间', key: 'putTime', sortable: true},

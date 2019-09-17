@@ -77,15 +77,29 @@
             title: '图标',
             key: 'icon',
             render: (h, params) => {
-              return h('img', {
-                attrs: {
-                  src: config.baseUrl + '/goods/category/file/load?filePath=' + params.row.icon,
-                },
-                style: {
-                  width: '40px',
-                  height: '40px'
-                }
-              })
+              return h('Poptip', null, [
+                h('img', {
+                  attrs: {
+                    src: config.baseUrl + '/goods/category/file/load?filePath=' + params.row.icon
+                  },
+                  style: {
+                    marginRight: '8px',
+                    width: '40px',
+                    height: '40px',
+                    cursor: 'pointer'
+                  }
+                }),
+                h('img', {
+                  slot: "content",
+                  attrs: {
+                    src: config.baseUrl + '/goods/category/file/load?filePath=' + params.row.icon
+                  },
+                  style: {
+                    width: '100%',
+                    height: '100%'
+                  }
+                })
+              ])
             }
           },
           {

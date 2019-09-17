@@ -39,16 +39,29 @@
           {
             title: '图标', key: 'imgPath',
             render: (h, params) => {
-              return h('img', {
-                attrs: {
-                  src: config.publicBucketDomain + params.row.imgPath
-                },
-                style: {
-                  width: '40px',
-                  height: '40px',
-                  cursor: 'pointer'
-                }
-              })
+              return h('Poptip', null, [
+                h('img', {
+                  attrs: {
+                    src: config.publicBucketDomain + params.row.imgPath
+                  },
+                  style: {
+                    marginRight: '8px',
+                    width: '40px',
+                    height: '40px',
+                    cursor: 'pointer'
+                  }
+                }),
+                h('img', {
+                  slot: "content",
+                  attrs: {
+                    src: config.publicBucketDomain + params.row.imgPath
+                  },
+                  style: {
+                    width: '100%',
+                    height: '100%'
+                  }
+                })
+              ])
             }
           },
           {title: '消费累计', key: 'upToAmount'},
