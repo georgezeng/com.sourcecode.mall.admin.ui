@@ -113,7 +113,7 @@
                       },
                     }, '重启')
                   ]))
-                } else {
+                } else if (params.row.started && !params.row.ended) {
                   arr.push(h('Poptip', {
                     props: {
                       confirm: true,
