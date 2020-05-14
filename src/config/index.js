@@ -41,7 +41,7 @@ switch (process.env.NODE_ENV) {
     break
 
   default:
-    config.baseUrl = 'https://merchant-server.bsxkj.com'
+    config.baseUrl = 'https://merchant-server.dbjiaju.cn'
     config.publicBucketDomain = 'https://mall-public-prod.oss-cn-zhangjiakou.aliyuncs.com/'
 }
 
