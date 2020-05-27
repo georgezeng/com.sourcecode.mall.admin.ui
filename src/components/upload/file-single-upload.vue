@@ -27,79 +27,79 @@
 </template>
 
 <script>
-  import {Message} from 'iview'
-  import uploadPlaceholder from '@/assets/images/upload-placeholder.png'
-  import {
-    setTagNavListInLocalstorage,
-    setToken
-  } from '@/libs/util'
+import { Message } from 'iview'
+import uploadPlaceholder from '@/assets/images/upload-placeholder.png'
+import {
+  setTagNavListInLocalstorage,
+  setToken
+} from '@/libs/util'
 
-  export default {
-    name: 'ImgSingleUpload',
-    components: {},
-    props: [
-      'btnIcon',
-      'formats',
-      'maxSize',
-      'uploadUrl',
-      'btnText',
-      'imgPrefix',
-      'loading',
-      'tempErrorText'
-    ],
-    data() {
-      let format = this.formats ? this.formats : ['png', 'jpeg', 'jpg']
-      let size = this.maxSize ? parseInt(this.maxSize) : 3000
-      return {
-        format,
-        size,
-        errorText: null,
-        uploaded: false
-      }
+export default {
+  name: 'ImgSingleUpload',
+  components: {},
+  props: [
+    'btnIcon',
+    'formats',
+    'maxSize',
+    'uploadUrl',
+    'btnText',
+    'imgPrefix',
+    'loading',
+    'tempErrorText'
+  ],
+  data () {
+    let format = this.formats ? this.formats : ['png', 'jpeg', 'jpg']
+    let size = this.maxSize ? parseInt(this.maxSize) : 3000
+    return {
+      format,
+      size,
+      errorText: null,
+      uploaded: false
+    }
+  },
+  computed: {
+    showErrorText () {
+      return this.tempErrorText ? this.tempErrorText : this.errorText
+    }
+  },
+  methods: {
+    showUploadError () {
+      this.$emit('clearTempErrorText')
+      this.$emit('setLoading', false)
+      this.errorText = '上传失败'
     },
-    computed: {
-      showErrorText() {
-        return this.tempErrorText ? this.tempErrorText : this.errorText
-      }
+    showUploadProgress () {
+      this.errorText = ''
+      this.$emit('clearTempErrorText')
+      this.uploaded = false
+      this.$emit('setLoading', true)
     },
-    methods: {
-      showUploadError() {
+    showFormatError () {
+      this.$emit('clearTempErrorText')
+      this.errorText = '文件类型只能是' + this.format.join(',')
+    },
+    showUploadSuccess (response, file, fileList) {
+      this.$emit('setLoading', false)
+      if (response.code == 0) {
+        this.$emit('setPreviewUrl', response.data)
         this.$emit('clearTempErrorText')
-        this.$emit('setLoading', false)
-        this.errorText = '上传失败'
-      },
-      showUploadProgress() {
         this.errorText = ''
-        this.$emit('clearTempErrorText')
-        this.uploaded = false
-        this.$emit('setLoading', true)
-      },
-      showFormatError() {
-        this.$emit('clearTempErrorText')
-        this.errorText = '文件类型只能是' + this.format.join(',')
-      },
-      showUploadSuccess(response, file, fileList) {
-        this.$emit('setLoading', false)
-        if (response.code == 0) {
-          this.$emit('setPreviewUrl', response.data)
-          this.$emit('clearTempErrorText')
-          this.errorText = ''
-          this.uploaded = true
-          Message.success('上传成功')
-        } else if(response.code == -1) {
-          setTagNavListInLocalstorage([])
-          setToken('')
-          this.$router.push({
-            name: 'Login'
-          })
-        } else {
-          this.errorText = response.msgs[0]
-        }
-      },
-      showExceededError() {
-        this.$emit('clearTempErrorText')
-        this.errorText = '文件大小必须在' + this.size + 'KB以内'
-      },
+        this.uploaded = true
+        Message.success('上传成功')
+      } else if (response.code == -1) {
+        setTagNavListInLocalstorage([])
+        setToken('')
+        this.$router.push({
+          name: 'Login'
+        })
+      } else {
+        this.errorText = response.msgs[0]
+      }
     },
+    showExceededError () {
+      this.$emit('clearTempErrorText')
+      this.errorText = '文件大小必须在' + this.size + 'KB以内'
+    }
   }
+}
 </script>
