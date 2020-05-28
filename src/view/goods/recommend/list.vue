@@ -6,7 +6,7 @@
                 <i-button type="error" :disabled="delDisabled" @click="dels">批量删除</i-button>
                 <i-button type="primary" @click="toAdd">新增</i-button>
             </div>
-            <i-table border :columns="columns" :data="data" @on-sort-change="sort" @on-selection-change="select" :loading="loading"></i-table>
+            <i-table :columns="columns" :data="data" @on-sort-change="sort" @on-selection-change="select" :loading="loading"></i-table>
             <div class="page">
                 <Page :total="total" show-elevator :current="queryInfo.page.num" :page-size="queryInfo.page.size" @on-change="numChange" @on-page-size-change="sizeChange" show-sizer></Page>
             </div>
