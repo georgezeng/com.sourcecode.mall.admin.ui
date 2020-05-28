@@ -1,3 +1,11 @@
+/*
+ * @Descripttion:
+ * @version:
+ * @Author: sueRimn
+ * @Date: 2020-05-23 09:50:58
+ * @LastEditors: sueRimn
+ * @LastEditTime: 2020-05-28 11:16:06
+ */
 import axios from 'axios'
 import store from '@/store'
 // import { Spin } from 'iview'
@@ -32,6 +40,13 @@ class HttpRequest {
       // Spin.hide()
     }
   }
+  /**
+   * @method:interceptors
+   * @for:HttpRequest
+   * @param {object} instance 自定义拦截器对象
+   * @param {string} url url字符串
+   * @return {void}
+   */
   interceptors (instance, url) {
     // 请求拦截
     instance.interceptors.request.use(config => {

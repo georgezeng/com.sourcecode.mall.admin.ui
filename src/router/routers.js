@@ -503,6 +503,39 @@ export default [
         }
       },
       {
+        path: 'Recommend/List/:id',
+        name: 'GoodsRecommendList',
+        component: () => import('@/view/goods/recommend/list.vue'),
+        meta: {
+          title: '商品推荐',
+          access: ['AUTH_GOODS_RECOMMEND_CATEGORY_LIST_PAGE'],
+          notCache: true,
+          hideInMenu: true
+        }
+      },
+      {
+        path: 'Recommend/edit/:id',
+        name: 'GoodsRecommendEdit',
+        component: () => import('@/view/goods/recommend/edit.vue'),
+        meta: {
+          title: '推荐编辑',
+          access: ['AUTH_GOODS_RECOMMEND_CATEGORY_EDIT_PAGE'],
+          notCache: true,
+          hideInMenu: true
+        }
+      },
+      {
+        path: 'Recommend/add',
+        name: 'GoodsRecommendAdd',
+        component: () => import('@/view/goods/recommend/edit.vue'),
+        meta: {
+          title: '新增推荐',
+          access: ['AUTH_GOODS_RECOMMEND_CATEGORY_EDIT_PAGE'],
+          notCache: true,
+          hideInMenu: true
+        }
+      },
+      {
         path: 'Category/Edit/:id',
         name: 'GoodsCategoryEdit',
         component: () => import('@/view/goods/category/edit.vue'),
@@ -757,7 +790,7 @@ export default [
           access: ['AUTH_GOODS_ITEM_EVALUATION_EDIT_PAGE'],
           notCache: true
         }
-      },
+      }
     ]
   },
 
@@ -770,7 +803,7 @@ export default [
       notCache: true,
       access: [
         'AUTH_CASH_COUPON_SETTING_LIST_PAGE',
-        'AUTH_CASH_COUPON_ORDER_LIMITED_SETTING_LIST_PAGE',
+        'AUTH_CASH_COUPON_ORDER_LIMITED_SETTING_LIST_PAGE'
       ]
     },
     component: Main,
@@ -845,7 +878,7 @@ export default [
       notCache: true,
       access: [
         'AUTH_CLIENT_ACTIVITY_EVENT_LIST_PAGE',
-        'AUTH_CLIENT_POINTS_SETTING_PAGE',
+        'AUTH_CLIENT_POINTS_SETTING_PAGE'
       ]
     },
     component: Main,
@@ -883,7 +916,7 @@ export default [
           access: ['AUTH_CLIENT_POINTS_SETTING_PAGE'],
           notCache: true
         }
-      },
+      }
     ]
   },
 
@@ -896,7 +929,7 @@ export default [
       notCache: true,
       access: [
         'AUTH_ARTICLE_CATEGORY_LIST_PAGE',
-        'AUTH_ARTICLE_LIST_PAGE',
+        'AUTH_ARTICLE_LIST_PAGE'
       ]
     },
     component: Main,

@@ -67,8 +67,8 @@
           <div style="margin-bottom:20px">
             <Input v-model="slt.name">
               <div slot="append" class="slot-add-remove">
-                <span style="color:green;" @click="addSlt">+</span>
-                <span style="color:red;margin-left:10px;" v-if="index!==0" @click="removeSlt(index)">-</span>
+                <span style="color:green;" @click="addSlt" v-if="index===asyncSltList.length-1">+</span>
+                <span style="color:red;margin-left:10px;" v-if="asyncSltList.length!==1" @click="removeSlt(index)">-</span>
               </div>
             </Input>
           </div>
@@ -251,6 +251,7 @@ export default {
         if (valid) {
           this.loading = true
           const groups = this.asyncSltList.map(item => ({ id: item.id, name: item.name, photos: item.photosUrl }))
+          console.log(groups)
           let data = { ...this.form, enabled: this.form.enabled == 'true', groups }
           API.save(data).then(id => {
             this.loading = false
@@ -369,6 +370,7 @@ export default {
             item.photosUrl.forEach((photo, pIndex) => {
               this.addPhoto(index, pIndex)
             })
+            this.addPhoto(index, item.photos.length)
           })
           // for (let i in this.form.photos) {
           // this.addPhoto(i)
@@ -445,7 +447,9 @@ export default {
     addSlt () {
       this.asyncSltList.push({
         photos: [],
-        photosUrl: []
+        photosUrl: [],
+        name: '',
+        id: null
       })
       this.addPhoto(this.asyncSltList.length - 1, 0)
     },
