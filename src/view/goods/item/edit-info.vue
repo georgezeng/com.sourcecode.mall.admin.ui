@@ -35,6 +35,24 @@
         <FormItem label="最低价格" prop="minPrice">
           <Input v-model="form.minPrice" @on-change="editCompleteCheck"></Input>
         </FormItem>
+        <FormItem label="首页推荐" prop="indexRecommend">
+           <i-select v-model="form.indexRecommend" style="width:200px">
+              <i-option :value="1">是</i-option>
+              <i-option :value="0">否</i-option>
+           </i-select>
+        </FormItem>
+        <FormItem label="首页排序" prop="indexOrder">
+           <InputNumber :min="1" v-model="form.indexOrder"></InputNumber>
+        </FormItem>
+        <FormItem label="折扣" prop="discount">
+           <InputNumber :min="1"  :max="100" v-model="form.discount"></InputNumber> %
+        </FormItem>
+        <FormItem label="特价商品" prop="specialDiscount">
+         <i-select v-model="form.specialDiscount" style="width:200px">
+              <i-option :value="1">是</i-option>
+              <i-option :value="0">否</i-option>
+           </i-select>
+        </FormItem>
         <FormItem label="最高价格" prop="maxPrice">
           <Input v-model="form.maxPrice" @on-change="editCompleteCheck"></Input>
         </FormItem>
@@ -111,6 +129,7 @@ import config from '@/config/index'
 import Editor from '_c/editor'
 import CategoryList from '../components/parents-category'
 import ApplicationAPI from '@/api/merchant-shop-application'
+import ValueLine from '@/view/goods/specification-definition/value-line'
 
 export default {
   name: 'GoodsItemInfoEdit',
@@ -192,7 +211,11 @@ export default {
         sellingPoints: null,
         content: null,
         thumbnail: null,
-        photos: []
+        photos: [],
+        indexOrder: 1,
+        indexRecommend: 0,
+        specialDiscount: 0,
+        discount: 100
       },
       rules: {
         name: [
@@ -222,6 +245,13 @@ export default {
         ],
         marketPrice: [
           { required: false, validator: marketPriceCheck, trigger: 'change' }
+        ],
+        discount: [
+          { required: true,
+            validator: (a, v, callback) => {
+              callback()
+            },
+            trigger: 'change' }
         ],
         content: [
           { required: true, message: '描述不能为空', trigger: 'change' }
@@ -361,6 +391,7 @@ export default {
           this.setCategory(data.categoryId)
           this.form.brandId = brandId
           this.form.enabled = data.enabled ? 'true' : 'false'
+          this.form.specialDiscount = data.specialDiscount ? 1 : 0
           this.$refs.editor.setHtml(data.content)
           this.asyncSltList = this.form.groups.map(item => ({ id: item.id, name: item.name, photos: [], photosUrl: item.photos }))
           this.asyncSltList.forEach((item, index) => {

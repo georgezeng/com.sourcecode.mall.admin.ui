@@ -1115,6 +1115,17 @@ export default [
           access: ['AUTH_AFTERSALE_RETURN_ADDRESS_PAGE'],
           notCache: true
         }
+      },
+      {
+        path: 'expressFee',
+        name: 'expressFee',
+        component: () => import('@/view/setting/express-fee.vue'),
+        meta: {
+          icon: 'md-funnel',
+          title: '运费配置',
+          access: ['AUTH_EXPRESS_FEE_PAGE'],
+          notCache: true
+        }
       }
     ]
   },
