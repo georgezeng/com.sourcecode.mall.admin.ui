@@ -50,7 +50,7 @@
         </tr>
         <tr>
           <td width="100" style="background-color: #c3c3c3; text-align: center;">运费</td>
-          <td>{{data.expressFee ? data.expressFee : '0'}}元</td>
+          <td>{{data.expressFee ? data.expressFee : '0.00'}}元</td>
           <td width="100" style="background-color: #c3c3c3; text-align: center;">收货时间</td>
           <td>{{data.pickupTime}}</td>
         </tr>
@@ -158,8 +158,8 @@
       <table cellspacing="0" cellpadding="0">
         <tr>
           <td style="text-align: right;">
-            <strong>订单应付总额: </strong>商品总额 ￥{{data.totalPrice}} + 物流费用 ￥0.00 + 税票费用 ￥0.00 =
-            <span style="color: orangered;">￥{{data.totalPrice}}</span>
+            <strong>订单应付总额: </strong>商品总额 ￥{{data.totalPrice}} + 物流费用 ￥{{data.expressFee ? data.expressFee : '0.00'}} + 税票费用 ￥0.00 =
+            <span style="color: orangered;">￥{{(data.totalPrice+data.expressFee)}}</span>
           </td>
         </tr>
         <tr>
