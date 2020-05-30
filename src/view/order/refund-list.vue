@@ -100,6 +100,7 @@
             }
           },
           {title: '商品总额', key: 'totalPrice'},
+          {title: '运费', key: 'expressFee'},
           {title: '实付金额', key: 'realPrice'},
           {
             title: '操作',
