@@ -168,11 +168,11 @@ export default {
             for (let i in params.row.attrs) {
               let item = params.row.attrs[i]
               let isSelected = false
-              out: for (let i in this.selectedValues) {
-                let arr = this.selectedValues[i]
+              out: for (let j in this.selectedValues) {
+                let arr = this.selectedValues[j]
                 if (arr && arr.length > 0 && arr[0].parent && arr[0].parent.id == params.row.id) {
-                  for (let j in arr) {
-                    if (arr[j].id == item.id) {
+                  for (let k in arr) {
+                    if (arr[k].id == item.id) {
                       isSelected = true
                       break out
                     }
@@ -219,6 +219,7 @@ export default {
                       let property = properties[i]
                       property.price = 0
                       property.inventory = 0
+                      property.path = null
                     }
                     if (arr.length > 0) {
                       values[attr] = arr
@@ -304,7 +305,6 @@ export default {
           title: '缩略图',
           key: 'path',
           render: (h, params) => {
-            console.log(this.id)
             return h(Upload, {
               props: {
                 'show-upload-list': false,
@@ -320,12 +320,10 @@ export default {
                 setPreviewUrl (url, index) {
                   // this.form.thumbnail = url
                   // this.editCompleteCheck()
-                  console.log('click')
                 }
               },
               scopedSlots: {
                 default: () => {
-                  console.log(params)
                   if (!params.row.path) {
                     return h('div', {
                       style: {
@@ -434,7 +432,6 @@ export default {
         }
         arr.push(selection)
       }
-      console.log(arr)
       return arr
     }
   },
@@ -603,7 +600,6 @@ export default {
           }
         }
       }
-      console.log(this.properties)
       this.data.properties = this.selections
       this.loading = true
       API.saveProperties(this.data).then(res => {
@@ -626,10 +622,10 @@ export default {
         let arr = list[i]
         let found = false
         for (let j in ids) {
-          // if (ids[j] == arr[0].parent.id) {
-          //   found = true
-          //   break
-          // }
+          if (ids[j] == arr[0].parent.id) {
+            found = true
+            break
+          }
         }
         if (found) {
           newList[i] = arr
