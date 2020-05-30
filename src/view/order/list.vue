@@ -118,7 +118,10 @@
             }
           },
           {title: '商品总额', key: 'totalPrice'},
-          {title: '运费', key: 'expressFee'},
+          {title: '运费', render: (h, params) => {
+              return h('div', params.row.expressFee)
+            }
+          },
           {title: '实付金额', key: 'realPrice'},
           {
             title: '订单状态',
