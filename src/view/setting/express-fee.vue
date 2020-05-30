@@ -8,10 +8,10 @@
       </div>
       <Form ref="form" :model="form" :rules="rules" :label-width="100">
         <FormItem label="低于金额" prop="totalAmount">
-          <Input v-model="form.totalAmount"></Input>
+          <InputNumber :min="1" :precision="2" v-model="form.totalAmount" style="width: 300px;"></InputNumber>
         </FormItem>
         <FormItem label="运费" prop="fee">
-          <Input v-model="form.fee"></Input>
+          <InputNumber :min="0" :precision="2" v-model="form.fee" style="width: 300px;"></InputNumber>
         </FormItem>
       </Form>
     </Card>
@@ -26,6 +26,13 @@ export default {
   components: {
   },
   data () {
+    const numCheck = (rule, value, callback) => {
+      if (value == null || value == '') {
+        callback(new Error('不能为空'));
+      } else {
+        callback();
+      }
+    }
     return {
       config,
       loading: false,
@@ -35,10 +42,10 @@ export default {
       },
       rules: {
         totalAmount: [
-          { required: true, message: '低于金额不能为空', trigger: 'change' }
+          { required: true, validator: numCheck, trigger: 'change' }
         ],
         fee: [
-          { required: true, message: '运费不能为空', trigger: 'change' }
+          { required: true, validator: numCheck, trigger: 'change' }
         ]
       }
     }
@@ -47,7 +54,9 @@ export default {
     load () {
       this.loading = true
       API.load('EXPRESS_FEE').then(data => {
-        this.form = JSON.parse(data)
+        if (data) {
+          this.form = JSON.parse(data)
+        }
         this.loading = false
       }).catch(ex => {
         this.loading = false
