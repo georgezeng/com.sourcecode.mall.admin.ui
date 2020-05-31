@@ -66,7 +66,7 @@
         ],
         loading: false,
         columns: [
-          {type: 'selection', width: 60, align: 'center'},
+          // {type: 'selection', width: 60, align: 'center'},
           {title: '编号', key: 'orderId', sortable: true, width: 180},
           {title: '下单时间', key: 'createTime', sortable: true, sortType: 'desc', width: 150},
           {
