@@ -412,16 +412,28 @@ export default {
       let arr = []
       let selections = this.data.properties
       for (let i in list) {
-        let selection = selections[i]
-        if (!selection) {
-          selection = {
-            id: null,
-            values: list[i],
-            price: 0,
-            inventory: 0,
-            path: ''
+        let flag = false
+        let selection
+        flag = selections.some(item => {
+          let flag = item.values.some(value => list.some(itemList => {
+            return itemList.some(listItem => { return value.name === listItem.name })
+          }))
+          if (flag) {
+            selection = item
           }
-        } else {
+          return flag
+        })
+        if (flag) {
+          // let selection = selections[i]
+          // if (!selection) {
+          //   selection = {
+          //     id: null,
+          //     values: list[i],
+          //     price: 0,
+          //     inventory: 0,
+          //     path: ''
+          //   }
+          // } else {
           selection = {
             id: selection.id,
             values: list[i],
@@ -429,6 +441,16 @@ export default {
             inventory: selection.inventory,
             path: selection.path
           }
+          // }
+        } else {
+          selection = {
+            id: null,
+            values: list[i],
+            price: 0,
+            inventory: 0,
+            path: ''
+          }
+          console.log('else')
         }
         arr.push(selection)
       }
