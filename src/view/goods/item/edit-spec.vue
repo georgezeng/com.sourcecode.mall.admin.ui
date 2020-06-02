@@ -411,53 +411,86 @@ export default {
       list = multiDecartesian(list)
       let arr = []
       let selections = this.data.properties
-      for (let i in list) {
-        let flag = false
-        let selection
-        flag = selections.some(item => {
-          let flag = item.values.some(value => list.some(itemList => {
-            return itemList.some(listItem => { return value.name === listItem.name })
-          }))
+      let selection
+      list.forEach(listItem => {
+        let flag = selections.some(s => {
+          let flag = this.equalsAll(listItem, s.values, 'id')
           if (flag) {
-            selection = item
+            selection = s
           }
           return flag
         })
         if (flag) {
-          // let selection = selections[i]
-          // if (!selection) {
-          //   selection = {
-          //     id: null,
-          //     values: list[i],
-          //     price: 0,
-          //     inventory: 0,
-          //     path: ''
-          //   }
-          // } else {
           selection = {
             id: selection.id,
-            values: list[i],
+            values: listItem,
             price: selection.price,
             inventory: selection.inventory,
             path: selection.path
           }
-          // }
         } else {
           selection = {
             id: null,
-            values: list[i],
+            values: listItem,
             price: 0,
             inventory: 0,
             path: ''
           }
-          console.log('else')
         }
         arr.push(selection)
-      }
+      })
+      // list.forEach(listItem => {
+      //   let flag = listItem.every(item => {
+      //     return selections.some(s => {
+      //       let flag = s.values.some(value => {
+      //         return value.name === item.name
+      //       })
+      //       if (flag) {
+      //         selection = s
+      //       }
+      //       return flag
+      //     })
+      //   })
+      //   if (flag) {
+      //     selection = {
+      //       id: selection.id,
+      //       values: listItem,
+      //       price: selection.price,
+      //       inventory: selection.inventory,
+      //       path: selection.path
+      //     }
+      //   } else {
+      //     selection = {
+      //       id: null,
+      //       values: listItem,
+      //       price: 0,
+      //       inventory: 0,
+      //       path: ''
+      //     }
+      //   }
+      //   arr.push(selection)
+      // })
       return arr
     }
   },
   methods: {
+    equalsAll (arr1, arr2, key) {
+      if (arr1.length !== arr2.length) {
+        return false
+      }
+      let count = 0
+      for (let i = 0; i < arr1.length; i++) {
+        let flag = arr1.every(item => {
+          return arr2.some(item2 => {
+            return item[key] === item2[key]
+          })
+        })
+        if (flag) {
+          count++
+        }
+      }
+      return count === arr1.length
+    },
     loadAllCategories () {
       this.loading = true
       CategoryAPI.list({
