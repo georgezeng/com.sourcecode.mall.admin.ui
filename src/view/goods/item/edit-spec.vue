@@ -478,18 +478,9 @@ export default {
       if (arr1.length !== arr2.length) {
         return false
       }
-      let count = 0
-      for (let i = 0; i < arr1.length; i++) {
-        let flag = arr1.every(item => {
-          return arr2.some(item2 => {
-            return item[key] === item2[key]
-          })
-        })
-        if (flag) {
-          count++
-        }
-      }
-      return count === arr1.length
+      let all = arr1.concat(arr2)
+      let values = all.map(item => item[key])
+      return [...new Set(values)].length === values.length / 2
     },
     loadAllCategories () {
       this.loading = true
