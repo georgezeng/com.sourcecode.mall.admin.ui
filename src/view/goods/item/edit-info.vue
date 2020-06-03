@@ -214,7 +214,7 @@ export default {
         photos: [],
         indexOrder: 1,
         indexRecommend: 0,
-        specialDiscount: 0,
+        specialDiscount: 'false',
         discount: 100
       },
       rules: {
@@ -281,7 +281,7 @@ export default {
         if (valid) {
           this.loading = true
           const groups = this.asyncSltList.map(item => ({ id: item.id, name: item.name, photos: item.photosUrl }))
-          console.log(groups)
+          this.form.specialDiscount = JSON.parse(this.form.specialDiscount)
           let data = { ...this.form, enabled: this.form.enabled == 'true', groups }
           API.save(data).then(id => {
             this.loading = false
