@@ -49,8 +49,8 @@
         </FormItem>
         <FormItem label="特价商品" prop="specialDiscount">
          <i-select v-model="form.specialDiscount" style="width:200px">
-              <i-option :value="1">是</i-option>
-              <i-option :value="0">否</i-option>
+              <i-option value="true">是</i-option>
+              <i-option value="false">否</i-option>
            </i-select>
         </FormItem>
         <FormItem label="最高价格" prop="maxPrice">
@@ -391,9 +391,10 @@ export default {
           this.setCategory(data.categoryId)
           this.form.brandId = brandId
           this.form.enabled = data.enabled ? 'true' : 'false'
-          this.form.specialDiscount = data.specialDiscount ? 1 : 0
+          this.form.specialDiscount = data.specialDiscount ? 'true' : 'false'
           this.$refs.editor.setHtml(data.content)
           this.asyncSltList = this.form.groups.map(item => ({ id: item.id, name: item.name, photos: [], photosUrl: item.photos }))
+          console.log(this.asyncSltList)
           this.asyncSltList.forEach((item, index) => {
             if (item.photosUrl.length === 0) {
               this.addPhoto(index, 0)
